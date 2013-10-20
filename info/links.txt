@@ -1,0 +1,31 @@
+Project Links:
+
+Android IDE Download:
+
+http://developer.android.com/sdk/installing/studio.html#Updating
+
+
+Push Notification Example:
+
+http://www.androidhive.info/2012/10/android-push-notifications-using-google-cloud-messaging-gcm-php-and-mysql/
+
+Custom Calender:
+
+http://stackoverflow.com/questions/12458139/android-custom-calendar-and-reminder
+
+1.download Android Studio
+2.Update Android Studio
+3.Install all sdk that needed
+4.add gcm dependency :
+dependencies {
+    compile 'com.google.android.gms:play-services:3.2.25' 
+ }
+ to build.gradle
+ 
+ 5.Auto Import: File -> Settings -> Edit -> Auto Import -> mark all.
+ 
+ 6.Add google play services lib:
+ 
+ https://docs.google.com/document/pub?id=19nQzvKP-CVLd7_VrpwnHfl-AE9fjbJySowONZZtNHzw
+
+
