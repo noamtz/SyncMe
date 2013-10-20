@@ -22,7 +22,7 @@ if (isset($_POST["name"]) && isset($_POST["email"]) && isset($_POST["regId"])) {
     $res = $db->storeUser($name, $email, $gcm_regid);
  
     $registatoin_ids = array($gcm_regid);
-    $message = array("product" => "shirt");
+    $message = array("msg" => "Registration has completed");
  
     $result = $gcm->send_notification($registatoin_ids, $message);
  

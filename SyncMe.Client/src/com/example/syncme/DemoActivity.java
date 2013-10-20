@@ -76,6 +76,7 @@ public class DemoActivity extends Activity {
         mName = (EditText) findViewById(R.id.name);
         mServer = (EditText) findViewById(R.id.server);
         
+        mServer.setText("http://<IP>/SyncMe/SyncMe.Server/");
         
         context = getApplicationContext();
 

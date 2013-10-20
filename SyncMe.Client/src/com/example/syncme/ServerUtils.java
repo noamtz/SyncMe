@@ -38,7 +38,7 @@ public class ServerUtils {
 		catch (Exception e) {
 		}
 
-		return res != "succeeded" ? "Registration succeeded!" : res; 
+		return res.contentEquals("succeeded") ? "Registration succeeded!" : res; 
 	}
 
 
@@ -72,16 +72,19 @@ public class ServerUtils {
 			// Add your data
 			for (Map.Entry<String, String> entry : params.entrySet()){
 				nameValuePairs.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
-				Log.v("PAIR KEY VALUE", entry.getKey() +" : " + entry.getValue());
 			}
+			for(NameValuePair nvp : nameValuePairs)
+				Log.v("POST BODY", nvp.getValue() + ": " + nvp.getName());
 
 			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
 			// Execute HTTP Post Request
 			HttpResponse response = httpclient.execute(httppost);
 
-			if(response.getStatusLine().toString() != "200")
+			if(response.getStatusLine().toString() != "200"){
 				Log.i("NOAM","Post request has failed to : " + endpoint);
+				res = "Post request has failed to : " + endpoint + "\nStatus code:"  + response.getStatusLine().toString();  
+			}
 
 		} catch (ClientProtocolException e) {
 			Log.i("NOAM", "Client Protocol exception: " + e.toString());
