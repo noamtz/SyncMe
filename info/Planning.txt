@@ -1,0 +1,60 @@
+The purpose of the application is to sync between couples their chores , time tables etc..
+in way that no communication is needed 
+
+Sync-General
+
+1.every partner will have unique identifier (different colors etc...)
+2.3 stages of reciever red - not recieved, orange- recieved but not open , 
+green- the reciver has opened the message
+	2.a.optional - to do something if reciver not open the message.
+	
+	2.b.server will manage the red option
+3.we will start with only 2 synced partners
+4.IMPORTANT: simplicity!
+5.screens:
+	5.a. tutorial 
+	5.b. registration : First Name, Last Name, Email.
+	5.c  who do you want to sync with? if partner not registered send an email to him to download the app.
+	5.d  main activity: one fragment(for now) . in the future 3 fragments
+	5.e  settings preferences :  volume , colors, notification images (3 stages red...) , switch\add partner.
+
+
+USER experience
+1.Big buttons
+2.No tables
+3.max 3 screens
+4.pager - swipe between views.
+5.landscape or portrait we'll start  portrait.
+6.we'll start with smart phone screen size and continue with multiple sizes
+7.we'll start with English
+8.POC of the two increment buttons.
+9.editing items in one batch 
+10.add increment buttons into keyboard
+11.add auto complete to the keyboard
+12.POC check how much time is taken for keyboard styling
+13.the focus should be on newest item.
+14.
+
+
+
+Technical:
+1.check what happen if other side is offline - data lost
+2.server manage the registration
+3.
+
+
+Shopping list:
+1. Prepare auto complete products
+2.when one side open new list a message notification pops up to the other side notify it that says hi!
+your partner planning to do some shopping.
+3.choose who will do the shopping
+4.
+
+GUI - SL
+1.product name and incremect in left side and checkbox in right side 
+2.Responsive widgets (Big buttons etc..)
+
+
+
+Calender/Time-Table:
+1.
