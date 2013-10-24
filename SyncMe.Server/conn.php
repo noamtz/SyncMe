@@ -1,6 +1,6 @@
 <?php
 
-$con=mysqli_connect("localhost","root","","syncme");
+$con=mysqli_connect("localhost","root","","syncmedb");
 
 // Check connection
 if (mysqli_connect_errno())

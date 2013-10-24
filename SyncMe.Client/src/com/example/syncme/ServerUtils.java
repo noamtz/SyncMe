@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -15,27 +16,40 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 import android.os.AsyncTask;
 import android.util.Log;
 
 public class ServerUtils {
 
-	public static String SERVER_URL = "http://10.0.0.2/SyncMe";
+	public static String SERVER_URL = "http://10.0.0.1/SyncMe/SyncMe.Server/syncMeApp.php";
 	public static String POST = "post";
 
 	public static String register(String name, String email, String regId, String server){
+
 		Map<String, String> params = new HashMap<String, String>();
-
-		params.put("name", name);
-		params.put("email", email);
-		params.put("regId", regId);
-
+		JSONObject user = new JSONObject();
 		String res = "";
+
 		try{
-			res = executeHTTP(POST, server + "/register.php", params);
-		}
-		catch (Exception e) {
+			user.put("firstname", name);
+			user.put("lastname", name);
+			user.put("email", email);
+			user.put("regId", regId);
+
+			params.put("method", "register");
+			params.put("params", user.toString());
+				
+			res = executeHTTP(POST, SERVER_URL , params);
+
+		}catch(JSONException e){
+			e.printStackTrace();
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 
 		return res.contentEquals("succeeded") ? "Registration succeeded!" : res; 
@@ -74,17 +88,28 @@ public class ServerUtils {
 				nameValuePairs.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
 			}
 			for(NameValuePair nvp : nameValuePairs)
-				Log.v("POST BODY", nvp.getValue() + ": " + nvp.getName());
+				Log.v("POST BODY", nvp.getName() + ": " +  nvp.getValue());
 
 			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
 			// Execute HTTP Post Request
 			HttpResponse response = httpclient.execute(httppost);
 
-			if(response.getStatusLine().toString() != "200"){
-				Log.i("NOAM","Post request has failed to : " + endpoint);
-				res = "Post request has failed to : " + endpoint + "\nStatus code:"  + response.getStatusLine().toString();  
-			}
+			
+
+			int responseCode = response.getStatusLine().getStatusCode();
+			Log.i("NOAM","Status Code : " + responseCode );
+			switch(responseCode)
+			{
+			case 200:
+				HttpEntity entity = response.getEntity();
+				if(entity != null)
+				{
+					String responseBody = EntityUtils.toString(entity);
+					Log.v("NOAM","Response body: " + responseBody);
+				}
+				break;
+			} 
 
 		} catch (ClientProtocolException e) {
 			Log.i("NOAM", "Client Protocol exception: " + e.toString());
@@ -94,7 +119,10 @@ public class ServerUtils {
 			res = "IOException: " + e.toString();
 		}catch (Exception e) {
 			res = "Exception: " + e.toString();
+			e.printStackTrace();
 		}
 		return res;
 	} 
+
 }
+

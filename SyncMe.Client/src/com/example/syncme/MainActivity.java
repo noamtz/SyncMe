@@ -76,7 +76,7 @@ public class MainActivity extends Activity {
         mName = (EditText) findViewById(R.id.name);
         mServer = (EditText) findViewById(R.id.server);
         
-        mServer.setText("http://<IP>/SyncMe/SyncMe.Server/");
+        mServer.setText("http://<IP>/SyncMe/SyncMe.Server/syncMeApp.php");
         
         context = getApplicationContext();
 
@@ -184,7 +184,7 @@ public class MainActivity extends Activity {
 
                     // You should send the registration ID to your server over HTTP, so it
                     // can use GCM/HTTP or CCS to send messages to your app.
-                    sendRegistrationIdToBackend();
+                    //sendRegistrationIdToBackend();
 
                     // For this demo: we don't need to send it because the device will send
                     // upstream messages to a server that echo back the message using the
@@ -280,6 +280,7 @@ public class MainActivity extends Activity {
     	String serverIP =    mServer.getText().toString();
     	String name = mName.getText().toString();
     	String email = mEmail.getText().toString();
+    	Log.i("NOAM","Regisration id: " + regid);
     	String result = ServerUtils.register(name, email, regid, serverIP);
     	
     	mDisplay.setText(result);
