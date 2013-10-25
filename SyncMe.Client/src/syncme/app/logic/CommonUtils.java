@@ -1,7 +1,6 @@
-package com.example.syncme;
+package syncme.app.logic;
 
 public class CommonUtils {
 
-	
 }
 	

@@ -1,4 +1,4 @@
-package com.example.syncme;
+package syncme.app;
 /*
 
 
@@ -18,6 +18,7 @@ package com.example.syncme;
  */
 
 
+import com.example.syncme.R;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import android.app.IntentService;

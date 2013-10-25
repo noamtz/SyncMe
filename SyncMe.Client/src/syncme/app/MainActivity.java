@@ -1,4 +1,4 @@
-package com.example.syncme;
+package syncme.app;
 
 /*
  * Copyright 2013 Google Inc.
@@ -16,6 +16,7 @@ package com.example.syncme;
  * limitations under the License.
  */
 
+import com.example.syncme.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -35,6 +36,8 @@ import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import syncme.app.com.ServerUtils;
 
 /**
  * Main UI for the demo app.

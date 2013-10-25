@@ -1,10 +1,11 @@
-package com.example.syncme;
+package syncme.app.com;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.http.HttpEntity;
@@ -21,13 +22,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+
+
+import syncme.app.data.Request;
 import android.os.AsyncTask;
 import android.util.Log;
+import static syncme.app.logic.Constants.*;
 
 public class ServerUtils {
 
 	public static String SERVER_URL = "http://10.0.0.1/SyncMe/SyncMe.Server/syncMeApp.php";
 	public static String POST = "post";
+
+	private static ComManager comManager = ComManager.getInstance(); 
 
 	public static String register(String name, String email, String regId, String server){
 
@@ -43,7 +50,7 @@ public class ServerUtils {
 
 			params.put("method", "register");
 			params.put("params", user.toString());
-				
+
 			res = executeHTTP(POST, SERVER_URL , params);
 
 		}catch(JSONException e){
@@ -53,6 +60,10 @@ public class ServerUtils {
 		}
 
 		return res.contentEquals("succeeded") ? "Registration succeeded!" : res; 
+	}
+
+	public static void execute(Request request){ 
+		comManager.executeTask(request);
 	}
 
 
@@ -95,7 +106,7 @@ public class ServerUtils {
 			// Execute HTTP Post Request
 			HttpResponse response = httpclient.execute(httppost);
 
-			
+
 
 			int responseCode = response.getStatusLine().getStatusCode();
 			Log.i("NOAM","Status Code : " + responseCode );
@@ -123,6 +134,8 @@ public class ServerUtils {
 		}
 		return res;
 	} 
+
+
 
 }
 

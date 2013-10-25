@@ -1,4 +1,4 @@
-package com.example.syncme;
+package syncme.app;
 /*
 
  * Copyright 2013 Google Inc.

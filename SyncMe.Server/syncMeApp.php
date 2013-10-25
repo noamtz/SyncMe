@@ -32,14 +32,14 @@ if(isset($_POST["method"]) && isset($_POST["params"])){
 	
 		$userEmail = $params["email"];
 		$friendEmail = $params["friendEmail"];
-		$module- registerFriend($userEmail, $friendEmail);
+		$module->registerFriend($userEmail, $friendEmail);
 		$response["method"] = "registerFriend";
 		
 	}else if(strcmp($method , "getUserId") == 0){
 	
 		//PRIVATE METHOD
 		$userEmail = $params["email"];
-		$module- getUserId($userEmail);
+		$module->getUserId($userEmail);
 		$response["method"] = "getUserId";
 		
 	}else if(strcmp($method , "saveBroadcast") == 0){
