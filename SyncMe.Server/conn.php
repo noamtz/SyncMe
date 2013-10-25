@@ -1,6 +1,6 @@
 <?php
 
-$con=mysqli_connect("localhost","root","","managedb");
+$con=mysqli_connect("localhost","root","","syncme");
 
 // Check connection
 if (mysqli_connect_errno())
