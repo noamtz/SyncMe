@@ -39,7 +39,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Main UI for the demo app.
  */
-public class DemoActivity extends Activity {
+public class MainActivity extends Activity {
 
     public static final String EXTRA_MESSAGE = "message";
     public static final String PROPERTY_REG_ID = "registration_id";
@@ -268,7 +268,7 @@ public class DemoActivity extends Activity {
     private SharedPreferences getGcmPreferences(Context context) {
         // This sample app persists the registration ID in shared preferences, but
         // how you store the regID in your app is up to you.
-        return getSharedPreferences(DemoActivity.class.getSimpleName(),
+        return getSharedPreferences(MainActivity.class.getSimpleName(),
                 Context.MODE_PRIVATE);
     }
     /**
