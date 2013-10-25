@@ -17,6 +17,8 @@ green- the reciver has opened the message
 	5.c  who do you want to sync with? if partner not registered send an email to him to download the app.
 	5.d  main activity: one fragment(for now) . in the future 3 fragments
 	5.e  settings preferences :  volume , colors, notification images (3 stages red...) , switch\add partner.
+6.login with google account.
+7.expand list for categories.
 
 
 USER experience
@@ -40,7 +42,7 @@ USER experience
 Technical:
 1.check what happen if other side is offline - data lost
 2.server manage the registration
-3.
+3.add to the userFriends table is active or not (bit field)
 
 
 Shopping list:
@@ -48,7 +50,7 @@ Shopping list:
 2.when one side open new list a message notification pops up to the other side notify it that says hi!
 your partner planning to do some shopping.
 3.choose who will do the shopping
-4.
+4.need to think of set of categories that will cover all kind of items (vegetable: tomato, potato, etc...)
 
 GUI - SL
 1.product name and incremect in left side and checkbox in right side 
