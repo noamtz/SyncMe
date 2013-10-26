@@ -5,7 +5,9 @@ class Module{
 		include 'conn.php';
 		$result = mysqli_query($con, $query);
 		if(false===$result){
-			printf("error: %s\n", mysqli_error($con));
+			echo $query; 
+			printf("*executeQuery* error: %s\n", mysqli_error($con));
+			
 			return false;
 		}
 		return  $result;
@@ -23,7 +25,9 @@ class Module{
 		include 'conn.php';
 		$result = mysqli_query($con, $query);
 		if(false===$result){
-			printf("error: %s\n", mysqli_error($con));
+		
+			printf("*insertQuery* error: %s\n", mysqli_error($con));
+			echo $query;
 			return false;
 		}
 		return mysqli_insert_id($con);
@@ -101,14 +105,18 @@ class Module{
 		$regIdRecivers = $this->getReciversRegId($senderId);
 		$gcm = new GCM();
 		//handle errors.
-		foreach($regIdRecivers as $reciever)
-			$result = $gcm->send_notification($regIdReciver, $message);
+		$recievers = array();
+		foreach($regIdRecivers as $reciever){
+			array_push($recievers, $reciever->regid);
+		}
+
+		return $gcm->send_notification($recievers, $message);
 	}
 	
 	function createMessage($senderId, $type, $data){
 		$query = "INSERT INTO `messages` (`type`, `data`, `userId`) VALUES ('$type', '$data', $senderId)";
 		
-		return insertQuery($query);
+		return $this->insertQuery($query);
 	}
 	
 	function updateMessage($messageId, $data){
@@ -118,8 +126,8 @@ class Module{
 	}
 	
 	function saveMessage($senderId, $message){
-		$type = $message['type'];
-		$data = json_encode($message['data']);
+		$type = $message->type;
+		$data = json_encode($message->data);
 		
 		if(array_key_exists("messageId",$message)){
 			$messageId = $message["messageId"];
@@ -131,38 +139,37 @@ class Module{
 	}
 	
 	function saveBroadcast($senderId , $messageId){
-		$query = "SELECT * FROM user_friends WHERE `user` = $senderId";
+		$query = "SELECT friend FROM user_friends WHERE `user` = $senderId";
 		
 		$recievers = $this->getQueryResult($query);
 		//Prepare multiplte values.
 		$values = "";
 		foreach ($recievers as $value)
-			$values = $values . "(". implode(", ",$value). " , $messageId),";
-		$values=eregi_replace(',$', '', $values);
-		
+			$values = $values . "($senderId ,$value->friend,$messageId),";
+		$values=rtrim ($values,",");
 		$query = "INSERT INTO `broadcast_messages` (`sender`,`reciever`,`messageId`) VALUES $values ";
-		$this->executeQuery($query);
+		return $this->executeQuery($query);
 	}
 	
 	function registerFriend($userEmail, $friendEmail){
-		$userId = getUserId($userEmail);
-		$friendId = getUserId($friendEmail);
+		$userId = $this->getUserId($userEmail);
+		$friendId = $this->getUserId($friendEmail);
 		
 		$query = "INSERT INTO `user_friends` (`user`,`friend`) VALUES ($userId , $friendId), ($friendId , $userId)";
-		$this->executeQuery($query);
+		return $this->executeQuery($query) != false;
 	}
 	
 	function getUserId($userEmail){
-		$query = "SELECT * FROM `users` WHERE email = $userEmail";
+		$query = "SELECT * FROM `users` WHERE `email` = '$userEmail'";
 		$result = $this->executeQuery($query);
-		return mysqli_fetch_object($result)['id'];
+		return mysqli_fetch_object($result)->id;
 	}
 	
 	function sync($senderEmail, $message){
 		$senderId = $this->getUserId($senderEmail);
 		$messageId = $this->saveMessage($senderId, $message);
 		$this->saveBroadcast($senderId , $messageId);
-		$this->broadcast($senderId, $message);
+		return $this->broadcast($senderId, $message);
 	}
 	
 

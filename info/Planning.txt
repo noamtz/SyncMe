@@ -19,7 +19,7 @@ green- the reciver has opened the message
 	5.e  settings preferences :  volume , colors, notification images (3 stages red...) , switch\add partner.
 6.login with google account.
 7.expand list for categories.
-
+8.add feature of selecting users to sync with (there is partial server support)
 
 USER experience
 1.Big buttons
@@ -43,6 +43,8 @@ Technical:
 1.check what happen if other side is offline - data lost
 2.server manage the registration
 3.add to the userFriends table is active or not (bit field)
+4.build full client data-base.
+5.re-generate Google API Key on production (or even in development to avoid self intrusion).
 
 
 Shopping list:

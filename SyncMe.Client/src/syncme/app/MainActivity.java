@@ -68,7 +68,7 @@ public class MainActivity extends Activity implements ITask{
     /**
      * Tag used on log messages.
      */
-    static final String TAG = "GCM Demo";
+    static final String TAG = "MainActivity";
 
     TextView mDisplay , mRegText;
     Button mRegister;
@@ -298,7 +298,7 @@ public class MainActivity extends Activity implements ITask{
      * to a server that echoes back the message using the 'from' address in the message.
      */
     private void sendRegistrationIdToBackend() {
-    	String serverIP = mServer.getText().toString();
+    	//String serverIP = mServer.getText().toString();
     	String name = mName.getText().toString();
     	String email = mEmail.getText().toString();
     	User user = new User(name, name, email);

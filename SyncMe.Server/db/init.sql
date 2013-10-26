@@ -2,9 +2,6 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
-DROP SCHEMA IF EXISTS `syncmedb` ;
-CREATE SCHEMA IF NOT EXISTS `syncmedb` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
-USE `syncmedb` ;
 
 -- -----------------------------------------------------
 -- Table `syncmedb`.`users`
@@ -37,7 +34,7 @@ CREATE  TABLE IF NOT EXISTS `syncmedb`.`messages` (
   CONSTRAINT `fk_messages_users1`
     FOREIGN KEY (`userId` )
     REFERENCES `syncmedb`.`users` (`id` )
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -50,13 +47,14 @@ DROP TABLE IF EXISTS `syncmedb`.`user_friends` ;
 CREATE  TABLE IF NOT EXISTS `syncmedb`.`user_friends` (
   `user` INT NOT NULL ,
   `friend` INT NOT NULL ,
+  `is_active` BIT NOT NULL DEFAULT 1 ,
   PRIMARY KEY (`user`, `friend`) ,
   INDEX `fk_users_has_users_users1_idx` (`friend` ASC) ,
   INDEX `fk_users_has_users_users_idx` (`user` ASC) ,
   CONSTRAINT `fk_users_has_users_users`
     FOREIGN KEY (`user` )
     REFERENCES `syncmedb`.`users` (`id` )
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_users_has_users_users1`
     FOREIGN KEY (`friend` )
@@ -86,22 +84,12 @@ CREATE  TABLE IF NOT EXISTS `syncmedb`.`broadcast_messages` (
   CONSTRAINT `fk_userFriends_has_messages_messages1`
     FOREIGN KEY (`messageId` )
     REFERENCES `syncmedb`.`messages` (`id` )
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-USE `syncmedb` ;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-
-
-/* INSERT DATA 
-
-INSERT INTO `users`(`regid`, `firstname`, `lastname`, `email`, `created_at`) VALUES ('dasdadasd' , 'noam', 'tzumie', 'noam@gmail.com', NOW())
-
-INSERT INTO `users`(`regid`, `firstname`, `lastname`, `email`, `created_at`) VALUES ('dasdadasd' , 'noam', 'tzumie', 'noam@gmail.com', NOW())
-
-*/

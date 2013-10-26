@@ -6,19 +6,21 @@ $response = array();
 $module = new Module();
 if(isset($_POST["method"]) && isset($_POST["params"])){
 	$method = $_POST["method"];
-	$params = json_decode($_POST["params"]);
+	//TODO: Becareful with casting if there is nested objects..
+	$params = (array) json_decode($_POST["params"]);
 	
 	
 	if(strcmp($method , "register") == 0){	
-			$user = $params;
+			$user = json_decode($_POST["params"]);//TODO: Refactor this..
 			$module->register($user);
 			$response["statusMessage"] = "Registration has succeeded";
 	}else if(strcmp($method , "sync") == 0){
 	
 		$senderEmail = $params["email"];
-		$message = json_decode($params["message"]);
-		$module->sync($senderEmail, $message);
+		$message = $params["message"];
+		$res = $module->sync($senderEmail, $message);
 		$response["method"] = "sync";
+		$response["statusMessage"] = $res;
 		
 	}else if(strcmp($method , "broadcast") == 0){
 	
@@ -32,8 +34,9 @@ if(isset($_POST["method"]) && isset($_POST["params"])){
 	
 		$userEmail = $params["email"];
 		$friendEmail = $params["friendEmail"];
-		$module->registerFriend($userEmail, $friendEmail);
+		$res = $module->registerFriend($userEmail, $friendEmail);
 		$response["method"] = "registerFriend";
+		$response["statusMessage"] = $res ? "$friendEmail is now connected to $userEmail" : "register $friendEmail to $userEmail has failed";
 		
 	}else if(strcmp($method , "getUserId") == 0){
 	
