@@ -1,7 +1,5 @@
 package syncme.app.logic;
 
-import java.util.UUID;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,9 +10,19 @@ import syncme.app.data.Request;
 import syncme.app.data.User;
 import static syncme.app.logic.Constants.*;
 
-public class BL implements ITask{ // Maby move the ITask responsibility to another object
+public class BL { // Mabe move the ITask responsibility to another object
 
-	public void register(User user){
+	private String TAG = this.getClass().getName(); 
+
+	ITask tasker;
+	
+
+	public BL(ITask tasker){
+		this.tasker = tasker;
+	}
+	
+	
+	public void registerUser(User user){
 		Request request = new Request();
 		
 		String userDetails = user.toJson().toString();
@@ -22,7 +30,7 @@ public class BL implements ITask{ // Maby move the ITask responsibility to anoth
 		request.setMethod(REGISTER);
 		request.setParams(userDetails);
 		
-		ServerUtils.execute(request);
+		ServerUtils.execute(request, tasker);
 	}
 
 	public void sync(User sender, Message message){
@@ -37,7 +45,9 @@ public class BL implements ITask{ // Maby move the ITask responsibility to anoth
 			request.setMethod(SYNC);
 			request.setParams(params.toString());
 			
-			ServerUtils.execute(request);
+			
+			
+			ServerUtils.execute(request, tasker);
 			
 		}catch(JSONException e){
 			e.printStackTrace();
@@ -57,14 +67,10 @@ public class BL implements ITask{ // Maby move the ITask responsibility to anoth
 			request.setMethod(INVITE);
 			request.setParams(params.toString());
 
-			ServerUtils.execute(request);
+			ServerUtils.execute(request, tasker);
 		}catch(JSONException e){
 			e.printStackTrace();
 		}	
 	}
 
-	@Override
-	public void onTaskComplete(UUID requestId, String response) {
-		//Do something with the server response.
-	}
 }

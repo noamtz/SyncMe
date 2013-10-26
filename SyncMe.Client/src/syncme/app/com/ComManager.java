@@ -1,9 +1,10 @@
 package syncme.app.com;
 
-import java.util.UUID;
 
+import java.util.ArrayList;
 
 import syncme.app.data.Request;
+import syncme.app.logic.CommonUtils;
 
 public class ComManager implements ITask{
 
@@ -25,10 +26,13 @@ public class ComManager implements ITask{
 	 * @param request
 	 * @author Noam Tzumie
 	 */
-	public void executeTask(Request request){
+	public void executeTask(Request request, ITask tasker){
 		//TODO check if there is no double request or some error.
 		queueRequest.insertRequest(request);
-		new DoPOST(request, this).execute(null,null,null);
+		ArrayList<ITask> taskManagers = new ArrayList<ITask>();
+		taskManagers.add(this);
+		taskManagers.add(tasker);
+		new DoPOST(request, taskManagers).execute(null,null,null);
 	}
 
 	/**
@@ -36,8 +40,10 @@ public class ComManager implements ITask{
 	 * @author Noam Tzumie
 	 */
 	@Override
-	public void onTaskComplete(UUID requestId, String response) {
-		queueRequest.removeRequest(requestId);
+	public void onTaskComplete(Request request, String response) {
+		CommonUtils.Log("ComManager", "<onTaskComplete>");
+		queueRequest.removeRequest(request.getId());
+		CommonUtils.Log("ComManager", "</onTaskComplete>");
 	}
 	
 }

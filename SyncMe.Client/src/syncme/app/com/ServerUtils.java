@@ -24,7 +24,9 @@ import org.json.JSONObject;
 
 
 
+
 import syncme.app.data.Request;
+import syncme.app.logic.CommonUtils;
 import android.os.AsyncTask;
 import android.util.Log;
 import static syncme.app.logic.Constants.*;
@@ -62,8 +64,12 @@ public class ServerUtils {
 		return res.contentEquals("succeeded") ? "Registration succeeded!" : res; 
 	}
 
-	public static void execute(Request request){ 
-		comManager.executeTask(request);
+	public static void execute(Request request ,ITask tasker){
+		CommonUtils.Log("ServerUtils", "<execute>");
+		request.setServerIP(SERVER_URL);
+		CommonUtils.Log("ServerUtils", "execute: " + request.getMethod());
+		comManager.executeTask(request, tasker);
+		CommonUtils.Log("ServerUtils", "<execute>");
 	}
 
 

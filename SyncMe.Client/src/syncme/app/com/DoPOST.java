@@ -19,7 +19,9 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
 import syncme.app.data.Request;
+import syncme.app.logic.CommonUtils;
 import android.os.AsyncTask;
+import android.util.Log;
 import static syncme.app.logic.Constants.*;
 
 public class DoPOST extends AsyncTask<String, Void, Boolean>{
@@ -29,12 +31,12 @@ public class DoPOST extends AsyncTask<String, Void, Boolean>{
 	
 	JSONObject serverResponse;
 	
-	ITask taskManager;
+	ArrayList<ITask> taskManagers;
 	Request req;
 	
-	public DoPOST(Request req , ITask taskManager){
+	public DoPOST(Request req , ArrayList<ITask> taskManagers){
 		this.req = req;
-		this.taskManager = taskManager;
+		this.taskManagers = taskManagers;
 		
 	}
 	
@@ -86,9 +88,14 @@ public class DoPOST extends AsyncTask<String, Void, Boolean>{
 	@Override
 	protected void onPostExecute(Boolean valid){
 		//On UI thread
-		if(taskManager != null){
-			taskManager.onTaskComplete(req.getId() , serverResponse.toString());
+		CommonUtils.Log("DoPost", "<onPostExecute>");
+		if(taskManagers != null){
+			for(ITask tasker : taskManagers){
+				tasker.onTaskComplete(req , serverResponse.toString());
+				Log.v("DoPost", "Notify to :" + tasker.getClass().getName());
+			}
 		}
+		CommonUtils.Log("DoPost", "</onPostExecute>");
 	}
 
 }

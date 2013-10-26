@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-        <LinearLayout
+        <!--  LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10" />
-         </LinearLayout>
+         </LinearLayout-->
     
     <LinearLayout
         android:layout_width="fill_parent"
@@ -59,12 +59,25 @@
             android:ems="10"
             android:inputType="textEmailAddress" />
     </LinearLayout>
+
+     <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
  	<Button
             android:id="@+id/register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onClick"
             android:text="Register" />
+
+ 	<TextView
+ 	    android:id="@+id/tvregister"
+ 	    android:layout_width="wrap_content"
+ 	    android:layout_height="wrap_content"
+ 	    android:text="Registering..." />
+ 	
+ 	</LinearLayout>
  	
  	 <LinearLayout
         android:layout_width="fill_parent"

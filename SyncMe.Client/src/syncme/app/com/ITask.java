@@ -1,9 +1,9 @@
 package syncme.app.com;
 
-import java.util.UUID;
+import syncme.app.data.Request;
 
 
 public interface ITask {
 
-	public void onTaskComplete(UUID requestId, String response);
+	public void onTaskComplete(Request request, String response);
 }

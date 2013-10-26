@@ -44,7 +44,8 @@
         -->
         <receiver
             android:name="syncme.app.GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND" 
+            android:exported="true">
             <intent-filter>
 
                 <!-- Receives the actual messages. -->

@@ -16,6 +16,10 @@ package syncme.app;
  * limitations under the License.
  */
 
+import static syncme.app.logic.Constants.INVITE;
+import static syncme.app.logic.Constants.REGISTER;
+import static syncme.app.logic.Constants.SYNC;
+
 import com.example.syncme.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -26,6 +30,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,18 +42,23 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import syncme.app.com.ITask;
 import syncme.app.com.ServerUtils;
+import syncme.app.data.Request;
+import syncme.app.data.User;
+import syncme.app.logic.BL;
 
 /**
  * Main UI for the demo app.
  */
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements ITask{
 
     public static final String EXTRA_MESSAGE = "message";
     public static final String PROPERTY_REG_ID = "registration_id";
     private static final String PROPERTY_APP_VERSION = "appVersion";
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
+    BL bl;
     /**
      * Substitute you own sender ID here. This is the project number you got
      * from the API Console, as described in "Getting Started."
@@ -60,7 +70,7 @@ public class MainActivity extends Activity {
      */
     static final String TAG = "GCM Demo";
 
-    TextView mDisplay;
+    TextView mDisplay , mRegText;
     Button mRegister;
     EditText mEmail , mName, mServer;
     GoogleCloudMessaging gcm;
@@ -74,12 +84,20 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.main);
+        
+        bl = new BL(this);
+        
         mDisplay = (TextView) findViewById(R.id.display);
+        
+        mRegText = (TextView) findViewById(R.id.tvregister);
+        mRegText.setTextColor(Color.RED);
+        mRegText.setVisibility(View.GONE);
         mEmail = (EditText) findViewById(R.id.email);
         mName = (EditText) findViewById(R.id.name);
-        mServer = (EditText) findViewById(R.id.server);
         
-        mServer.setText("http://<IP>/SyncMe/SyncMe.Server/syncMeApp.php");
+//        mServer = (EditText) findViewById(R.id.server);
+//        
+//        mServer.setText("http://10.0.0.1/SyncMe/SyncMe.Server/syncMeApp.php");
         
         context = getApplicationContext();
 
@@ -280,12 +298,33 @@ public class MainActivity extends Activity {
      * to a server that echoes back the message using the 'from' address in the message.
      */
     private void sendRegistrationIdToBackend() {
-    	String serverIP =    mServer.getText().toString();
+    	String serverIP = mServer.getText().toString();
     	String name = mName.getText().toString();
     	String email = mEmail.getText().toString();
-    	Log.i("NOAM","Regisration id: " + regid);
-    	String result = ServerUtils.register(name, email, regid, serverIP);
+    	User user = new User(name, name, email);
+    	user.setRegid(regid);
+    	bl.registerUser(user);
+    	mRegText.setVisibility(View.VISIBLE);
+    	//String result = ServerUtils.register(name, email, regid, serverIP);
     	
-    	mDisplay.setText(result);
+    	//mDisplay.setText(result);
     }
+    
+	@Override
+	public void onTaskComplete(Request request, String response) {
+		Log.v("MainActivity", "<onTaskComplete>");
+		//Do something with the server response.
+		if(request.getMethod().contentEquals(REGISTER)){
+			Log.v(TAG, "Register has completed response: " + response);
+			mDisplay.setText(response);
+			mRegText.setVisibility(View.GONE);
+		}
+		else if(request.getMethod().contentEquals(SYNC)){
+			Log.v(TAG, "Sync has completed response: " + response);
+		}
+		else if(request.getMethod().contentEquals(INVITE)){
+			Log.v(TAG, "Invite has completed has completed response: " + response);
+		}
+		Log.v("MainActivity", "</onTaskComplete>");
+	}
 }
