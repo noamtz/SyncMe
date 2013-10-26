@@ -1,6 +1,9 @@
 <?php
+
 class Module{
-	// DATABASE OPERATIONS
+
+	/* DATABASE OPERATIONS */
+	
 	function executeQuery($query){	
 		include 'conn.php';
 		$result = mysqli_query($con, $query);
@@ -33,47 +36,7 @@ class Module{
 		return mysqli_insert_id($con);
 	}
 	
-	function prepareMessage($message ){
-		$message = json_decode($_POST["message"]);
-		
-		$from = $message->from;
-		$to = $message->to;
-		$messageContentObj = json_decode($message->content);
-
-		$type = $messageContentObj->type;
-		$data = json_encode($messageContentObj->data);
-		$messageContent = array('from'=>$from, 'to'=>$to, 'type'=>$type, 'data'=>$data);
-		if(property_exists($messageContentObj, 'messageId')){
-			$messageId = json_encode($messageContentObj->messageId);
-			$messageContent["messageId"] = $messageId;
-		}
-		
-		return $messageContent;
-	}
-	
-	function saveInDb($messageContent){
-		$type = $messageContent["type"];
-		$data = $messageContent["data"];
-		if(array_key_exists("messageId",$messageContent))
-			$messageId = $messageContent["messageId"];
-
-		$from = $messageContent['from'];
-		$to = $messageContent['to'];	
-			
-		//UPDATE
-		if(isset($messageId)){
-			$query = "UPDATE `messages` SET `data`='$data' WHERE id = '$messageId' ";
-		}
-		//CREATE
-		else{
-			$query = "INSERT INTO `messages` (`from`,`to`,`type`,`data`) VALUES ('$from','$to','$type','$data') ";
-		}
-		//execute
-		return $this->executeQuery($query);
-	}
-
-
-	// LOGIC MIXED OPERATIONS
+	/* PUBLIC METHODS */
 	
 	function register($user){
 		$regId = $user->regId;
@@ -86,6 +49,24 @@ class Module{
 							
 		$this->executeQuery($query);
 	}
+	
+	function registerFriend($userEmail, $friendEmail){
+		$userId = $this->getUserId($userEmail);
+		$friendId = $this->getUserId($friendEmail);
+		
+		$query = "INSERT INTO `user_friends` (`user`,`friend`) VALUES ($userId , $friendId), ($friendId , $userId)";
+		return $this->executeQuery($query) != false;
+	}
+	
+	function sync($senderEmail, $message){
+		$senderId = $this->getUserId($senderEmail);
+		$messageId = $this->saveMessage($senderId, $message);
+		$this->saveBroadcast($senderId , $messageId);
+		return $this->broadcast($senderId, $message);
+	}
+	
+	
+	/* PRIVATE METHODS */
 	
 	function getReciversRegId($userId){
 		include 'conn.php';
@@ -151,27 +132,12 @@ class Module{
 		return $this->executeQuery($query);
 	}
 	
-	function registerFriend($userEmail, $friendEmail){
-		$userId = $this->getUserId($userEmail);
-		$friendId = $this->getUserId($friendEmail);
-		
-		$query = "INSERT INTO `user_friends` (`user`,`friend`) VALUES ($userId , $friendId), ($friendId , $userId)";
-		return $this->executeQuery($query) != false;
-	}
-	
 	function getUserId($userEmail){
 		$query = "SELECT * FROM `users` WHERE `email` = '$userEmail'";
 		$result = $this->executeQuery($query);
 		return mysqli_fetch_object($result)->id;
 	}
-	
-	function sync($senderEmail, $message){
-		$senderId = $this->getUserId($senderEmail);
-		$messageId = $this->saveMessage($senderId, $message);
-		$this->saveBroadcast($senderId , $messageId);
-		return $this->broadcast($senderId, $message);
-	}
-	
+
 
 }
 ?>

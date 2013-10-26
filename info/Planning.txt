@@ -1,64 +1,75 @@
-The purpose of the application is to sync between couples their chores , time tables etc..
-in way that no communication is needed 
+
+General description:
+	
+	The purpose of the application is to sync between couples in a way that no communication is needed. 
+	the things that need to be synced: shopping list , calander, todo-list.
+	
+	
 
 Sync-General
 
-1.every partner will have unique identifier (different colors etc...)
-2.3 stages of reciever red - not recieved, orange- recieved but not open , 
-green- the reciver has opened the message
-	2.a.optional - to do something if reciver not open the message.
-	
-	2.b.server will manage the red option
-3.we will start with only 2 synced partners
-4.IMPORTANT: simplicity!
-5.screens:
-	5.a. tutorial 
-	5.b. registration : First Name, Last Name, Email.
-	5.c  who do you want to sync with? if partner not registered send an email to him to download the app.
-	5.d  main activity: one fragment(for now) . in the future 3 fragments
-	5.e  settings preferences :  volume , colors, notification images (3 stages red...) , switch\add partner.
-6.login with google account.
-7.expand list for categories.
-8.add feature of selecting users to sync with (there is partial server support)
+	1.every partner will have unique identifier (different colors etc...)
+	2.3 stages of reciever red - not recieved, orange- recieved but not open , 
+	green- the reciver has opened the message
+		2.a.optional - to do something if reciver not open the message.
+		
+		2.b.server will manage the red option
+	3.we will start with only 2 synced partners
+	4.IMPORTANT: simplicity!
+	5.screens:
+		5.a. tutorial 
+		5.b. registration : First Name, Last Name, Email.
+		5.c  who do you want to sync with? if partner not registered send an email to him to download the app.
+		5.d  main activity: one fragment(for now) . in the future 3 fragments
+		5.e  settings preferences :  volume , colors, notification images (3 stages red...) , switch\add partner.
+	6.login with google account.
+	7.expand list for categories.
+	8.add feature of selecting users to sync with (there is partial server support)
 
 USER experience
-1.Big buttons
-2.No tables
-3.max 3 screens
-4.pager - swipe between views.
-5.landscape or portrait we'll start  portrait.
-6.we'll start with smart phone screen size and continue with multiple sizes
-7.we'll start with English
-8.POC of the two increment buttons.
-9.editing items in one batch 
-10.add increment buttons into keyboard
-11.add auto complete to the keyboard
-12.POC check how much time is taken for keyboard styling
-13.the focus should be on newest item.
-14.
+	1.Big buttons
+	2.No tables
+	3.max 3 screens
+	4.pager - swipe between views.
+	5.landscape or portrait we'll start  portrait.
+	6.we'll start with smart phone screen size and continue with multiple sizes
+	7.we'll start with English
+	8.POC of the two increment buttons.
+	9.editing items in one batch 
+	10.add increment buttons into keyboard
+	11.add auto complete to the keyboard
+	12.POC check how much time is taken for keyboard styling
+	13.the focus should be on newest item.
+	14.
 
 
 
 Technical:
-1.check what happen if other side is offline - data lost
-2.server manage the registration
-3.add to the userFriends table is active or not (bit field)
-4.build full client data-base.
-5.re-generate Google API Key on production (or even in development to avoid self intrusion).
+	1.check what happen if other side is offline - data lost
+	2.server manage the registration
+	3.add to the userFriends table is active or not (bit field)
+	4.build full client data-base.
+	5.re-generate Google API Key on production (or even in development to avoid self intrusion).
+	6.add security to database operations(sql injection etc...)
+	7.add exception handling to server
+
 
 
 Shopping list:
-1. Prepare auto complete products
-2.when one side open new list a message notification pops up to the other side notify it that says hi!
-your partner planning to do some shopping.
-3.choose who will do the shopping
-4.need to think of set of categories that will cover all kind of items (vegetable: tomato, potato, etc...)
+	1. Prepare auto complete products
+	2.when one side open new list a message notification pops up to the other side notify it that says hi!
+	your partner planning to do some shopping.
+	3.choose who will do the shopping
+	4.need to think of set of categories that will cover all kind of items (vegetable: tomato, potato, etc...)
 
 GUI - SL
-1.product name and incremect in left side and checkbox in right side 
-2.Responsive widgets (Big buttons etc..)
+	1.product name and incremect in left side and checkbox in right side 
+	2.Responsive widgets (Big buttons etc..)
 
 
 
 Calender/Time-Table:
-1.
+	1.	
+
+ToDo-List
+	1.

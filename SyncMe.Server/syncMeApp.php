@@ -11,9 +11,9 @@ if(isset($_POST["method"]) && isset($_POST["params"])){
 	
 	
 	if(strcmp($method , "register") == 0){	
-			$user = json_decode($_POST["params"]);//TODO: Refactor this..
-			$module->register($user);
-			$response["statusMessage"] = "Registration has succeeded";
+		$user = json_decode($_POST["params"]);//TODO: Refactor this..
+		$module->register($user);
+		$response["statusMessage"] = "Registration has succeeded";
 	}else if(strcmp($method , "sync") == 0){
 	
 		$senderEmail = $params["email"];
