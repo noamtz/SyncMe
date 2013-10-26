@@ -2,7 +2,6 @@ package syncme.app.com;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -26,6 +25,8 @@ import static syncme.app.logic.Constants.*;
 
 public class DoPOST extends AsyncTask<String, Void, Boolean>{
 
+	public final String TAG = this.getClass().getName();
+	
 	//Check if an exception has thrown
 	Exception exception = null;
 	
@@ -88,13 +89,15 @@ public class DoPOST extends AsyncTask<String, Void, Boolean>{
 	@Override
 	protected void onPostExecute(Boolean valid){
 		//On UI thread
-		CommonUtils.Log("DoPost", "<onPostExecute>");
+		CommonUtils.Log(TAG, "<onPostExecute>");
 		if(taskManagers != null){
 			for(ITask tasker : taskManagers){
 				tasker.onTaskComplete(req , serverResponse.toString());
-				Log.v("DoPost", "Notify to :" + tasker.getClass().getName());
+				Log.v(TAG, "Notify to :" + tasker.getClass().getName());
 			}
 		}
+		if(exception != null)
+			CommonUtils.LogError(TAG, exception.getMessage());
 		CommonUtils.Log("DoPost", "</onPostExecute>");
 	}
 

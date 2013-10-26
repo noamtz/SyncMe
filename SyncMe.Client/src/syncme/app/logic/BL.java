@@ -39,8 +39,8 @@ public class BL { // Mabe move the ITask responsibility to another object
 		try{
 
 			JSONObject params = new JSONObject();
-			params.put("email", sender.getEmail());
-			params.put("message", message.toJson().toString());
+			params.put(EMAIL, sender.getEmail());
+			params.put(MESSAGE, message.toJson().toString());
 			
 			request.setMethod(SYNC);
 			request.setParams(params.toString());
@@ -61,8 +61,8 @@ public class BL { // Mabe move the ITask responsibility to another object
 		try{
 
 			JSONObject params = new JSONObject();
-			params.put("email", sender.getEmail());
-			params.put("friendEmail", reciever.getEmail());
+			params.put(EMAIL, sender.getEmail());
+			params.put(FRIEND_EMAIL, reciever.getEmail());
 
 			request.setMethod(INVITE);
 			request.setParams(params.toString());

@@ -22,7 +22,7 @@ public class ComManager implements ITask{
 	}
 	
 	/**
-	 * Excecute request to server via async task 
+	 * Execute request to server via async task 
 	 * @param request
 	 * @author Noam Tzumie
 	 */
