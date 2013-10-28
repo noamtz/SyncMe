@@ -53,9 +53,14 @@ Technical:
 	6.add security to database operations(sql injection etc...)
 	7.add exception handling to server
 	8.replace the user email with uuid unique identifier? (if the user insert wrong email? (too much work for user)).
-	9.The max size of the sync messages is 4kb including the keys so we need to sync of another way to sync(mabe send only url to download data).
+	9.The max size of the sync messages is 4KB including the keys so we need to sync of another way to sync(mabe send only url to download data).
 	10.Register users by there phone numbers instead of email.
-
+	11.Implementing database.
+		11.a. design generic tables.
+		11.b. layered database.
+		11.c  data access to the db direct class.
+	12.POC - auto complete from database.
+	
 
 
 Shopping list:
