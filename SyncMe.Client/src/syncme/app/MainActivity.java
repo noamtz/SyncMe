@@ -44,9 +44,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import syncme.app.com.ITask;
 import syncme.app.com.ServerUtils;
-import syncme.app.data.Request;
-import syncme.app.data.User;
 import syncme.app.logic.BL;
+import syncme.app.model.Request;
+import syncme.app.model.User;
 
 /**
  * Main UI for the demo app.

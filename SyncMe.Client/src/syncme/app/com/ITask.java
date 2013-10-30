@@ -1,6 +1,6 @@
 package syncme.app.com;
 
-import syncme.app.data.Request;
+import syncme.app.model.Request;
 
 
 public interface ITask {

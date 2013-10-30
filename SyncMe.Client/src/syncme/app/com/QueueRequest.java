@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.UUID;
 
 
-import syncme.app.data.Request;
+import syncme.app.model.Request;
 
 public class QueueRequest {
 	//private ConcurrentLinkedQueue<Request> queue;

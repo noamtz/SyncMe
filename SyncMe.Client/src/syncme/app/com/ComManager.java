@@ -3,8 +3,8 @@ package syncme.app.com;
 
 import java.util.ArrayList;
 
-import syncme.app.data.Request;
 import syncme.app.logic.CommonUtils;
+import syncme.app.model.Request;
 
 public class ComManager implements ITask{
 

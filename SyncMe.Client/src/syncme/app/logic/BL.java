@@ -5,9 +5,9 @@ import org.json.JSONObject;
 
 import syncme.app.com.ITask;
 import syncme.app.com.ServerUtils;
-import syncme.app.data.Message;
-import syncme.app.data.Request;
-import syncme.app.data.User;
+import syncme.app.model.Message;
+import syncme.app.model.Request;
+import syncme.app.model.User;
 import static syncme.app.logic.Constants.*;
 
 public class BL { // Mabe move the ITask responsibility to another object
