@@ -1,31 +1,66 @@
 package syncme.app.data;
 
-import android.content.Context;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
-public abstract class DataSource {
+public class DataSource {
 
-	// Database fields
-	private SQLiteDatabase database;
-	private DBHandler dbHelper;
-//	private String[] allColumns = { MySQLiteHelper.COLUMN_ID,
-//			MySQLiteHelper.COLUMN_COMMENT };
+	protected SQLiteDatabase database;
+	protected DBHandler dbHelper;
+	protected String tableName;
 
-	public DataSource(Context context) {
-		dbHelper = new DBHandler(context);
+	public DataSource(DBHandler dbHelper, String tableName) {
+		dbHelper = this.dbHelper;
+		this.tableName = tableName;
 	}
 
-//	public Comment create(String comment) {
-//	    ContentValues values = new ContentValues();
-//	    values.put(MySQLiteHelper.COLUMN_COMMENT, comment);
-//	    long insertId = database.insert(table, nullColumnHack, values)
-//	    Cursor cursor = database.query(MySQLiteHelper.TABLE_COMMENTS,
-//	        allColumns, MySQLiteHelper.COLUMN_ID + " = " + insertId, null,
-//	        null, null, null);
-//	    cursor.moveToFirst();
-//	    Comment newComment = cursorToComment(cursor);
-//	    cursor.close();
-//	    return newComment;
-//	  }
+	public void open() throws SQLException {
+		database = dbHelper.getWritableDatabase();
+	}
+
+	public void close() {
+		dbHelper.close();
+	}
+	/**
+	 * Create new row in the database 
+	 * @return auto increment id
+	 */
+	public  long create(ContentValues values){
+		//TODO: handle create exceptions.
+		return database.insert(tableName, null,values);
+	}
+
+
+	public void delete(long id)
+	{
+		//TODO: handle delete exceptions.
+		database.delete(tableName, String.format("id=%d", id) , null);
+	}
+
+	public boolean update (ContentValues values, String whereClause, String[] whereArgs){
+		//TODO: handle update exceptions.
+		return database.update(tableName,values,whereClause, null) > 0;
+	}
 	
+	/**
+	 * only child of this class can perfom this method
+	 * Usage: ("SELECT id, name FROM people WHERE name = ? AND id = ?", new String[] {"David", "2"})
+	 * @param query
+	 * @param args
+	 * @return
+	 */
+	protected Cursor rawQuery(String query, String[] args){
+		return database.rawQuery(query, args);
+	}
+
+
+	public Cursor getAllRecords(){ 
+		return rawQuery("SELECT * FROM ?", new String[] { tableName });
+	}
+
+	public Cursor getRecord(long id){ 
+		return rawQuery("SELECT * FROM ? WHERE id = ?", new String[] { tableName, "" + id });
+	}
 }

@@ -25,8 +25,9 @@ import org.json.JSONObject;
 
 
 
-import syncme.app.logic.CommonUtils;
+
 import syncme.app.model.Request;
+import syncme.app.utils.CommonUtils;
 import android.os.AsyncTask;
 import android.util.Log;
 import static syncme.app.logic.Constants.*;

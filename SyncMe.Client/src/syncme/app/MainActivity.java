@@ -47,6 +47,7 @@ import syncme.app.com.ServerUtils;
 import syncme.app.logic.BL;
 import syncme.app.model.Request;
 import syncme.app.model.User;
+import syncme.app.utils.CommonUtils;
 
 /**
  * Main UI for the demo app.
@@ -112,6 +113,7 @@ public class MainActivity extends Activity implements ITask{
         } else {
             Log.i(TAG, "No valid Google Play Services APK found.");
         }
+
     }
 
     @Override
