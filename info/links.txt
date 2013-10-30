@@ -29,3 +29,8 @@ dependencies {
  https://docs.google.com/document/pub?id=19nQzvKP-CVLd7_VrpwnHfl-AE9fjbJySowONZZtNHzw
 
 
+
+
+Great Sqlite database designer:
+
+http://www.dbschemaeditor.com/OnlineDB.aspx
