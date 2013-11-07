@@ -27,6 +27,7 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -47,6 +48,7 @@ import syncme.app.com.ServerUtils;
 import syncme.app.logic.BL;
 import syncme.app.model.Request;
 import syncme.app.model.User;
+import syncme.app.ui.ShoppingList;
 import syncme.app.utils.CommonUtils;
 
 /**
@@ -85,6 +87,8 @@ public class MainActivity extends Activity implements ITask{
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.main);
+        Intent i = new Intent(this, ShoppingList.class);
+        startActivity(i);
         
         bl = new BL(this);
         

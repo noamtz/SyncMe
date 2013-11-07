@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.syncme"
     android:versionCode="1"
@@ -22,8 +23,7 @@
         android:name="syncme.app.App"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" 
-     >
+        android:label="@string/app_name" >
         <activity
             android:name="syncme.app.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -35,18 +35,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="syncme.app.ui.ShoppingList"
+            android:label="@string/title_activity_item_list_addaptor" >
+        </activity>
 
         <!--
           WakefulBroadcastReceiver that will receive intents from GCM
           services and hand them to the custom IntentService.
 
           The com.google.android.c2dm.permission.SEND permission is necessary
-          so only GCM services can send data messages for the app.
+          so only GCM services can send data messages for the app.
         -->
         <receiver
             android:name="syncme.app.GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND" 
-            android:exported="true">
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
 
                 <!-- Receives the actual messages. -->
@@ -57,6 +61,8 @@
         </receiver>
 
         <service android:name="syncme.app.GcmIntentService" />
+
+
     </application>
 
 </manifest>
