@@ -8,11 +8,23 @@ public class Item implements Serializable{
 	
 	private String item;
 	private int count;
+	private boolean isChecked;
 	
 	public Item(String item ,int count)
 	{
 		this.setItem(item);
 		this.setCount(count);
+		this.setIsChecked(false);
+	}
+	
+	public boolean getIsChecked()
+	{
+		return this.isChecked;
+	}
+	
+	public void setIsChecked(boolean isChecked)
+	{
+		this.isChecked = isChecked;
 	}
 	
 	public int getCount()

@@ -23,6 +23,7 @@ public class ShoppingList extends Activity implements OnClickListener, OnEditorA
 	EditText newItem;
 	Button plus, minus;
 	int itemCount;
+	ListView ItemListView;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +43,9 @@ public class ShoppingList extends Activity implements OnClickListener, OnEditorA
 		itemCount = 1;
 		
 		adapter = new ItemListAddaptor(this, R.layout.list_item_layout, new ArrayList<Item>());
-		ListView ItemListView = (ListView)findViewById(R.id.shopping_list);
+		ItemListView = (ListView)findViewById(R.id.shopping_list);
 		ItemListView.setAdapter(adapter);	
+		ItemListView.setSelection(ItemListView.getCount() - 1);
 		
 		
 		
@@ -74,7 +76,7 @@ public class ShoppingList extends Activity implements OnClickListener, OnEditorA
 		{
 			if (newItem.getText().length() > 0)
 				adapter.add(new Item(newItem.getText() + "", itemCount));
-				
+			ItemListView.setSelection(ItemListView.getCount() - 1);
 			
 			newItem.setText("");
 
