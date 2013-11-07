@@ -5,10 +5,10 @@ public class DBConstants {
 	public static final String DATABASE_NAME = "syncme.client.db";
 	public static final int DATABASE_VERSION = 1;
 	
-	public static final String TABLE_SHOP = "shop";
 	public static final String TABLE_SHOP_LIST = "shopList";
+	public static final String TABLE_SHOP_LIST_OVERVIEW = "shopListOverView";
 	public static final String TABLE_ITEM = "item";
-	public static final String TABLE_SHOP_ITEMS = "item";
+	public static final String TABLE_CATEGORY = "category";
 	
 	//TODO: fill script file path.
 	//init db script file path

@@ -8,7 +8,7 @@ public class DAL {
 	
 	static DAL dal;
 	
-	DataSource shopList;
+	DataSource shopList , item, category;
 	
 	private DAL(){
 		dbHandler = new DBHandler(App.getAppCtx());

@@ -27,7 +27,7 @@ public class DataSource {
 	 * Create new row in the database 
 	 * @return auto increment id
 	 */
-	public  long create(ContentValues values){
+	protected long create(ContentValues values){
 		//TODO: handle create exceptions.
 		return database.insert(tableName, null,values);
 	}
