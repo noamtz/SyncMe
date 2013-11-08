@@ -1,6 +1,12 @@
 SyncMe
 ======
 
+Useful links:
+
+1. sqlite browser: http://sourceforge.net/projects/sqlitebrowser/
+
+
+
 To configure workspace:
 
 1.Clone to your local disk.
