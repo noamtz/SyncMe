@@ -1,4 +1,3 @@
-
 General description:
 	
 	The purpose of the application is to sync between couples in a way that no communication is needed. 
@@ -66,7 +65,7 @@ Technical:
 Shopping list:
 	1. Prepare auto complete products
 	2.when one side open new list a message notification pops up to the other side notify it that says hi!
-	your partner planning to do some shopping.
+		your partner planning to do some shopping.
 	3.choose who will do the shopping
 	4.need to think of set of categories that will cover all kind of items (vegetable: tomato, potato, etc...)
 
@@ -80,4 +79,5 @@ Calender/Time-Table:
 	1.	
 
 ToDo-List
-	1.
+	1.saving information using images and saving the meta-data of the image the purpose
+		is to organize well the information within the taken image.
