@@ -10,12 +10,19 @@ public class Item {
 	
 	private long id;
 	private String name;
-	private long categoryId;
+	private Category category;
 	//Belong to shopList
 	private int quantity;
+	private boolean done;
 	
 	
 	
+	public boolean isDone() {
+		return done;
+	}
+	public void setDone(boolean done) {
+		this.done = done;
+	}
 	public int getQuantity() {
 		return quantity;
 	}
@@ -34,18 +41,18 @@ public class Item {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public long getCategoryId() {
-		return categoryId;
+	public Category getCategory() {
+		return category;
 	}
-	public void setCategoryId(long categoryId) {
-		this.categoryId = categoryId;
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 	
 	public ContentValues toDB(){
 		ContentValues values = new ContentValues();
 		values.put(ITEM_ID, id);
 		values.put(ITEM_NAME, name);
-		values.put(ITEM_CATEGORY_ID, categoryId);
+		values.put(ITEM_CATEGORY_ID, category.getId());
 		return values;
 	}
 	

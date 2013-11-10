@@ -8,7 +8,8 @@ public class DAL {
 	
 	static DAL dal;
 	
-	DataSource shopList , item, category;
+	private DataSource shopListOverView , items, categories;
+	private DataSourceShopList shopList;
 	
 	private DAL(){
 		dbHandler = new DBHandler(App.getAppCtx());
@@ -21,9 +22,27 @@ public class DAL {
 	}
 	
 	//TODO: change table name and add another custom classes
-	public DataSource getShopList(){
+	public DataSource getShopListOverview(){
+		if(shopListOverView == null)
+			shopListOverView = new DataSource(dbHandler,DBConstants.TABLE_SHOPLIST_OVERVIEW);
+		return shopListOverView;
+	}
+	
+	public DataSource getItems(){
+		if(items == null)
+			items = new DataSource(dbHandler,DBConstants.TABLE_ITEM);
+		return items;
+	}
+	
+	public DataSource getCategories(){
+		if(categories == null)
+			categories = new DataSource(dbHandler,DBConstants.TABLE_CATEGORY);
+		return categories;
+	}
+	
+	public DataSourceShopList getShopList(){
 		if(shopList == null)
-			shopList = new DataSource(dbHandler,DBConstants.TABLE_SHOP_LIST);
+			shopList = new DataSourceShopList(dbHandler);
 		return shopList;
 	}
 }

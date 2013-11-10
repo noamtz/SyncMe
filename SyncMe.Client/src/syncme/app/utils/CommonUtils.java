@@ -1,10 +1,11 @@
 package syncme.app.utils;
 
 import java.io.BufferedReader;
-
 import java.io.IOException;
-
 import java.io.InputStreamReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import syncme.app.App;
 
@@ -43,4 +44,17 @@ public class CommonUtils {
 		return sb.toString();
 	}
 
+	public static Date toDate(String template){
+		Date date = null;
+		try {
+			date = SimpleDateFormat.getDateInstance().parse(template);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return date;
+	}
+	
+	
+	
 }

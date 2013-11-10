@@ -27,9 +27,12 @@ public class DataSource {
 	 * Create new row in the database 
 	 * @return auto increment id
 	 */
-	protected long create(ContentValues values){
+	public long create(ContentValues values){
 		//TODO: handle create exceptions.
-		return database.insert(tableName, null,values);
+		database.beginTransaction();
+		long id = database.insert(tableName, null,values);
+		database.endTransaction();
+		return id;
 	}
 
 
@@ -41,7 +44,10 @@ public class DataSource {
 
 	public boolean update (ContentValues values, String whereClause, String[] whereArgs){
 		//TODO: handle update exceptions.
-		return database.update(tableName,values,whereClause, null) > 0;
+		database.beginTransaction();
+		int numRows = database.update(tableName,values,whereClause, null);
+		database.endTransaction();
+		return numRows > 0;
 	}
 	
 	/**
@@ -62,5 +68,9 @@ public class DataSource {
 
 	public Cursor getRecord(long id){ 
 		return rawQuery("SELECT * FROM ? WHERE id = ?", new String[] { tableName, "" + id });
+	}
+	
+	public Cursor getRecord(String colName, String val){ 
+		return rawQuery("SELECT * FROM ? WHERE ? = ?", new String[] { tableName, colName, val});
 	}
 }
