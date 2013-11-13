@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -47,6 +48,9 @@ public class ItemListAddaptor extends ArrayAdapter<Item>{
         
         
         Item item = (Item)items.get(position);
+        
+        Button x_button = (Button) row.findViewById(com.example.syncme.R.id.x_button);
+        x_button.setTag(item);
         
         final TextView itemName = (TextView) row.findViewById(com.example.syncme.R.id.item_name);
         itemName.setText(item.getItem());

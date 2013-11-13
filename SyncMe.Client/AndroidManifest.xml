@@ -18,6 +18,9 @@
         android:protectionLevel="signature" />
 
     <uses-permission android:name="com.example.gcm.permission.C2D_MESSAGE" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
 
     <application
         android:name="syncme.app.App"
@@ -40,12 +43,14 @@
             android:label="@string/title_activity_item_list_addaptor" >
         </activity>
 
+
+
         <!--
           WakefulBroadcastReceiver that will receive intents from GCM
           services and hand them to the custom IntentService.
 
           The com.google.android.c2dm.permission.SEND permission is necessary
-          so only GCM services can send data messages for the app.
+          so only GCM services can send data messages for the app.
         -->
         <receiver
             android:name="syncme.app.GcmBroadcastReceiver"
@@ -59,10 +64,9 @@
                 <category android:name="com.google.android.gcm.demo.app" />
             </intent-filter>
         </receiver>
+        
 
         <service android:name="syncme.app.GcmIntentService" />
-
-
     </application>
 
 </manifest>

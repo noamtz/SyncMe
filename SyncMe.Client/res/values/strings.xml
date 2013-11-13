@@ -12,7 +12,7 @@
   - distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
   - WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
   - License for the specific language governing permissions and limitations
-  - under the License.
+  - under the License.
 -->
 <resources>
 
@@ -22,5 +22,6 @@
     <string name="title_activity_item_list_addaptor">ItemListAddaptor</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_sms_layout2">MainActivity</string>
 
 </resources>

@@ -2,9 +2,13 @@ package syncme.app.ui;
 
 import java.util.ArrayList;
 
+import syncme.app.logic.SMSReciver;
+
 import com.example.syncme.R;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -14,7 +18,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.TextView.OnEditorActionListener;
+import android.telephony.SmsManager;
+import android.telephony.SmsMessage;
 
 public class ShoppingList extends Activity implements OnClickListener, OnEditorActionListener{
 	
@@ -24,6 +31,7 @@ public class ShoppingList extends Activity implements OnClickListener, OnEditorA
 	Button plus, minus;
 	int itemCount;
 	ListView ItemListView;
+	SMSReciver sms = new SMSReciver();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +59,23 @@ public class ShoppingList extends Activity implements OnClickListener, OnEditorA
 		
 		adapter.insert(new Item("Eggs", 1), 0);
 		adapter.insert(new Item("Bread", 1), 0);
+		
+		IntentFilter i = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
+		registerReceiver(sms, i);
+		
+		sendSMS();
+		
+	
+		
+
 	}
 
+	public void sendSMS() {
+
+	    SmsManager smsManager = SmsManager.getDefault();
+	    smsManager.sendTextMessage("+972544813486", null, " Hello ", null, null);
+	}
+	
 	@Override
 	public void onClick(View v) {
 		if (v.getId() == plus.getId())
@@ -88,6 +111,19 @@ public class ShoppingList extends Activity implements OnClickListener, OnEditorA
 		return false;
 	}
 
+	public void xClick(View v)
+	{
+		Item item = (Item)v.getTag();
+		adapter.remove(item);
 
+	}
 
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		unregisterReceiver(sms);
+	}
+	
+	
 }
