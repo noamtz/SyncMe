@@ -7,6 +7,7 @@ import syncme.app.data.DAL;
 import syncme.app.model.shoplist.ShopListOverview;
 import syncme.app.utils.CommonUtils;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -23,6 +26,7 @@ import android.widget.TextView;
 
 import com.example.syncme.R;
 import com.google.android.gms.internal.ad;
+import com.google.android.gms.internal.bu;
 
 public class FragmentShopList extends Fragment{
 
@@ -54,12 +58,24 @@ public class FragmentShopList extends Fragment{
 			}
 		});
 
+		
+		lv.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View v, int position,
+					long arg3) {
+				  Intent i = new Intent(getActivity(), ShoppingList.class);
+				  Bundle bundle = new Bundle();
+				  bundle.putLong("Id", adapter.getItem(position).getId());
+				  i.putExtras(bundle);
+			      startActivity(i);
+			}
+		});
+		
 		return rootView;
 	}
 
 	private class ShopListAdapter extends ArrayAdapter<ShopListOverview>{
-
-		private ArrayList<ShopListOverview> allListsOverview;
 
 		private static final String TAG = "ShopListAdapter";
 
@@ -102,7 +118,6 @@ public class FragmentShopList extends Fragment{
 				CommonUtils.LogError(TAG, "add", "Failed to create overview in db");
 			}
 		}
-
 	}
 
 

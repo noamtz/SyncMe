@@ -3,6 +3,7 @@ package syncme.app.ui;
 import java.util.ArrayList;
 
 import syncme.app.logic.SMSReciver;
+import syncme.app.utils.CommonUtils;
 
 import com.example.syncme.R;
 
@@ -37,7 +38,7 @@ public class ShoppingList extends Activity implements OnClickListener, OnEditorA
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.shopping_list_layout);
-		
+		CommonUtils.Log("ShoppingList",""+ getIntent().getExtras().getLong("Id"));
 		itemCountText = (TextView) findViewById(R.id.count);
 		newItem = (EditText) findViewById(R.id.input_item);
 		plus = (Button) findViewById(R.id.plus_button);

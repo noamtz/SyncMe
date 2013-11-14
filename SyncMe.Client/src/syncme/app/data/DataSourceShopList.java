@@ -29,6 +29,7 @@ public class DataSourceShopList extends DataSource{
 		super(dbHelper, DBConstants.VIEW_SHOP_LIST);
 		shopList = new DataSource(dbHelper,DBConstants.TABLE_SHOP_LIST);
 	}
+	
 	/**
 	 * 
 	 * @param id
