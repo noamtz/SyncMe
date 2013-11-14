@@ -15,7 +15,9 @@ public class Item {
 	private int quantity;
 	private boolean done;
 	
-	
+	public Item(){
+		done = false;
+	}
 	
 	public boolean isDone() {
 		return done;

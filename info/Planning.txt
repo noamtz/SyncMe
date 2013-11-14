@@ -78,6 +78,9 @@ GUI - SL
 Calender/Time-Table:
 	1.	
 
-ToDo-List
+ToDo-List:
 	1.saving information using images and saving the meta-data of the image the purpose
 		is to organize well the information within the taken image.
+
+		
+Our Library:

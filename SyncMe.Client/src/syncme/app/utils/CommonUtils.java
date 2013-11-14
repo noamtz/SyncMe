@@ -12,7 +12,15 @@ import syncme.app.App;
 
 public class CommonUtils {
 	public static void Log(String className , String msg){
-		android.util.Log.v(className, className);
+		android.util.Log.v(className, msg);
+	}
+	
+	public static void Log(String className , String methodName , String msg){
+		android.util.Log.v(className, methodName + ": " + msg);
+	}
+	
+	public static void LogError(String className , String methodName , String msg){
+		android.util.Log.e(className, methodName + ": " + msg);
 	}
 
 	public static void LogError(String className , String msg){
@@ -56,5 +64,7 @@ public class CommonUtils {
 	}
 	
 	
-	
+	public static String getResourceString(int resId){
+		return App.getAppCtx().getResources().getString(resId);
+	}
 }
