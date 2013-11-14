@@ -1,9 +1,12 @@
 package syncme.app.data;
 
 import syncme.app.App;
+import syncme.app.utils.CommonUtils;
 
 public class DAL {
 
+	private static final String TAG = "DAL";
+	
 	static DBHandler dbHandler;
 	
 	static DAL dal;

@@ -12,18 +12,28 @@ public class ShopListOverview {
 
 	private long id;
 	private String title;
-	private Date createdAt;
+	private int totalItems;
 	
+	
+	public int getTotalItems() {
+		return totalItems;
+	}
+
+	public void setTotalItems(int totalItems) {
+		this.totalItems = totalItems;
+	}
+
+	private Date createdAt;
+
 	public ShopListOverview(){
 	}
 	
-	public ShopListOverview(Cursor cursor){
-	
-		this.id = cursor.getLong(0);
-		this.title = cursor.getString(1);
-		this.createdAt = CommonUtils.toDate(cursor.getString(2));
+	public ShopListOverview(Cursor c){
+		id = c.getLong(c.getColumnIndex(SHOPLIST_OVERVIEW_ID));
+		title = c.getString(c.getColumnIndex(SHOPLIST_OVERVIEW_TITLE));
+		setCreatedAt(c.getString(c.getColumnIndex(SHOPLIST_OVERVIEW_CREATED_AT)));
 	}
-	
+
 	public long getId() {
 		return id;
 	}
@@ -45,10 +55,13 @@ public class ShopListOverview {
 	public void setCreatedAt(String createdAtTemplate) {
 		this.createdAt = CommonUtils.toDate(createdAtTemplate);
 	}
-	
+
 	public ContentValues toDB(){
 		ContentValues values = new ContentValues();
 		values.put(SHOPLIST_OVERVIEW_TITLE, title);		
+		values.put(SHOPLIST_OVERVIEW_TOTALITEMS, totalItems);	
 		return values;
 	}
+
+
 }

@@ -1,5 +1,7 @@
 package syncme.app.data;
 
+import syncme.app.App;
+import syncme.app.utils.CommonUtils;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -8,20 +10,24 @@ import android.database.sqlite.SQLiteDatabase;
 public class DataSource {
 
 	protected SQLiteDatabase database;
-	protected DBHandler dbHelper;
+	protected DBHandler dbHandler;
 	protected String tableName;
 
-	public DataSource(DBHandler dbHelper, String tableName) {
-		dbHelper = this.dbHelper;
+	private static final String TAG = "DataSource";
+	
+	public DataSource(DBHandler dbHandler, String tableName) {
+		this.dbHandler = dbHandler;
 		this.tableName = tableName;
+		//TODO: begin\end transaction
+		open();
 	}
 
 	public void open() throws SQLException {
-		database = dbHelper.getWritableDatabase();
+		database = dbHandler.getWritableDatabase();
 	}
 
 	public void close() {
-		dbHelper.close();
+		dbHandler.close();
 	}
 	/**
 	 * Create new row in the database 
@@ -29,24 +35,21 @@ public class DataSource {
 	 */
 	public long create(ContentValues values){
 		//TODO: handle create exceptions.
-		database.beginTransaction();
 		long id = database.insert(tableName, null,values);
-		database.endTransaction();
+		CommonUtils.Log(TAG, "create", "Inserted into " + tableName + " id: " + id);
 		return id;
 	}
 
 
-	public void delete(long id)
+	public boolean delete(long id)
 	{
 		//TODO: handle delete exceptions.
-		database.delete(tableName, String.format("id=%d", id) , null);
+		return database.delete(tableName, String.format("id=%d", id) , null) > 0;
 	}
 
 	public boolean update (ContentValues values, String whereClause, String[] whereArgs){
 		//TODO: handle update exceptions.
-		database.beginTransaction();
 		int numRows = database.update(tableName,values,whereClause, null);
-		database.endTransaction();
 		return numRows > 0;
 	}
 	
@@ -63,14 +66,14 @@ public class DataSource {
 
 
 	public Cursor getAllRecords(){ 
-		return rawQuery("SELECT * FROM ?", new String[] { tableName });
+		return rawQuery("SELECT * FROM " + tableName, null);
 	}
 
 	public Cursor getRecord(long id){ 
-		return rawQuery("SELECT * FROM ? WHERE id = ?", new String[] { tableName, "" + id });
+		return rawQuery("SELECT * FROM " +tableName+ " WHERE id = ?", new String[] { "" + id });
 	}
 	
 	public Cursor getRecord(String colName, String val){ 
-		return rawQuery("SELECT * FROM ? WHERE ? = ?", new String[] { tableName, colName, val});
+		return rawQuery("SELECT * FROM " +tableName+ " WHERE ? = ?", new String[] { colName, val});
 	}
 }

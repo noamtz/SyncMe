@@ -4,7 +4,7 @@ import android.content.ContentValues;
 
 public class Item {
 
-	private static final String ITEM_ID = "id";
+	private static final String ITEM_ID = "_id";
 	private static final String ITEM_NAME = "name";
 	private static final String ITEM_CATEGORY_ID= "categoryId";
 	

@@ -32,7 +32,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+			
 		setContentView(R.layout.activity_main);
 
 		// Create the adapter that will return a fragment for each of the three primary sections
@@ -82,7 +82,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	
 	@Override
 	public void onTabReselected(Tab tab, FragmentTransaction ft) {
-		CommonUtils.Log(TAG , "onTabReselected", Constants.UNIMPLEMENTED_MSG);
+		CommonUtils.LogError(TAG , "onTabReselected", Constants.UNIMPLEMENTED_MSG);
 	}
 
 	@Override
@@ -93,7 +93,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
 	@Override
 	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-		CommonUtils.Log(TAG , "onTabSelected", Constants.UNIMPLEMENTED_MSG);
+		CommonUtils.LogError(TAG , "onTabSelected", Constants.UNIMPLEMENTED_MSG);
 	}
 
 }

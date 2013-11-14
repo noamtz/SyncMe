@@ -1,5 +1,7 @@
 package syncme.app.logic;
 
+import java.util.ArrayList;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -8,6 +10,7 @@ import syncme.app.com.ServerUtils;
 import syncme.app.model.Message;
 import syncme.app.model.Request;
 import syncme.app.model.User;
+import syncme.app.model.shoplist.ShopList;
 import static syncme.app.logic.Constants.*;
 
 public class BL { // Mabe move the ITask responsibility to another object

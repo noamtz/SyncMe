@@ -9,7 +9,7 @@ public class ShopList {
 	private ShopListOverview overview;
 	//TODO: change to cursor
 	private List<Item> items;
-	
+
 	public ShopListOverview getOverview() {
 		return overview;
 	}
@@ -22,16 +22,25 @@ public class ShopList {
 	public void setItems(List<Item> items) {
 		this.items = items;
 	}
-	
+
+	public String getTitle(){
+		return overview.getTitle();
+	}
+
+	public void setTitle(String title){
+		overview.setTitle(title);
+	}
+
 	public void addItem(Item item){
 		if(item.getId() == -1)
 			item.setId(DAL.getInstance().getItems().create(item.toDB()));
-		DAL.getInstance().getShopList().createItem(overview.getId(), item);
-		items.add(item);
+		if(DAL.getInstance().getShopList().createItem(overview.getId(), item))
+			items.add(item);
 	}
-	
+
 	public void deleteItem(Item item){
-		DAL.getInstance().getShopList().deleteItem(overview.getId(), item.getId());
-		items.remove(item);
+		if(DAL.getInstance().getShopList().deleteItem(overview.getId(), item.getId()))
+			items.remove(item);
 	}
+
 }

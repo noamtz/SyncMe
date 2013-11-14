@@ -4,7 +4,7 @@ import android.content.ContentValues;
 
 public class Category {
 
-	private static final String CATEGORY_ID = "id";
+	private static final String CATEGORY_ID = "_id";
 	private static final String CATEGORY_NAME = "name";
 	
 	private long id;

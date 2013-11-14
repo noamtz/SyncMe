@@ -1,7 +1,21 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/tvshoplist"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:textSize="24sp"
-    android:padding="32dp" />
+    android:baselineAligned="false"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/shoplist_addlist"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="0.79"
+        android:text="Button" />
+
+    <ListView
+        android:id="@+id/shoplist_lv"
+        android:layout_width="match_parent"
+        android:layout_height="358dp"
+        android:layout_weight="0.32"
+        android:drawSelectorOnTop="false" />
+
+</LinearLayout>

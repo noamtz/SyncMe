@@ -1,23 +1,109 @@
 package syncme.app.ui;
 
-import com.example.syncme.R;
+import java.util.ArrayList;
 
+import syncme.app.data.DAL;
+
+import syncme.app.model.shoplist.ShopListOverview;
+import syncme.app.utils.CommonUtils;
+import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
+import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.syncme.R;
+import com.google.android.gms.internal.ad;
+
 public class FragmentShopList extends Fragment{
+
+	ShopListAdapter adapter;
+	ArrayList<ShopListOverview> allListsOverview;
 	@Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-		
-        View rootView = inflater.inflate(R.layout.fragment_main_shoplist, container, false);
-        
-        ((TextView) rootView.findViewById(R.id.tvshoplist)).setText(
-                getString(R.string.shoplist));
-        return rootView;
-    }
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		allListsOverview = DAL.getInstance().getShopList().getAllShopListOverview();
+
+		View rootView = inflater.inflate(R.layout.fragment_main_shoplist, container, false);
+
+		ListView lv = (ListView) rootView.findViewById(R.id.shoplist_lv);
+		adapter = new ShopListAdapter(getActivity(), R.layout.shoplist_list_row , allListsOverview);
+		lv.setAdapter(adapter);
+		ShopListOverview slo = new ShopListOverview();
+		slo.setTitle("Inserted");
+
+		Button btn = (Button) rootView.findViewById(R.id.shoplist_addlist);
+
+		btn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				ShopListOverview slo = new ShopListOverview();
+				slo.setTitle("New Shopping List");
+				adapter.add(slo);
+				adapter.notifyDataSetChanged();
+			}
+		});
+
+		return rootView;
+	}
+
+	private class ShopListAdapter extends ArrayAdapter<ShopListOverview>{
+
+		private ArrayList<ShopListOverview> allListsOverview;
+
+		private static final String TAG = "ShopListAdapter";
+
+		public ShopListAdapter(Context context, int resource , ArrayList<ShopListOverview> allListsOverview) {
+			super(context, resource);
+			addAll(allListsOverview);
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			View v = convertView;
+
+			if (v == null) {
+
+				LayoutInflater vi;
+				vi = LayoutInflater.from(getContext());
+				v = vi.inflate(R.layout.shoplist_list_row, null);
+
+			}
+
+			ShopListOverview shopListOverview = getItem(position);
+			
+			if (shopListOverview != null ) {
+
+				TextView tvtitle = (TextView) v.findViewById(R.id.shoplist_list_tvtitle);
+				if (tvtitle != null) { 
+					tvtitle.setText(shopListOverview.getId() + ": " + shopListOverview.getTitle());
+				}
+			}
+
+			return v;
+		}
+
+		@Override
+		public void add(ShopListOverview object) {
+			object.setId(DAL.getInstance().getShopListOverview().create(object.toDB()));
+			if(object.getId() != -1){
+				super.add(object);
+			}else{
+				CommonUtils.LogError(TAG, "add", "Failed to create overview in db");
+			}
+		}
+
+	}
+
+
 }

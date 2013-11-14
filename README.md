@@ -5,7 +5,7 @@ Useful links:
 
 1. sqlite browser: http://sourceforge.net/projects/sqlitebrowser/
 
-
+2. debug sqlite: http://stackoverflow.com/questions/6928849/debugging-sqlite-database-on-the-device
 
 To configure workspace:
 

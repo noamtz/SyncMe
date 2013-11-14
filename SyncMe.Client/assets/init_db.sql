@@ -1,48 +1,39 @@
-/* SHOP LIST  */
+
 
 CREATE TABLE category (
-   id serail
+   _id INTEGER PRIMARY KEY AUTOINCREMENT
    ,   name varchar(50)
-   ,PRIMARY KEY (id)
 );
 
-CREATE TABLE item (
-   id serail
+ CREATE TABLE item (
+   _id INTEGER PRIMARY KEY AUTOINCREMENT
    ,   name varchar(50)
    ,   categoryId Int 
-   ,PRIMARY KEY (id)
-   , FOREIGN KEY(categoryId) REFERENCES category(id)
+   , FOREIGN KEY(categoryId) REFERENCES category(_id)
 );
 
-CREATE TABLE shopListOverview (
-   id serail
+ CREATE TABLE shopListOverview (
+   _id INTEGER PRIMARY KEY AUTOINCREMENT
    , title varchar(50)
-   , totalItems Int
+   , totalItems Int DEFAULT 0
    , createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
-   ,PRIMARY KEY (id)
 );
 
-CREATE TABLE shopList (
+ CREATE TABLE shopList (
 	shopListOverviewId Int
    ,    itemId Int
    ,    quantity Integer DEFAULT 1
    ,	done Bit DEFAULT 0
    ,PRIMARY KEY (shopListOverviewId , itemId)
-   ,FOREIGN KEY(itemId) REFERENCES item(id)
-   ,FOREIGN KEY(shopListOverviewId) REFERENCES shopListOverview(id)
+   ,FOREIGN KEY(itemId) REFERENCES item(_id)
+   ,FOREIGN KEY(shopListOverviewId) REFERENCES shopListOverview(_id)
 );
 
-CREATE VIEW v_shopList AS 
-SELECT shopList.*, item.name as itemName, category.id as categoryId, category.name as categoryName
-FROM shopList
-INNER JOIN item
-ON shopList.itemId=item.id
-INNER JOIN category
-ON item.categoryId=category.id;
+ CREATE VIEW v_shopList AS 
+ SELECT shopList.*, item.name as itemName, category._id as categoryId, category.name as categoryName 
+ FROM shopList 
+ INNER JOIN item 
+ ON shopList.itemId=item._id 
+ INNER JOIN category 
+ ON item.categoryId=category._id; 
 
-
-/* CALENDER   */
-
-
-
-/* TODO LIST */

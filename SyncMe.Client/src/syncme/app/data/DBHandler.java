@@ -1,11 +1,15 @@
 package syncme.app.data;
 
+import java.util.ArrayList;
+
 import syncme.app.utils.CommonUtils;
 import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import static syncme.app.data.DBConstants.*;
 
 public class DBHandler extends SQLiteOpenHelper {
 
@@ -15,8 +19,15 @@ public class DBHandler extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase database) {
-		String script = CommonUtils.getStringFromAssetFile(DBConstants.INIT_DB_SCRIPT_PATH);
-		execSQL(database, script);
+		
+		ArrayList<String> script = CommonUtils.getTablesQuery();
+		for(String table : script){
+			CommonUtils.Log("db",table );
+			CommonUtils.Log("db","");
+			CommonUtils.Log("db","");
+			CommonUtils.Log("db","");
+			execSQL(database, table);
+		}
 	}
 
 	@Override
@@ -24,8 +35,12 @@ public class DBHandler extends SQLiteOpenHelper {
 		Log.w(DBHandler.class.getName(),
 				"Upgrading database from version " + oldVersion + " to "
 						+ newVersion + ", which will destroy all old data");
-		//    db.execSQL("DROP TABLE IF EXISTS " + TABLE_COMMENTS);
-		//    onCreate(db);
+		db.execSQL("DROP VIEW IF EXISTS " + VIEW_SHOP_LIST);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_SHOP_LIST);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_SHOPLIST_OVERVIEW);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_ITEM);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY);
+		onCreate(db);
 	}
 
 
