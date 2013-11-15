@@ -68,6 +68,7 @@ Shopping list:
 		your partner planning to do some shopping.
 	3.choose who will do the shopping
 	4.need to think of set of categories that will cover all kind of items (vegetable: tomato, potato, etc...)
+	5.save meta data on lists such as: shopping place, total price.
 
 GUI - SL
 	1.product name and incremect in left side and checkbox in right side 
