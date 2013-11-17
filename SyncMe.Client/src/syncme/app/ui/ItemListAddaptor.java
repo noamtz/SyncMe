@@ -2,6 +2,8 @@ package syncme.app.ui;
 
 import java.util.List;
 
+import syncme.app.model.shoplist.Item;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -53,14 +55,14 @@ public class ItemListAddaptor extends ArrayAdapter<Item>{
         x_button.setTag(item);
         
         final TextView itemName = (TextView) row.findViewById(com.example.syncme.R.id.item_name);
-        itemName.setText(item.getItem());
+        itemName.setText(item.getName());
         
         
         TextView count = (TextView) row.findViewById(com.example.syncme.R.id.item_count);
-        count.setText(item.getCount() + "");
+        count.setText(item.isDone() + "");
         
         CheckBox check = (CheckBox) row.findViewById(com.example.syncme.R.id.item_check);
-        isChecked = item.getIsChecked();
+        isChecked = item.isDone();
         check.setChecked(isChecked);
         check.setTag(item);
         
@@ -69,7 +71,7 @@ public class ItemListAddaptor extends ArrayAdapter<Item>{
 			@Override
 			public void onClick(View v) {
 				Item data = (Item) v.getTag();
-		        data.setIsChecked(((CheckBox) v).isChecked());
+		        data.setDone(((CheckBox) v).isChecked());
 		        
 		        if (((CheckBox) v).isChecked())
 		        {

@@ -2,7 +2,10 @@ package syncme.app.ui;
 
 import java.util.ArrayList;
 
+import syncme.app.data.DAL;
 import syncme.app.logic.SMSReciver;
+import syncme.app.model.shoplist.Item;
+import syncme.app.model.shoplist.ShopList;
 import syncme.app.utils.CommonUtils;
 
 import com.example.syncme.R;
@@ -33,12 +36,18 @@ public class ShoppingList extends Activity implements OnClickListener, OnEditorA
 	int itemCount;
 	ListView ItemListView;
 	SMSReciver sms = new SMSReciver();
+	Long id;
+	ShopList sl;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.shopping_list_layout);
 		CommonUtils.Log("ShoppingList",""+ getIntent().getExtras().getLong("Id"));
+		
+		id = getIntent().getExtras().getLong("Id");
+		sl = DAL.getInstance().getShopList().getShopList(id);
+		
 		itemCountText = (TextView) findViewById(R.id.count);
 		newItem = (EditText) findViewById(R.id.input_item);
 		plus = (Button) findViewById(R.id.plus_button);
@@ -51,18 +60,17 @@ public class ShoppingList extends Activity implements OnClickListener, OnEditorA
 		
 		itemCount = 1;
 		
-		adapter = new ItemListAddaptor(this, R.layout.list_item_layout, new ArrayList<Item>());
+		adapter = new ItemListAddaptor(this, R.layout.list_item_layout, sl.getItems());
 		ItemListView = (ListView)findViewById(R.id.shopping_list);
 		ItemListView.setAdapter(adapter);	
 		ItemListView.setSelection(ItemListView.getCount() - 1);
 		
-		
-		
-		adapter.insert(new Item("Eggs", 1), 0);
-		adapter.insert(new Item("Bread", 1), 0);
+	
 		
 		IntentFilter i = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
 		registerReceiver(sms, i);
+		
+		sl = DAL.getInstance().getShopList().getShopList(id);
 		
 		//sendSMS();
 		
@@ -99,7 +107,12 @@ public class ShoppingList extends Activity implements OnClickListener, OnEditorA
 		if (actionId == EditorInfo.IME_ACTION_NEXT)
 		{
 			if (newItem.getText().length() > 0)
-				adapter.add(new Item(newItem.getText() + "", itemCount));
+			{
+				Item item = new Item(newItem.getText() + "", itemCount);
+				sl.addItem(item);
+				adapter.add(item);
+			}
+				
 			ItemListView.setSelection(ItemListView.getCount() - 1);
 			
 			newItem.setText("");
@@ -115,8 +128,8 @@ public class ShoppingList extends Activity implements OnClickListener, OnEditorA
 	public void xClick(View v)
 	{
 		Item item = (Item)v.getTag();
+		sl.deleteItem(item);
 		adapter.remove(item);
-
 	}
 
 	@Override

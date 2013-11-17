@@ -39,6 +39,7 @@ public class DataSourceShopList extends DataSource{
 	
 		Cursor c = getRecord(SHOPLIST_OVERVIEW_ID, Long.toString(id));
 
+		CommonUtils.Log(TAG, "getShopList", c.getCount() + "");
 		if(c.getCount() == 0)
 			return null;
 		

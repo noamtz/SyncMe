@@ -15,6 +15,12 @@ public class Item {
 	private int quantity;
 	private boolean done;
 	
+	public Item(String name, int quantity){
+		this.name = name;
+		this.quantity = quantity;
+		this.done = false;
+	}
+	
 	public Item(){
 		done = false;
 	}
