@@ -40,6 +40,7 @@ public class FragmentShopList extends Fragment{
 		View rootView = inflater.inflate(R.layout.fragment_main_shoplist, container, false);
 
 		ListView lv = (ListView) rootView.findViewById(R.id.shoplist_lv);
+		
 		adapter = new ShopListAdapter(getActivity(), R.layout.shoplist_list_row , allListsOverview);
 		lv.setAdapter(adapter);
 		ShopListOverview slo = new ShopListOverview();

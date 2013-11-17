@@ -64,7 +64,7 @@ public class ShoppingList extends Activity implements OnClickListener, OnEditorA
 		IntentFilter i = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
 		registerReceiver(sms, i);
 		
-		sendSMS();
+		//sendSMS();
 		
 	
 		
