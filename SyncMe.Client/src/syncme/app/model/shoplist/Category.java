@@ -25,7 +25,6 @@ public class Category {
 	
 	public ContentValues toDB(){
 		ContentValues values = new ContentValues();
-		values.put(CATEGORY_ID, id);
 		values.put(CATEGORY_NAME, name);
 		return values;
 	}

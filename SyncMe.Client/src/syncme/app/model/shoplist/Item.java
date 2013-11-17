@@ -58,7 +58,6 @@ public class Item {
 	
 	public ContentValues toDB(){
 		ContentValues values = new ContentValues();
-		values.put(ITEM_ID, id);
 		values.put(ITEM_NAME, name);
 		values.put(ITEM_CATEGORY_ID, category.getId());
 		return values;

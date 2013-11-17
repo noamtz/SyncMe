@@ -60,7 +60,7 @@ public class ShoppingList extends Activity implements OnClickListener, OnEditorA
 		
 		itemCount = 1;
 		
-		adapter = new ItemListAddaptor(this, R.layout.list_item_layout, sl.getItems());
+		adapter = new ItemListAddaptor(this, R.layout.list_item_layout, sl);
 		ItemListView = (ListView)findViewById(R.id.shopping_list);
 		ItemListView.setAdapter(adapter);	
 		ItemListView.setSelection(ItemListView.getCount() - 1);

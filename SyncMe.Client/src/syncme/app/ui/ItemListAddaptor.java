@@ -3,6 +3,7 @@ package syncme.app.ui;
 import java.util.List;
 
 import syncme.app.model.shoplist.Item;
+import syncme.app.model.shoplist.ShopList;
 
 import android.app.Activity;
 import android.content.Context;
@@ -22,15 +23,15 @@ public class ItemListAddaptor extends ArrayAdapter<Item>{
 	private List<Item> items;
 	private int layoutResourceId;
 	private Context context;
-	
+	private ShopList sl;
 
 	
-	public ItemListAddaptor(Context context, int resource, List<Item> objects) {
-		super(context, resource, objects);
-		
+	public ItemListAddaptor(Context context, int resource, ShopList sl) {
+		super(context, resource , sl.getItems());
+		this.sl = sl;
 		this.layoutResourceId = resource;
 		this.context = context;
-		this.items = objects;
+		this.items = sl.getItems();
 	}
 
 
@@ -59,7 +60,7 @@ public class ItemListAddaptor extends ArrayAdapter<Item>{
         
         
         TextView count = (TextView) row.findViewById(com.example.syncme.R.id.item_count);
-        count.setText(item.isDone() + "");
+        count.setText(item.getQuantity()+ "");
         
         CheckBox check = (CheckBox) row.findViewById(com.example.syncme.R.id.item_check);
         isChecked = item.isDone();
@@ -72,7 +73,7 @@ public class ItemListAddaptor extends ArrayAdapter<Item>{
 			public void onClick(View v) {
 				Item data = (Item) v.getTag();
 		        data.setDone(((CheckBox) v).isChecked());
-		        
+		        sl.updateItem(data);
 		        if (((CheckBox) v).isChecked())
 		        {
 					itemName.setPaintFlags(itemName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
