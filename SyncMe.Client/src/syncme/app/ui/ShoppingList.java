@@ -35,15 +35,14 @@ public class ShoppingList extends Activity implements OnClickListener, OnEditorA
 	Button plus, minus;
 	int itemCount;
 	ListView ItemListView;
-	SMSReciver sms = new SMSReciver();
 	Long id;
 	ShopList sl;
+//	SMSReciver sms = new SMSReciver();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.shopping_list_layout);
-		CommonUtils.Log("ShoppingList",""+ getIntent().getExtras().getLong("Id"));
 		
 		id = getIntent().getExtras().getLong("Id");
 		sl = DAL.getInstance().getShopList().getShopList(id);
@@ -60,30 +59,25 @@ public class ShoppingList extends Activity implements OnClickListener, OnEditorA
 		
 		itemCount = 1;
 		
-		adapter = new ItemListAddaptor(this, R.layout.list_item_layout, sl.getItems());
+		//adapter = new ItemListAddaptor(this, R.layout.list_item_layout, sl.getItems());
+		ArrayList<Item> il = new ArrayList<Item>();
+		il.add(new Item("Eggs", 2));
+		adapter = new ItemListAddaptor(this, R.layout.list_item_layout, il);	
 		ItemListView = (ListView)findViewById(R.id.shopping_list);
 		ItemListView.setAdapter(adapter);	
 		ItemListView.setSelection(ItemListView.getCount() - 1);
 		
 	
 		
-		IntentFilter i = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
-		registerReceiver(sms, i);
+//		IntentFilter i = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
+//		registerReceiver(sms, i);
 		
 		sl = DAL.getInstance().getShopList().getShopList(id);
 		
-		//sendSMS();
-		
-	
-		
 
 	}
 
-	public void sendSMS() {
 
-	    SmsManager smsManager = SmsManager.getDefault();
-	    smsManager.sendTextMessage("+972544813486", null, " Hello ", null, null);
-	}
 	
 	@Override
 	public void onClick(View v) {
@@ -136,7 +130,7 @@ public class ShoppingList extends Activity implements OnClickListener, OnEditorA
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		unregisterReceiver(sms);
+//		unregisterReceiver(sms);
 	}
 	
 	

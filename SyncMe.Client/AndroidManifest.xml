@@ -9,7 +9,6 @@
         android:targetSdkVersion="18" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -30,26 +29,21 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
         <activity
-            android:name="syncme.app.MainActivity" android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:name="syncme.app.MainActivity"
+            android:label="@string/app_name" >
+ 
         </activity>
-        
         <activity
             android:name="syncme.app.ui.ShoppingList"
             android:label="@string/title_activity_item_list_addaptor" >
         </activity>
-
-
 
         <!--
           WakefulBroadcastReceiver that will receive intents from GCM
           services and hand them to the custom IntentService.
 
           The com.google.android.c2dm.permission.SEND permission is necessary
-          so only GCM services can send data messages for the app.
+          so only GCM services can send data messages for the app.
         -->
         <receiver
             android:name="syncme.app.GcmBroadcastReceiver"
@@ -63,9 +57,23 @@
                 <category android:name="com.google.android.gcm.demo.app" />
             </intent-filter>
         </receiver>
-        
 
         <service android:name="syncme.app.GcmIntentService" />
+
+        <activity
+            android:name="syncme.app.SignUpActivity"
+            android:label="@string/title_activity_sign_up" >
+             <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+                <activity
+            android:name="syncme.app.AuthenticationActivity"
+            android:label="@string/title_activity_sign_up" >
+        </activity>
     </application>
 
 </manifest>

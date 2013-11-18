@@ -11,6 +11,7 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 
 
@@ -34,6 +35,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		super.onCreate(savedInstanceState);
 			
 		setContentView(R.layout.activity_main);
+		
+//		
+//		Intent intent = new Intent(this, SignUpActivity.class);
+//		startActivity(intent);
 
 		// Create the adapter that will return a fragment for each of the three primary sections
 		// of the app.
