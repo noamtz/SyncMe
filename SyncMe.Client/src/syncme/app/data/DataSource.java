@@ -1,6 +1,5 @@
 package syncme.app.data;
 
-import syncme.app.App;
 import syncme.app.utils.CommonUtils;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -44,7 +43,9 @@ public class DataSource {
 	public boolean delete(long id)
 	{
 		//TODO: handle delete exceptions.
-		return database.delete(tableName, String.format("id=%d", id) , null) > 0;
+		int num = database.delete(tableName, String.format("_id=%d", id) , null);
+		CommonUtils.Log(TAG, "delete" , tableName + " num rows deleted: " + num);
+		return num > 0;
 	}
 
 	public boolean update (ContentValues values, String whereClause, String[] whereArgs){
@@ -70,10 +71,19 @@ public class DataSource {
 	}
 
 	public Cursor getRecord(long id){ 
-		return rawQuery("SELECT * FROM " +tableName+ " WHERE id = ?", new String[] { "" + id });
+		Cursor c = rawQuery("SELECT * FROM " +tableName+ " WHERE _id = ?", new String[] { "" + id });
+		if(c.moveToFirst())
+			return c;
+		CommonUtils.Log(TAG, "getRecord" , tableName + ": no result in cursor");
+		return null;
 	}
 	
 	public Cursor getRecord(String colName, String val){ 
-		return rawQuery("SELECT * FROM " +tableName+ " WHERE ? = ?", new String[] { colName, val});
+		Cursor c = rawQuery("SELECT * FROM " +tableName + " WHERE " + colName + " = " + val,null);
+		CommonUtils.Log(TAG, "getRecord" , tableName + " num rows: " +c.getCount() +" "+ colName + "-" + val);
+		return c;
+		
+		
+		
 	}
 }

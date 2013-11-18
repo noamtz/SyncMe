@@ -38,10 +38,6 @@ public class DataSourceShopList extends DataSource{
 	public ShopList getShopList(long id){
 	
 		Cursor c = getRecord(SHOPLIST_OVERVIEW_ID, Long.toString(id));
-
-		CommonUtils.Log(TAG, "getShopList", c.getCount() + "");
-		if(c.getCount() == 0)
-			return null;
 		
 		ShopList shopList = new ShopList();
 		shopList.setOverview(getShopListOverview(id));
@@ -98,13 +94,17 @@ public class DataSourceShopList extends DataSource{
 	}
 	
 	public boolean updateItem(long listId, Item item){
-		return shopList.update(itemToDB(listId, item), 
-				SHOPLIST_OVERVIEW_ID + "=?" + " AND " + ITEM_ID + "=?", new String[]{ listId +"", item.getId() +""});
+		boolean isUpdated = shopList.update(itemToDB(listId, item), 
+				SHOPLIST_OVERVIEW_ID + " = " + listId + " AND " + ITEM_ID + " = " + item.getId(), null);
+		CommonUtils.Log(TAG, "updateItem", "is succeeded: " + isUpdated);
+		return isUpdated;
 	}
 	
 	public boolean deleteItem(long listId, long itemId){
-		//TODO: handle delete exceptions.
-		return database.delete(TABLE_SHOP_LIST, SHOPLIST_OVERVIEW_ID + "=?" + " AND " + ITEM_ID + "=?", new String[]{ listId +"", itemId +""}) > 0;
+		int num = database.delete(TABLE_SHOP_LIST,SHOPLIST_OVERVIEW_ID + " = " + listId + " AND " + ITEM_ID + " = " + itemId, null);
+		CommonUtils.Log(TAG, "delete" , TABLE_SHOP_LIST + " is succeeded: " + (num > 0));
+		return num > 0;
+	
 	}
 	
 	private ContentValues itemToDB(long listId, Item item){

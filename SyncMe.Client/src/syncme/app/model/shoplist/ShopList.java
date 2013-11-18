@@ -1,5 +1,6 @@
 package syncme.app.model.shoplist;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import syncme.app.data.DAL;
@@ -10,6 +11,10 @@ public class ShopList {
 	//TODO: change to cursor
 	private List<Item> items;
 
+	public ShopList(){
+		this.items = new ArrayList<Item>();
+	}
+	
 	public ShopListOverview getOverview() {
 		return overview;
 	}
@@ -32,12 +37,19 @@ public class ShopList {
 	}
 
 	public void addItem(Item item){
-		if(item.getId() == -1)
+		Category c = new Category();
+		c.setId(1);
+		item.setCategory(c);
+		if(item.getId() == 0)
 			item.setId(DAL.getInstance().getItems().create(item.toDB()));
 		if(DAL.getInstance().getShopList().createItem(overview.getId(), item))
 			items.add(item);
 	}
-
+	
+	public void updateItem(Item item){
+		DAL.getInstance().getShopList().updateItem(this.overview.getId(), item);
+	}
+	
 	public void deleteItem(Item item){
 		if(DAL.getInstance().getShopList().deleteItem(overview.getId(), item.getId()))
 			items.remove(item);
