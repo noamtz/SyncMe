@@ -1,4 +1,4 @@
-package app.coupling;
+package coupling.app;
 
 import java.util.Date;
 

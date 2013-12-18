@@ -1,31 +1,26 @@
-package app.coupling.data;
+package coupling.app.data;
 
+import coupling.app.App;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.util.Log;
-import app.coupling.App;
 
 public class DALShopList {
 
-	private static DALShopList shoplListDAL;
-	
 	private DBHandler dbHandler;
 	
-	private DALShopList(){
+	private long listId;
+	
+	public DALShopList(long listId){
 		dbHandler = new DBHandler(App.getAppCtx());
+		this.listId = listId; 
 	}
 	
-	public static DALShopList getInstance(){
-		if(shoplListDAL == null)
-			shoplListDAL = new DALShopList();
-		return shoplListDAL;
+	public Cursor getSource(){
+		return dbHandler.getWritableDatabase().rawQuery("SELECT * FROM ShopList WHERE ShopListId = " + listId, null);
 	}
 	
-	public Cursor getSource(long shopListid){
-		return dbHandler.getWritableDatabase().rawQuery("SELECT * FROM ShopList WHERE ShopListId = " + shopListid, null);
-	}
-	
-	public boolean addItem(long listId, String name, int quantity){
+	public boolean addItem(String name, int quantity){
 		ContentValues values = new ContentValues();
 		values.put("ShopListId", listId);
 		values.put("ItemName", name);
@@ -44,5 +39,9 @@ public class DALShopList {
 			values.put("ItemStatus", isDone);
 	
 		return dbHandler.getWritableDatabase().update("ShopList",values,"_id = " + id, null) > 0;
+	}
+	
+	public boolean deleteItem(long id){
+		 return dbHandler.getWritableDatabase().delete("ShopList", "_id = " + id, null) > 0;
 	}
 }

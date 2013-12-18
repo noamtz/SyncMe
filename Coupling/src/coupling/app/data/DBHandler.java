@@ -1,4 +1,4 @@
-package app.coupling.data;
+package coupling.app.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

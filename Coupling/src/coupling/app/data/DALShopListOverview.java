@@ -1,8 +1,8 @@
-package app.coupling.data;
+package coupling.app.data;
 
+import coupling.app.App;
 import android.content.ContentValues;
 import android.database.Cursor;
-import app.coupling.App;
 
 public class DALShopListOverview {
 
