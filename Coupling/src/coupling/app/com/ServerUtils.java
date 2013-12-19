@@ -6,7 +6,7 @@ import coupling.app.Utils;
 
 public class ServerUtils {
 
-	public static String SERVER_URL = "http://10.0.0.1/SyncMe/SyncMe.Server/syncMeApp.php";
+	public static String SERVER_URL = "http://10.8.4.176:8889/syncMeApp.php";
 	public static String POST = "post";
 
 	public static void post(Request request ,ArrayList<ITask> tasker){

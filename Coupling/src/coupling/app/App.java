@@ -16,13 +16,14 @@ public class App extends Application {
 	public void onCreate() {
 		super.onCreate();
 		appCtx = getApplicationContext();
+		loadOwner();
 	}
 
 	public static Context getAppCtx(){
 		return appCtx;
 	}
 	
-	public static void loadOwner(){
+	private static void loadOwner(){
 		SharedPreferences prefs = Utils.getSPF();
 		if(prefs.getBoolean(Constants.IS_REGISTERED, false)){
 			owner = new User();
@@ -30,7 +31,8 @@ public class App extends Application {
 			owner.setFirstname(prefs.getString(Constants.FIRSTNAME, null));
 			owner.setLastname(prefs.getString(Constants.LASTNAME, null));
 			owner.setRegid(prefs.getString(Constants.REG_ID, null));
-		}
+		}else
+			owner = new User();
 	}
 	
 	public static void setOwner(User owr){

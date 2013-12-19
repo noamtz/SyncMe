@@ -8,7 +8,11 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.nit.coupling.R;
 
+import coupling.app.com.API;
 import coupling.app.com.Constants;
+import coupling.app.com.ITask;
+import coupling.app.com.Request;
+import coupling.app.com.User;
 
 import android.app.Activity;
 import android.content.Context;
@@ -42,6 +46,8 @@ public class Register extends Activity{
 	EditText etLastName;
 
 	private ProgressBar bar;
+	
+	private User owner;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +76,15 @@ public class Register extends Activity{
 
 		if (!checkPlayServices())
 			Log.i(TAG, "No valid Google Play Services APK found.");
+		
+		owner = App.getOwner();
+		API.getInstance().registerTasker(new ITask() {
+			
+			@Override
+			public void onTaskComplete(Request request, String response) {
+				Utils.Log(Register.class.getName(), "onTaskComplete", response);
+			}
+		});
 	}
 
 	@Override
@@ -84,22 +99,22 @@ public class Register extends Activity{
 			@Override
 			public void onClick(View arg0) {	
 				if (checkPlayServices()) {
-					String email = etEmail.getText().toString();
-					String firstname = etFirstName.getText().toString();
-					String lastname = etLastName.getText().toString();
-					if(email.isEmpty())
+					owner.setEmail(etEmail.getText().toString());
+					owner.setFirstname(etFirstName.getText().toString());
+					owner.setLastname(etLastName.getText().toString());
+					if(owner.getEmail().isEmpty())
 						Utils.shopToast("Please fill email");
-					else if(firstname.isEmpty())
+					else if(owner.getFirstname().isEmpty())
 						Utils.shopToast("Please fill firstname");
-					else if(lastname.isEmpty())
+					else if(owner.getLastname().isEmpty())
 						Utils.shopToast("Please fill lastname");
 					else{
 						SharedPreferences prefs =  getSharedPreferences(Register.class.getSimpleName(),
 				                Context.MODE_PRIVATE);
 						SharedPreferences.Editor editor = prefs.edit();
-						editor.putString(Constants.EMAIL, email);
-						editor.putString(Constants.FIRSTNAME, firstname);
-						editor.putString(Constants.LASTNAME, lastname);
+						editor.putString(Constants.EMAIL, owner.getEmail());
+						editor.putString(Constants.FIRSTNAME, owner.getFirstname());
+						editor.putString(Constants.LASTNAME, owner.getLastname());
 						editor.commit();
 
 						gcm = GoogleCloudMessaging.getInstance(Register.this);
@@ -166,6 +181,7 @@ public class Register extends Activity{
 						gcm = GoogleCloudMessaging.getInstance(context);
 					regid = gcm.register(SENDER_ID);
 					storeRegistrationId(context, regid);
+					API.getInstance().registerUser();
 					msg = "Device registered";
 				} catch (IOException ex) {
 					msg = "Error :" + ex.getMessage();
@@ -206,6 +222,7 @@ public class Register extends Activity{
 		editor.putString(Constants.REG_ID, regId);
 		editor.putInt(Constants.APP_VERSION, appVersion);
 		editor.commit();
+		owner.setRegid(regId);
 	}
 
 }

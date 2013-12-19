@@ -21,6 +21,7 @@ public class API { // Mabe move the ITask responsibility to another object
 	
 	private API(){
 		this.sender = App.getOwner();
+		taskers = new ArrayList<ITask>();
 	}
 	
 	public static API getInstance(){
