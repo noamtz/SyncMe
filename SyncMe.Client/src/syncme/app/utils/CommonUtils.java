@@ -14,11 +14,8 @@ import java.util.Date;
 
 import syncme.app.App;
 import syncme.app.data.DBConstants;
-import android.annotation.SuppressLint;
 import android.media.MediaScannerConnection;
 import android.os.Environment;
-import android.text.method.DateTimeKeyListener;
-
 
 public class CommonUtils {
 	public static void Log(String className , String msg){

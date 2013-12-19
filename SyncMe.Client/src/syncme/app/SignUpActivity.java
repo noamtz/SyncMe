@@ -38,23 +38,25 @@ public class SignUpActivity extends Activity implements OnClickListener, OnEdito
 		settings = getSharedPreferences("userDetails", 0);
 		isFirst = settings.getBoolean("firstTime", true);
 		
-		if (isFirst)
-		{
-			setContentView(R.layout.signup_layout);
-			
-			name = (EditText) findViewById(R.id.input_name);
-			phoneumber = (EditText) findViewById(R.id.input_phone_number);
-			
-			signUp = (Button) findViewById(R.id.SignUp_button);
-			
-			signUp.setOnClickListener(this);
-			phoneumber.setOnEditorActionListener(this);
-			
-		} else {
-			Intent intent = new Intent(this, MainActivity.class);
-			startActivity(intent);
-			
-		}
+//		if (isFirst)
+//		{
+//			setContentView(R.layout.signup_layout);
+//			
+//			name = (EditText) findViewById(R.id.input_name);
+//			phoneumber = (EditText) findViewById(R.id.input_phone_number);
+//			
+//			signUp = (Button) findViewById(R.id.SignUp_button);
+//			
+//			signUp.setOnClickListener(this);
+//			phoneumber.setOnEditorActionListener(this);
+//			
+//		} else {
+//			Intent intent = new Intent(this, MainActivity.class);
+//			startActivity(intent);
+//			
+//		}
+		Intent intent = new Intent(this, MainActivity.class);
+		startActivity(intent);
 
 	}
 

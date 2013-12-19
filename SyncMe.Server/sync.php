@@ -65,21 +65,15 @@ class Module{
 		return $this->broadcast($senderId, $message);
 	}
 	
-	
+	//Create permission to this method
+	function getData($messageId){
+		$query = "SELECT * FROM `messages` WHERE id = '$messageId'";
+		$result = executeQuery($query);
+		return $result;
+	}
 	/* PRIVATE METHODS */
 	
-	function getReciversRegId($userId){
-		include 'conn.php';
-		$query = "SELECT `regid`
-				  FROM `users`
-				  INNER JOIN `user_friends`
-				  ON `users`.`id`=`user_friends`.`user`
-				  WHERE `user_friends`.`friend` = 1;"; 
-
-		return $this->getQueryResult($query);
-        
-	}
-	
+		
 	function broadcast($senderId, $message){
 		include_once './GCM.php';
 		
@@ -94,6 +88,18 @@ class Module{
 		return $gcm->send_notification($recievers, $message);
 	}
 	
+	function getReciversRegId($userId){
+		include 'conn.php';
+		$query = "SELECT `regid`
+				  FROM `users`
+				  INNER JOIN `user_friends`
+				  ON `users`.`id`=`user_friends`.`user`
+				  WHERE `user_friends`.`friend` = 1;"; 
+
+		return $this->getQueryResult($query);
+        
+	}
+
 	function createMessage($senderId, $type, $data){
 		$query = "INSERT INTO `messages` (`type`, `data`, `userId`) VALUES ('$type', '$data', $senderId)";
 		

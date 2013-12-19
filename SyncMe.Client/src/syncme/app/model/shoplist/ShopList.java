@@ -18,12 +18,15 @@ public class ShopList {
 	public ShopListOverview getOverview() {
 		return overview;
 	}
+	
 	public void setOverview(ShopListOverview overview) {
 		this.overview = overview;
 	}
+	
 	public List<Item> getItems() {
 		return items;
 	}
+	
 	public void setItems(List<Item> items) {
 		this.items = items;
 	}
@@ -38,7 +41,6 @@ public class ShopList {
 
 	public void addItem(Item item){
 		Category c = new Category();
-		c.setId(1);
 		item.setCategory(c);
 		if(item.getId() == 0)
 			item.setId(DAL.getInstance().getItems().create(item.toDB()));

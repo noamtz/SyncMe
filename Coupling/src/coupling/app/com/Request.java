@@ -3,13 +3,25 @@ package coupling.app.com;
 
 import java.util.UUID;
 
+import coupling.app.com.ServerUtils.HttpType;
+
 public class Request {
 
 	private UUID id;
 	private String method;
 	private String params;
-	private String serverIP;
 	
+	private String serverIP;
+	private HttpType httpType;
+	
+	public HttpType getHttpType() {
+		return httpType;
+	}
+	
+	public void setHttpType(HttpType httpType) {
+		this.httpType = httpType; 
+	}
+
 	public Request(){
 		this.id = null;
 	}

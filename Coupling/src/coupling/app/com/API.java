@@ -17,6 +17,8 @@ public class API { // Mabe move the ITask responsibility to another object
 	private User sender;
 	private ArrayList<ITask> taskers;
 	
+	private static ServerUtils server = ServerUtils.getInstance();
+	
 	private static API api;
 	
 	private API(){
@@ -38,7 +40,7 @@ public class API { // Mabe move the ITask responsibility to another object
 		request.setMethod(REGISTER);
 		request.setParams(userDetails);
 		
-		ServerUtils.post(request, taskers);
+		server.post(request, taskers, false);
 	}
 
 	public void sync(Message message){
@@ -53,7 +55,7 @@ public class API { // Mabe move the ITask responsibility to another object
 			request.setMethod(SYNC);
 			request.setParams(params.toString());
 			
-			ServerUtils.post(request, taskers);
+			server.post(request, taskers, true);
 			
 		}catch(JSONException e){
 			e.printStackTrace();
@@ -73,7 +75,7 @@ public class API { // Mabe move the ITask responsibility to another object
 			request.setMethod(INVITE);
 			request.setParams(params.toString());
 
-			ServerUtils.post(request, taskers);
+			server.post(request, taskers, true);
 		}catch(JSONException e){
 			e.printStackTrace();
 		}	

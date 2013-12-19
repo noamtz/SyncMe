@@ -30,10 +30,13 @@ CREATE TABLE category (
 );
 
  CREATE VIEW v_shopList AS 
- SELECT shopList.*, item.name as itemName, category._id as categoryId, category.name as categoryName 
+ SELECT shopListOverview.title as listTitle , item.name as itemName , category.name as categoryName , shopList.quantity as quantity, shopList.done as isDone
  FROM shopList 
- INNER JOIN item 
+ LEFT JOIN shopListOverview 
+ ON shopList.shopListOverviewId=shopListOverview._id
+ LEFT JOIN item 
  ON shopList.itemId=item._id 
- INNER JOIN category 
- ON item.categoryId=category._id; 
+ LEFT JOIN category 
+ ON item.categoryId=category._id
+
 

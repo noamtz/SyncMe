@@ -49,6 +49,8 @@ public class Register extends Activity{
 	
 	private User owner;
 
+	ITask tasker;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -78,19 +80,27 @@ public class Register extends Activity{
 			Log.i(TAG, "No valid Google Play Services APK found.");
 		
 		owner = App.getOwner();
-		API.getInstance().registerTasker(new ITask() {
-			
+		
+		tasker = new ITask() {			
 			@Override
 			public void onTaskComplete(Request request, String response) {
 				Utils.Log(Register.class.getName(), "onTaskComplete", response);
 			}
-		});
+		};
+		
+		API.getInstance().registerTasker(tasker);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		checkPlayServices();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		API.getInstance().unRegisterTasker(tasker);
 	}
 
 	private OnClickListener registerListener(){
@@ -179,9 +189,11 @@ public class Register extends Activity{
 				try {
 					if (gcm == null) 
 						gcm = GoogleCloudMessaging.getInstance(context);
+					
 					regid = gcm.register(SENDER_ID);
 					storeRegistrationId(context, regid);
 					API.getInstance().registerUser();
+					
 					msg = "Device registered";
 				} catch (IOException ex) {
 					msg = "Error :" + ex.getMessage();

@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public class Message {
 
 	private int id;
-	private String type;
+	private MessageType type;
 	private Map<String, Object> data ;
 	
 	public Message(){
@@ -17,7 +17,7 @@ public class Message {
 		this.data = new HashMap<String, Object>();
 	}
 	
-	public Message(String type,  Map<String, Object> data){
+	public Message(MessageType type,  Map<String, Object> data){
 		this.type = type;
 		this.data = data;
 		this.id = -1;
@@ -31,11 +31,11 @@ public class Message {
 		this.id = id;
 	}
 
-	public String getType() {
+	public MessageType getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(MessageType type) {
 		this.type = type;
 	}
 
@@ -61,4 +61,19 @@ public class Message {
 		return message;
 	}
 	
+	public enum MessageType  {
+		SHOP(1) ,
+		CALENDER(2) ,
+		TODOLIST(3);
+		
+		private int value;
+		private MessageType (int value) {
+			this.value = value;
+		}
+		public int getValue() {
+			return value;
+		}
+	}
+	
 }
+

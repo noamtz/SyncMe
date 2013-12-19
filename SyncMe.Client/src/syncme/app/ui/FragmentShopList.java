@@ -82,7 +82,7 @@ public class FragmentShopList extends Fragment{
 
 		public ShopListAdapter(Context context, int resource , ArrayList<ShopListOverview> allListsOverview) {
 			super(context, resource);
-			addAll(allListsOverview);
+			//addAll(allListsOverview);
 		}
 
 		@Override
@@ -121,5 +121,40 @@ public class FragmentShopList extends Fragment{
 		}
 	}
 
+	private class ItemAdapter extends CursorAdapter {
 
+	    private LayoutInflater mLayoutInflater;
+	    private Context mContext;
+		
+		public ItemAdapter(Context context, Cursor c, int flags) {
+			super(context, c, flags);
+		     mContext = context;
+		     mLayoutInflater = LayoutInflater.from(context); 
+		}
+
+		  /**
+	     * @author Noam Tzumie
+	     * 
+	     * @param   v
+	     *          The view in which the elements we set up here will be displayed.
+	     * 
+	     * @param   context
+	     *          The running context where this ListView adapter will be active.
+	     * 
+	     * @param   c
+	     *          The Cursor containing the query results we will display.
+	     */
+		@Override
+		public void bindView(View arg0, Context arg1, Cursor arg2) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public View newView(Context arg0, Cursor arg1, ViewGroup arg2) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
+	}
 }
