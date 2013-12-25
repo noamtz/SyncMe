@@ -6,6 +6,7 @@ import coupling.app.com.User;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 public class App extends Application {
 
@@ -25,8 +26,10 @@ public class App extends Application {
 	
 	private static void loadOwner(){
 		SharedPreferences prefs = Utils.getSPF();
+		Utils.Log("REGISTERED",prefs.getBoolean(Constants.IS_REGISTERED, false) + "");
 		if(prefs.getBoolean(Constants.IS_REGISTERED, false)){
 			owner = new User();
+			Log.v("EMAIL", prefs.getString(Constants.EMAIL, null));
 			owner.setEmail(prefs.getString(Constants.EMAIL, null));
 			owner.setFirstname(prefs.getString(Constants.FIRSTNAME, null));
 			owner.setLastname(prefs.getString(Constants.LASTNAME, null));

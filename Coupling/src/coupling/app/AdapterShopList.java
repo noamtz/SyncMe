@@ -2,8 +2,6 @@ package coupling.app;
 
 import com.nit.coupling.R;
 
-import coupling.app.data.DALShopList;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -24,27 +22,30 @@ public class AdapterShopList extends CursorAdapter {
 
 	private LayoutInflater mLayoutInflater;
 	
-	private DALShopList dataSource;
+	private BLShopList blShoplist;
 	
 	
-	public AdapterShopList(Context context, DALShopList dataSource) {
-		super(context, dataSource.getSource(), true);
+	public AdapterShopList(Context context, BLShopList blShoplist) {
+		super(context, blShoplist.getSource(), true);
 		mLayoutInflater = LayoutInflater.from(context); 
 		
-		this.dataSource = dataSource;
+		this.blShoplist = blShoplist;
 	}
 
 	@Override
 	public void bindView(View row, Context context, Cursor cursor) {
 		//Retrieve data from database
-		long id = cursor.getInt(cursor.getColumnIndexOrThrow("_id"));
+		Long id = cursor.getLong(cursor.getColumnIndexOrThrow("_id"));
+		String Uid = cursor.getString(cursor.getColumnIndex("UId"));
 		String name =  cursor.getString(cursor.getColumnIndexOrThrow("ItemName"));
 		int quantity = cursor.getInt(cursor.getColumnIndexOrThrow("ItemQuantity"));
 		boolean isDone = cursor.getInt(cursor.getColumnIndexOrThrow("ItemStatus")) > 0;
-
+		
+		Ids ids = new Ids(id, Uid);
+		
 		//Construct views
 		Button btnRemoveItem = (Button)row.findViewById(R.id.btnRemoveItem);
-		btnRemoveItem.setTag(id);
+		btnRemoveItem.setTag(ids);
 
 		final TextView itemName = (TextView) row.findViewById(R.id.item_name);
 		itemName.setText(name);
@@ -54,13 +55,13 @@ public class AdapterShopList extends CursorAdapter {
 
 		CheckBox check = (CheckBox) row.findViewById(R.id.item_check);
 		check.setChecked(isDone);
-		check.setTag(id);
+		check.setTag(ids);
 
 		btnRemoveItem.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				boolean isSucceed = dataSource.deleteItem((Long)v.getTag());
+				boolean isSucceed = blShoplist.deleteItem((Ids)v.getTag());
 				if(!isSucceed)
 					Log.e("adaptor_shoplist", "failed to delete item: " + (Long)v.getTag());
 				refresh();
@@ -72,7 +73,7 @@ public class AdapterShopList extends CursorAdapter {
 
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				boolean isSucceed = dataSource.updateItem((Long)buttonView.getTag(), null, null, isChecked);
+				boolean isSucceed = blShoplist.updateItem((Ids)buttonView.getTag(), null, null, isChecked);
 				if(!isSucceed)
 					Log.e("adaptor_shoplist", "failed to update item");
 				if(isChecked){
@@ -93,7 +94,7 @@ public class AdapterShopList extends CursorAdapter {
 	}
 
 	public void refresh(){
-		swapCursor(dataSource.getSource());
+		swapCursor(blShoplist.getSource());
 		notifyDataSetChanged();
 	}
 

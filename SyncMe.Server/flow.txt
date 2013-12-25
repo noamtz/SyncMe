@@ -1,0 +1,25 @@
+REQUEST:
+
+method: ""
+params: {
+			email:""
+			message:{
+						type:""
+						action:""
+						data:""
+					}
+		}
+
+	
+RESPONSE:
+
+method: ""
+statusMessage:""
+error: ""
+message:{
+			id:""
+			type:""
+			action:""
+			data:""
+			created_at:""
+	    }

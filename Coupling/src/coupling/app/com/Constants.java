@@ -2,20 +2,24 @@ package coupling.app.com;
 
 public class Constants {
 
-	public static String METHOD = "method";
-	public static String PARAMS = "params";
-	public static String REGISTER = "register";
-	public static String SYNC = "sync";
-	public static String INVITE = "registerFriend";
-
-	/* SERVER PARAMS */
-	public static String FRIEND_EMAIL = "friendEmail";
-	public static String EMAIL = "email";
-	public static String MESSAGE = "message";
+	/* API */
+	public static final String METHOD = "method";
+	public static final String PARAMS = "params";
+	public static final String REGISTER = "register";
+	public static final String SYNC = "sync";
+	public static final String INVITE = "registerFriend";
+	public static final String MESSAGE_RECIEVED = "messageRecieved";
+	public static final String MESSAGE_ID = "messageId";
+	public static final String GET_MESSAGE = "getMessage";
 	
-	public static String FIRSTNAME = "firstname";
-	public static String LASTNAME = "lastname";
-	public static String IS_REGISTERED = "isRegistered";
+	/* SERVER PARAMS */
+	public static final String FRIEND_EMAIL = "friendEmail";
+	public static final String EMAIL = "email";
+	public static final String MESSAGE = "message";
+	
+	public static final String FIRSTNAME = "firstname";
+	public static final String LASTNAME = "lastname";
+	public static final String IS_REGISTERED = "isRegistered";
 	public static final String REG_ID = "regId";
 	public static final String APP_VERSION = "appVersion";
 	

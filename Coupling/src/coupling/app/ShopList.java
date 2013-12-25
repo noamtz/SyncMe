@@ -1,9 +1,6 @@
 package coupling.app;
 
 import com.nit.coupling.R;
-
-import coupling.app.data.DALShopList;
-
 import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -29,10 +26,10 @@ public class ShopList extends Activity{
 	private ListView listItems;
 	private AdapterShopList adapter;	
 
-	private long selectedItemId;
+	private Ids selectedItemIds;
 	private int itemQuantity;
 
-	private DALShopList dataSource;
+	private BLShopList blShopList;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,15 +42,15 @@ public class ShopList extends Activity{
 
 		initGui();
 		
-		dataSource = new DALShopList(listId);
+		blShopList = new BLShopList(listId);
 		
-		adapter = new AdapterShopList(this, dataSource);
+		adapter = new AdapterShopList(this, blShopList);
 		
 		listItems.setAdapter(adapter);
 		listItems.setSelection(listItems.getCount() - 1);
 
 		itemQuantity = 1;
-		selectedItemId = -1;
+		selectedItemIds = null;
 
 
 	}
@@ -100,15 +97,15 @@ public class ShopList extends Activity{
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 				if (actionId == EditorInfo.IME_ACTION_NEXT) {
 					if (etItemName.getText().length() > 0){
-						if(selectedItemId == -1){
-							boolean isSucceed = dataSource.addItem(etItemName.getText().toString() , itemQuantity); 
+						if(selectedItemIds == null){
+							boolean isSucceed = blShopList.createItem(etItemName.getText().toString() , itemQuantity); 
 							if(!isSucceed)
 								Log.e("shoplist", "failed to add an item");
 						}
 						else{
-							boolean isSucceed = dataSource.updateItem(selectedItemId ,etItemName.getText().toString() , itemQuantity, null);
+							boolean isSucceed = blShopList.updateItem(selectedItemIds ,etItemName.getText().toString() , itemQuantity, null);
 							if(!isSucceed)
-								Log.e("shoplist", "failed to update an item with id: " + selectedItemId);
+								Log.e("shoplist", "failed to update an item with id: " + selectedItemIds);
 						}
 						adapter.refresh();
 					}
@@ -116,7 +113,7 @@ public class ShopList extends Activity{
 					listItems.setSelection(listItems.getCount() - 1);
 
 					etItemName.setText("");
-					selectedItemId = -1;
+					selectedItemIds = null;
 					itemQuantity = 1;
 					tvItemQuantity.setText(Integer.toString(itemQuantity));
 
@@ -135,7 +132,10 @@ public class ShopList extends Activity{
 					long id) {
 				Cursor cursor = (Cursor) adapter.getItem(position);
 
-				selectedItemId = cursor.getLong(cursor.getColumnIndex("_id"));
+				long dbId = cursor.getLong(cursor.getColumnIndex("_id"));
+				String globalId = cursor.getString(cursor.getColumnIndex("UId"));
+				selectedItemIds = new Ids(dbId, globalId);
+				
 				String itemName = cursor.getString(cursor.getColumnIndex("ItemName"));
 				Integer itemQuantity = cursor.getInt(cursor.getColumnIndex("ItemQuantity"));
 

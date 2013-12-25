@@ -2,43 +2,47 @@ package coupling.app.com;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import coupling.app.data.Enums.ActionType;
+import coupling.app.data.Enums.CategoryType;
+
 public class Message {
 
-	private int id;
-	private MessageType type;
+	private static final String DATA = "data";
+	private static final String TYPE = "type";
+	private static final String ACTION = "action";
+	
 	private Map<String, Object> data ;
+	private CategoryType categoryType;
+	private ActionType actionType;
+	private Long messageServerId;
 	
 	public Message(){
-		this.id = -1;
 		this.data = new HashMap<String, Object>();
 	}
 	
-	public Message(MessageType type,  Map<String, Object> data){
-		this.type = type;
+	public Message(Map<String, Object> data){
 		this.data = data;
-		this.id = -1;
 	}
 
-	public int getId() {
-		return id;
+	public ActionType getActionType() {
+		return actionType;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setActionType(ActionType actionType) {
+		this.actionType = actionType;
 	}
 
-	public MessageType getType() {
-		return type;
+	public CategoryType getCategoryType() {
+		return categoryType;
 	}
 
-	public void setType(MessageType type) {
-		this.type = type;
+	public void setCategoryType(CategoryType categoryType) {
+		this.categoryType = categoryType;
 	}
-
+	
 	public Map<String, Object> getData() {
 		return data;
 	}
@@ -47,33 +51,25 @@ public class Message {
 		this.data = data;
 	}
 	
+	public Long getMessageServerId() {
+		return messageServerId;
+	}
+
+	public void setMessageServerId(Long messageServerId) {
+		this.messageServerId = messageServerId;
+	}
+
 	public JSONObject toJson(){
 		JSONObject message = null;
 		try{
 			message = new JSONObject();
-			if(id != -1)
-				message.put("id", id);
-			message.put("type", type);
-			message.put("data", new JSONObject(data));
+			message.put(TYPE, categoryType.getValue());
+			message.put(ACTION, actionType.getValue());
+			message.put(DATA, new JSONObject(data));
 		}catch(JSONException e){
 			e.printStackTrace();
 		}
 		return message;
 	}
-	
-	public enum MessageType  {
-		SHOP(1) ,
-		CALENDER(2) ,
-		TODOLIST(3);
-		
-		private int value;
-		private MessageType (int value) {
-			this.value = value;
-		}
-		public int getValue() {
-			return value;
-		}
-	}
-	
 }
 

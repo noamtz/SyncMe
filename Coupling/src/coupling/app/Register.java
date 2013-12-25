@@ -12,6 +12,7 @@ import coupling.app.com.API;
 import coupling.app.com.Constants;
 import coupling.app.com.ITask;
 import coupling.app.com.Request;
+import coupling.app.com.Response;
 import coupling.app.com.User;
 
 import android.app.Activity;
@@ -46,17 +47,17 @@ public class Register extends Activity{
 	EditText etLastName;
 
 	private ProgressBar bar;
-	
+
 	private User owner;
 
 	ITask tasker;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//If user not register with server & google
 		SharedPreferences prefs =  getSharedPreferences(Register.class.getSimpleName(),
-                Context.MODE_PRIVATE);
+				Context.MODE_PRIVATE);
 		if(prefs.getBoolean(Constants.IS_REGISTERED, false)){
 			startActivity(new Intent(this, Main.class));
 		}
@@ -78,16 +79,17 @@ public class Register extends Activity{
 
 		if (!checkPlayServices())
 			Log.i(TAG, "No valid Google Play Services APK found.");
-		
+
 		owner = App.getOwner();
-		
+
 		tasker = new ITask() {			
+
 			@Override
-			public void onTaskComplete(Request request, String response) {
-				Utils.Log(Register.class.getName(), "onTaskComplete", response);
+			public void onTaskComplete(Request request, Response response) {
+				Utils.Log(Register.class.getName(), "onTaskComplete", response.getResponse());
 			}
 		};
-		
+
 		API.getInstance().registerTasker(tasker);
 	}
 
@@ -120,7 +122,7 @@ public class Register extends Activity{
 						Utils.shopToast("Please fill lastname");
 					else{
 						SharedPreferences prefs =  getSharedPreferences(Register.class.getSimpleName(),
-				                Context.MODE_PRIVATE);
+								Context.MODE_PRIVATE);
 						SharedPreferences.Editor editor = prefs.edit();
 						editor.putString(Constants.EMAIL, owner.getEmail());
 						editor.putString(Constants.FIRSTNAME, owner.getFirstname());
@@ -189,11 +191,11 @@ public class Register extends Activity{
 				try {
 					if (gcm == null) 
 						gcm = GoogleCloudMessaging.getInstance(context);
-					
+
 					regid = gcm.register(SENDER_ID);
 					storeRegistrationId(context, regid);
 					API.getInstance().registerUser();
-					
+
 					msg = "Device registered";
 				} catch (IOException ex) {
 					msg = "Error :" + ex.getMessage();
@@ -206,7 +208,7 @@ public class Register extends Activity{
 				bar.setVisibility(View.GONE);
 				if(msg.contentEquals("Device registered")){
 					SharedPreferences prefs =  getSharedPreferences(Register.class.getSimpleName(),
-			                Context.MODE_PRIVATE);
+							Context.MODE_PRIVATE);
 					SharedPreferences.Editor editor = prefs.edit();
 					editor.putString(Constants.REG_ID, regid);
 					editor.putBoolean(Constants.IS_REGISTERED, true);
@@ -229,7 +231,7 @@ public class Register extends Activity{
 		int appVersion = Utils.getAppVersion(context);
 		Log.i(TAG, "Saving regId on app version " + appVersion);
 		SharedPreferences prefs =  getSharedPreferences(Register.class.getSimpleName(),
-                Context.MODE_PRIVATE);
+				Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = prefs.edit();
 		editor.putString(Constants.REG_ID, regId);
 		editor.putInt(Constants.APP_VERSION, appVersion);

@@ -3,7 +3,9 @@ package coupling.app.com;
 
 import java.util.UUID;
 
-import coupling.app.com.ServerUtils.HttpType;
+import coupling.app.data.Enums.ActionType;
+import coupling.app.data.Enums.CategoryType;
+import coupling.app.data.Enums.HttpType;
 
 public class Request {
 
@@ -14,13 +16,6 @@ public class Request {
 	private String serverIP;
 	private HttpType httpType;
 	
-	public HttpType getHttpType() {
-		return httpType;
-	}
-	
-	public void setHttpType(HttpType httpType) {
-		this.httpType = httpType; 
-	}
 
 	public Request(){
 		this.id = null;
@@ -31,6 +26,15 @@ public class Request {
 		this.params = params;
 		this.serverIP = serverIP;
 	}
+
+	public HttpType getHttpType() {
+		return httpType;
+	}
+	
+	public void setHttpType(HttpType httpType) {
+		this.httpType = httpType; 
+	}
+
 	
 	public String getServerIP() {
 		return serverIP;

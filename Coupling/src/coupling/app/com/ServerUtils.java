@@ -1,7 +1,6 @@
 package coupling.app.com;
 
-import static coupling.app.com.Constants.METHOD;
-import static coupling.app.com.Constants.PARAMS;
+import static coupling.app.com.Constants.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -28,8 +27,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import android.webkit.JsPromptResult;
 import coupling.app.Utils;
+import coupling.app.data.Enums.HttpType;
 
 public class ServerUtils {
 	public final String TAG = this.getClass().getName();
@@ -64,12 +65,12 @@ public class ServerUtils {
 
 		if(async){
 			Utils.Log(TAG, "execute unsynchronize: " + request.getMethod() + " TO: " + request.getServerIP());
-			new RequestTask(request, tasker);
+			new RequestTask(request, tasker).execute(null,null,null);
 		}
 		else{
 			Utils.Log(TAG, "execute synchronize: " + request.getMethod() + " TO: " + request.getServerIP());
-			String resp = postRequest(request).toString();
-			Utils.Log(TAG, "post", resp);
+			JSONObject resp = postRequest(request);
+			Utils.Log(TAG, "post", resp.toString());
 			notifyTaskers(tasker, request, resp);
 		}
 		Utils.Log(TAG, "</execute>");
@@ -98,6 +99,8 @@ public class ServerUtils {
 			case POST:
 				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 				// Add your parameters
+				Log.v("API", request.getMethod());
+				Log.v("API", request.getParams());
 				nameValuePairs.add(new BasicNameValuePair(METHOD, request.getMethod()));
 				nameValuePairs.add(new BasicNameValuePair(PARAMS, request.getParams()));
 
@@ -111,6 +114,7 @@ public class ServerUtils {
 			StatusLine statusLine = response.getStatusLine();
 			if(statusLine.getStatusCode() == HttpStatus.SC_OK){
 				String result = EntityUtils.toString(entity);
+				Utils.Log("ERROR", result);
 				// Create a JSON object from the request response
 				serverResponse = new JSONObject(result);
 			} else{
@@ -119,7 +123,7 @@ public class ServerUtils {
 				throw new IOException(statusLine.getReasonPhrase());
 			}
 
-		} catch (ClientProtocolException e) {
+		} catch (ClientProtocolException e) {		
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -131,7 +135,7 @@ public class ServerUtils {
 	}
 
 
-	private class RequestTask extends AsyncTask<String, String, String>{
+	private class RequestTask extends AsyncTask<String, String, JSONObject>{
 
 		public final String TAG = this.getClass().getName();
 
@@ -154,12 +158,12 @@ public class ServerUtils {
 		}
 
 		@Override
-		protected String doInBackground(String... msg) {
-			return postRequest(request).toString();
+		protected JSONObject doInBackground(String... msg) {
+			return postRequest(request);
 		}
 
 		@Override
-		protected void onPostExecute(String result) {
+		protected void onPostExecute(JSONObject result) {
 			//On UI thread
 			Utils.Log(TAG, "<onPostExecute>");
 			notifyTaskers(taskManagers, request, result);
@@ -170,24 +174,16 @@ public class ServerUtils {
 		}
 	}
 
-	private void notifyTaskers(ArrayList<ITask> taskManagers , Request request , String result){
+	private void notifyTaskers(ArrayList<ITask> taskManagers , Request request , JSONObject result){
+		Utils.Log(this.getClass().getName(), "NOTIFY " + taskManagers);
 		if(taskManagers != null){
+			Response response =  new Response(result);
 			for(ITask tasker : taskManagers){
-				tasker.onTaskComplete(request , result);
+				tasker.onTaskComplete(request ,response);
 				Utils.Log(TAG, "Notify to :" + tasker.getClass().getName());
 			}
-		}
-	}
-
-	public enum HttpType{
-		GET(1), POST(2);
-
-		private int value;
-		private HttpType (int value) {
-			this.value = value;
-		}
-		public int getValue() {
-			return value;
+			if(response.getMessageId() != null)
+				API.getInstance().messageRecieved(response.getMessageId());
 		}
 	}
 }

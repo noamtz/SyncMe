@@ -8,7 +8,7 @@ if(isset($_POST["method"]) && isset($_POST["params"])){
 	$method = $_POST["method"];
 	//TODO: Becareful with casting if there is nested objects..
 	$params = (array) json_decode($_POST["params"]);
-	
+
 	switch((string)$method){
 		case "register":
 			$user = json_decode($_POST["params"]);//TODO: Refactor this..
@@ -35,8 +35,19 @@ if(isset($_POST["method"]) && isset($_POST["params"])){
 				$response["error"] = "Failed to connect $friendEmail to $userEmail";
 		break;
 		
-		case "getData":
-			
+		case "messageRecieved":
+			$senderEmail = $params["email"];
+			$messageId =  $params["messageId"];
+			$res = $module->messageRecieved($senderEmail, $messageId);
+			$response["method"] = "messageRecieved";
+		break;
+		
+		case "getMessage":
+			$senderEmail = $params["email"];
+			$messageId =  $params["messageId"];
+			$res = $module->getMessage($senderEmail, $messageId);
+			$response["method"] = "getMessage";
+			$response["message"] = json_encode($res);
 		break;
 		default:
 			$response["error"] = "Undefined method"; 
