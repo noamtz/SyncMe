@@ -57,4 +57,8 @@ public class Utils {
 	public static SharedPreferences getSPF(){
 		return App.getAppCtx().getSharedPreferences(App.class.getSimpleName(), Context.MODE_PRIVATE);
 	}
+	
+	public static String removeHtml(String target){
+		return target.replaceAll("<(.|\n)*?>", "").trim();
+	}
 }

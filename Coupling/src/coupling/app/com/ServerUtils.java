@@ -114,6 +114,7 @@ public class ServerUtils {
 			StatusLine statusLine = response.getStatusLine();
 			if(statusLine.getStatusCode() == HttpStatus.SC_OK){
 				String result = EntityUtils.toString(entity);
+				result = Utils.removeHtml(result);
 				Utils.Log("ERROR", result);
 				// Create a JSON object from the request response
 				serverResponse = new JSONObject(result);
