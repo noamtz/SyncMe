@@ -28,3 +28,12 @@ CREATE TABLE  `a1733779_coupldb`.`user_friends` (
 `is_active` BOOL NOT NULL DEFAULT  '1',
 PRIMARY KEY (  `user` ,  `friend` )
 ) ENGINE = MYISAM
+
+
+ALTER TABLE  `user_friends` ADD CONSTRAINT fk_user_friends_users_from FOREIGN KEY (  `user` ) REFERENCES  `a1733779_coupldb`.`users` (
+`id`
+)
+
+ALTER TABLE  `user_friends` ADD CONSTRAINT fk_user_friends_users_from FOREIGN KEY (  `friend` ) REFERENCES  `a1733779_coupldb`.`users` (
+`id`
+)
