@@ -1,3 +1,5 @@
 /SyncMe.Client/project.properties
 /SyncMe.Server/db/*.bak
 project.properties
+gen
+bin
