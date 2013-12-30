@@ -54,10 +54,6 @@ public class Utils {
 		Toast.makeText(App.getAppCtx(), msg, Toast.LENGTH_LONG).show();
 	}
 	
-	public static SharedPreferences getSPF(){
-		return App.getAppCtx().getSharedPreferences(App.class.getSimpleName(), Context.MODE_PRIVATE);
-	}
-	
 	public static String removeHtml(String target){
 		return target.replaceAll("<(.|\n)*?>", "").trim();
 	}

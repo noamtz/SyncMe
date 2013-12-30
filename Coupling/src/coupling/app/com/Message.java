@@ -5,6 +5,7 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import coupling.app.Utils;
 import coupling.app.data.Enums.ActionType;
 import coupling.app.data.Enums.CategoryType;
 
@@ -44,7 +45,7 @@ public class Message {
 	}
 	
 	public Map<String, Object> getData() {
-		return data;
+		return data;	
 	}
 
 	public void setData(Map<String, Object> data) {
@@ -66,6 +67,7 @@ public class Message {
 			message.put(TYPE, categoryType.getValue());
 			message.put(ACTION, actionType.getValue());
 			message.put(DATA, new JSONObject(data));
+
 		}catch(JSONException e){
 			e.printStackTrace();
 		}

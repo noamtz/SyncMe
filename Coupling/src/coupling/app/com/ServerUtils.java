@@ -4,6 +4,8 @@ import static coupling.app.com.Constants.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +19,14 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,7 +40,8 @@ import coupling.app.data.Enums.HttpType;
 public class ServerUtils {
 	public final String TAG = this.getClass().getName();
 
-	public static String SERVER_URL = "http://10.0.0.2/SyncMe/SyncMe.Server/syncMeApp.php";
+	//public static String SERVER_URL = "http://10.0.0.2/SyncMe/SyncMe.Server/syncMeApp.php";
+	public static String SERVER_URL = "http://coupling.herobo.com/api/syncMeApp.php";
 	public static String POST = "post";
 
 	private static ServerUtils serverUtils; 
@@ -70,8 +76,12 @@ public class ServerUtils {
 		else{
 			Utils.Log(TAG, "execute synchronize: " + request.getMethod() + " TO: " + request.getServerIP());
 			JSONObject resp = postRequest(request);
-			Utils.Log(TAG, "post", resp.toString());
-			notifyTaskers(tasker, request, resp);
+			if(resp != null){
+				Utils.Log(TAG, "post", resp.toString());
+				notifyTaskers(tasker, request, resp);
+			} else {
+				Utils.LogError(TAG, "Failed to execute post form request: " + request.toString());
+			}
 		}
 		Utils.Log(TAG, "</execute>");
 	}
@@ -97,15 +107,23 @@ public class ServerUtils {
 				break;
 
 			case POST:
-				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+				//List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 				// Add your parameters
 				Log.v("API", request.getMethod());
-				Log.v("API", request.getParams());
-				nameValuePairs.add(new BasicNameValuePair(METHOD, request.getMethod()));
-				nameValuePairs.add(new BasicNameValuePair(PARAMS, request.getParams()));
+				Log.v("API", request.getParams().toString());
+				//nameValuePairs.add(new BasicNameValuePair(METHOD, request.getMethod()));
+				//nameValuePairs.add(new BasicNameValuePair(PARAMS, request.getParams()));
 
 				HttpPost httppost = new HttpPost(request.getServerIP());
-				httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+				//httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+				String json = request.prepareToPost();
+				if(json == null)
+					return null;
+				StringEntity se = new StringEntity(json,HTTP.UTF_8);
+				se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "text/json; charset=utf-8"));
+				
+				httppost.setEntity(se);
+
 				response = httpclient.execute(httppost);
 				break;
 			}
@@ -115,8 +133,8 @@ public class ServerUtils {
 			if(statusLine.getStatusCode() == HttpStatus.SC_OK){
 				String result = EntityUtils.toString(entity);
 				result = Utils.removeHtml(result);
-				Utils.Log("ERROR", result);
 				// Create a JSON object from the request response
+				Utils.Log("DEBUG", result);
 				serverResponse = new JSONObject(result);
 			} else{
 				//Closes the connection.
@@ -186,6 +204,20 @@ public class ServerUtils {
 			if(response.getMessageId() != null)
 				API.getInstance().messageRecieved(response.getMessageId());
 		}
+	}
+	public static String convertStreamToString( InputStream is, String ecoding ) throws IOException
+	{
+	    StringBuilder sb = new StringBuilder( Math.max( 16, is.available() ) );
+	    char[] tmp = new char[ 4096 ];
+
+	    try {
+	       InputStreamReader reader = new InputStreamReader( is, ecoding );
+	       for( int cnt; ( cnt = reader.read( tmp ) ) > 0; )
+	            sb.append( tmp, 0, cnt );
+	    } finally {
+	        is.close();
+	    }
+	    return sb.toString();
 	}
 }
 

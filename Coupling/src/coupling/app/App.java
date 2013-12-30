@@ -17,25 +17,22 @@ public class App extends Application {
 	public void onCreate() {
 		super.onCreate();
 		appCtx = getApplicationContext();
-		loadOwner();
+		owner = new User();
 	}
 
 	public static Context getAppCtx(){
 		return appCtx;
 	}
 	
-	private static void loadOwner(){
-		SharedPreferences prefs = Utils.getSPF();
-		Utils.Log("REGISTERED",prefs.getBoolean(Constants.IS_REGISTERED, false) + "");
+	public static void loadOwner(SharedPreferences prefs){
+		Utils.Log("APP","USER REGISTERED?: " + prefs.getBoolean(Constants.IS_REGISTERED, false));
+
 		if(prefs.getBoolean(Constants.IS_REGISTERED, false)){
-			owner = new User();
-			Log.v("EMAIL", prefs.getString(Constants.EMAIL, null));
 			owner.setEmail(prefs.getString(Constants.EMAIL, null));
 			owner.setFirstname(prefs.getString(Constants.FIRSTNAME, null));
 			owner.setLastname(prefs.getString(Constants.LASTNAME, null));
 			owner.setRegid(prefs.getString(Constants.REG_ID, null));
-		}else
-			owner = new User();
+		}
 	}
 	
 	public static void setOwner(User owr){

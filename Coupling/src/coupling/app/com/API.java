@@ -28,7 +28,7 @@ public class API { // Mabe move the ITask responsibility to another object
 			
 			@Override
 			public void onTaskComplete(Request request, Response response) {
-				Utils.Log(API.class.getSimpleName(), "Response", response.getResponse());
+				Utils.Log(API.class.getSimpleName(), "onTaskComplete", response.getResponse());
 				
 			}
 		});
@@ -43,7 +43,7 @@ public class API { // Mabe move the ITask responsibility to another object
 	public void registerUser(){
 		Request request = new Request();
 
-		String userDetails = sender.toJson().toString();
+		JSONObject userDetails = sender.toJson();
 
 		request.setMethod(REGISTER);
 		request.setParams(userDetails);
@@ -58,12 +58,12 @@ public class API { // Mabe move the ITask responsibility to another object
 
 			JSONObject params = new JSONObject();
 			params.put(EMAIL, sender.getEmail());
-			params.put(MESSAGE, message.toJson().toString());
+			params.put(MESSAGE, message.toJson());
 
 			Utils.Log(API.class.getSimpleName(), "sync", "email: "+sender.getEmail()+"Message: " + message.toJson().toString());
 			
 			request.setMethod(SYNC);
-			request.setParams(params.toString());
+			request.setParams(params);
 			
 			server.post(request, taskers, true);
 
@@ -82,7 +82,7 @@ public class API { // Mabe move the ITask responsibility to another object
 			params.put(MESSAGE_ID, messageId);
 
 			request.setMethod(MESSAGE_RECIEVED);
-			request.setParams(params.toString());
+			request.setParams(params);
 
 			server.post(request, taskers, true);
 
@@ -96,11 +96,12 @@ public class API { // Mabe move the ITask responsibility to another object
 		try {
 
 			JSONObject params = new JSONObject();
+			Utils.Log(TAG, "getMessage", "email: " + sender.getEmail());
 			params.put(EMAIL, sender.getEmail());
 			params.put(MESSAGE_ID, messageId);
 
 			request.setMethod(GET_MESSAGE);
-			request.setParams(params.toString());
+			request.setParams(params);
 
 			server.post(request, taskers, true);
 
@@ -119,7 +120,7 @@ public class API { // Mabe move the ITask responsibility to another object
 			params.put(FRIEND_EMAIL, reciever.getEmail());
 
 			request.setMethod(INVITE);
-			request.setParams(params.toString());
+			request.setParams(params);
 
 			server.post(request, taskers, true);
 		}catch(JSONException e){

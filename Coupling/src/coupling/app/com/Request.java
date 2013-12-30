@@ -3,15 +3,17 @@ package coupling.app.com;
 
 import java.util.UUID;
 
-import coupling.app.data.Enums.ActionType;
-import coupling.app.data.Enums.CategoryType;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import coupling.app.data.Enums.HttpType;
+import static coupling.app.com.Constants.*;
 
 public class Request {
 
 	private UUID id;
 	private String method;
-	private String params;
+	private JSONObject params;
 	
 	private String serverIP;
 	private HttpType httpType;
@@ -21,7 +23,7 @@ public class Request {
 		this.id = null;
 	}
 	
-	public Request(String method, String params, String serverIP){
+	public Request(String method, JSONObject params, String serverIP){
 		this.method = method;
 		this.params = params;
 		this.serverIP = serverIP;
@@ -56,12 +58,24 @@ public class Request {
 	public void setMethod(String method) {
 		this.method = method;
 	}
-	public String getParams() {
+	public JSONObject getParams() {
 		return params;
 	}
-	public void setParams(String params) {
+	public void setParams(JSONObject params) {
 		this.params = params;
 	}
 	
+	public String prepareToPost(){
+		JSONObject json = new JSONObject();
+		try {
+			json.put(METHOD, method);
+			json.put(PARAMS, params);
+			return json.toString();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 }

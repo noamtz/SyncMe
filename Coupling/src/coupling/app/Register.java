@@ -56,9 +56,9 @@ public class Register extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//If user not register with server & google
-		SharedPreferences prefs =  getSharedPreferences(Register.class.getSimpleName(),
-				Context.MODE_PRIVATE);
-		if(prefs.getBoolean(Constants.IS_REGISTERED, false)){
+		
+		if(getPrefs().getBoolean(Constants.IS_REGISTERED, false)){
+			App.loadOwner(getPrefs());
 			startActivity(new Intent(this, Main.class));
 		}
 
@@ -159,7 +159,7 @@ public class Register extends Activity{
 	}
 
 	private String getRegistrationId() {
-		String registrationId = Utils.getSPF().getString(Constants.REG_ID, "");
+		String registrationId = getPrefs().getString(Constants.REG_ID, "");
 		if (registrationId == "") {
 			Log.i(TAG, "Registration not found.");
 			return "";
@@ -167,7 +167,7 @@ public class Register extends Activity{
 		// Check if app was updated; if so, it must clear the registration ID
 		// since the existing regID is not guaranteed to work with the new
 		// app version.
-		int registeredVersion = Utils.getSPF().getInt(Constants.APP_VERSION, Integer.MIN_VALUE);
+		int registeredVersion = getPrefs().getInt(Constants.APP_VERSION, Integer.MIN_VALUE);
 		int currentVersion = Utils.getAppVersion(context);
 		if (registeredVersion != currentVersion) {
 			Log.i(TAG, "App version changed.");
@@ -237,6 +237,11 @@ public class Register extends Activity{
 		editor.putInt(Constants.APP_VERSION, appVersion);
 		editor.commit();
 		owner.setRegid(regId);
+	}
+	
+	private SharedPreferences getPrefs(){
+		return getSharedPreferences(Register.class.getSimpleName(),
+				Context.MODE_PRIVATE);
 	}
 
 }
