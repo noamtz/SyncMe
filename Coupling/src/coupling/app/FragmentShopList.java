@@ -32,7 +32,7 @@ public class FragmentShopList extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_main_shoplist, container, false);
 		ListView lv = (ListView) rootView.findViewById(R.id.shoplist_lv);
 		adapter = new AdapterShopListOverview(this.getActivity(), dataSource.getSource(), true);
-
+		
 		lv.setAdapter(adapter);
 
 		final EditText listName = (EditText) rootView.findViewById(R.id.etListName);

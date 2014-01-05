@@ -16,6 +16,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class AdapterShopList extends CursorAdapter {
@@ -57,10 +58,15 @@ public class AdapterShopList extends CursorAdapter {
 		check.setChecked(isDone);
 		check.setTag(ids);
 		
+		final ImageView redLine = (ImageView) row.findViewById(R.id.red_line_view);
+		
 		if (isDone)
 		{
-			itemName.setPaintFlags(itemName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-			itemName.setTextColor(Color.GRAY);
+			redLine.setVisibility(View.VISIBLE);
+			//itemName.setPaintFlags(itemName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+			//itemName.setTextColor(Color.GRAY);
+		} else {
+			redLine.setVisibility(View.INVISIBLE);
 		}
 
 		btnRemoveItem.setOnClickListener(new OnClickListener() {
@@ -83,11 +89,13 @@ public class AdapterShopList extends CursorAdapter {
 				if(!isSucceed)
 					Log.e("adaptor_shoplist", "failed to update item");
 				if(isChecked){
-					itemName.setPaintFlags(itemName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-					itemName.setTextColor(Color.GRAY);
+					//itemName.setPaintFlags(itemName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+					//itemName.setTextColor(Color.GRAY);
+					redLine.setVisibility(View.VISIBLE);
 				} else{
-					itemName.setPaintFlags(itemName.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
-					itemName.setTextColor(Color.BLACK);
+					//itemName.setPaintFlags(itemName.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
+					//itemName.setTextColor(Color.BLACK);
+					redLine.setVisibility(View.INVISIBLE);
 				}
 				refresh();
 			}

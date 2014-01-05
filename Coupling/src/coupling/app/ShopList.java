@@ -38,6 +38,8 @@ public class ShopList extends Activity{
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.list_item_layout);
+		
+		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
 		long listId = getIntent().getExtras().getLong("Id");
 		String listTitle = getIntent().getExtras().getString("Title");
