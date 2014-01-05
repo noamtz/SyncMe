@@ -1,7 +1,5 @@
 package coupling.app;
 
-import com.nit.coupling.R;
-
 import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;

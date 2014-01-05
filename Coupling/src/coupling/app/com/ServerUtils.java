@@ -63,19 +63,21 @@ public class ServerUtils {
 	 * @param async
 	 * @return
 	 */
-	public void post(Request request ,ArrayList<ITask> tasker , boolean async){
+	public JSONObject post(Request request ,ArrayList<ITask> tasker , boolean async){
 		Utils.Log(TAG, "<execute>");
 
 		request.setServerIP(SERVER_URL);
 		request.setHttpType(HttpType.POST);
 
+		JSONObject resp = null;
+		
 		if(async){
 			Utils.Log(TAG, "execute unsynchronize: " + request.getMethod() + " TO: " + request.getServerIP());
 			new RequestTask(request, tasker).execute(null,null,null);
 		}
 		else{
 			Utils.Log(TAG, "execute synchronize: " + request.getMethod() + " TO: " + request.getServerIP());
-			JSONObject resp = postRequest(request);
+			resp = postRequest(request);
 			if(resp != null){
 				Utils.Log(TAG, "post", resp.toString());
 				notifyTaskers(tasker, request, resp);
@@ -84,6 +86,7 @@ public class ServerUtils {
 			}
 		}
 		Utils.Log(TAG, "</execute>");
+		return resp;
 	}
 
 	private JSONObject postRequest(Request request){
@@ -111,11 +114,9 @@ public class ServerUtils {
 				// Add your parameters
 				Log.v("API", request.getMethod());
 				Log.v("API", request.getParams().toString());
-				//nameValuePairs.add(new BasicNameValuePair(METHOD, request.getMethod()));
-				//nameValuePairs.add(new BasicNameValuePair(PARAMS, request.getParams()));
-
+				
 				HttpPost httppost = new HttpPost(request.getServerIP());
-				//httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
 				String json = request.prepareToPost();
 				if(json == null)
 					return null;
@@ -205,6 +206,7 @@ public class ServerUtils {
 				API.getInstance().messageRecieved(response.getMessageId());
 		}
 	}
+	
 	public static String convertStreamToString( InputStream is, String ecoding ) throws IOException
 	{
 	    StringBuilder sb = new StringBuilder( Math.max( 16, is.available() ) );

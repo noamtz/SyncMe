@@ -20,6 +20,18 @@ public class Message {
 	private ActionType actionType;
 	private Long messageServerId;
 	
+	public Message(JSONObject message, Long messageId){
+		try {
+			this.categoryType.setValue(message.getInt(TYPE));
+			this.actionType.setValue(message.getInt(ACTION));
+			messageServerId = messageId;
+			//data = message.getJSONObject(DATA).
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public Message(){
 		this.data = new HashMap<String, Object>();
 	}
