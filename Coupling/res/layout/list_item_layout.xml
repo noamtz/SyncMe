@@ -7,50 +7,64 @@
     <ListView
         android:id="@+id/shopping_list"
         android:layout_width="match_parent"
-        android:layout_height="0dip" 
+        android:layout_height="0dip"
         android:layout_weight="0.32"
-        android:drawSelectorOnTop="false"/>
+        android:drawSelectorOnTop="false" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/count"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" 
-            android:text="1"
-            android:gravity="center"/>
-        
+        <Button
+            android:id="@+id/add_button"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="2dp"
+            android:background="@android:drawable/ic_input_add"
+            android:text="-"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
         <EditText
             android:id="@+id/input_item"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="4"
-            android:ems="10" 
+            android:ems="10"
             android:hint="Add New Item"
             android:imeOptions="actionNext"
-            android:singleLine="true"
-            android:nextFocusDown="@+id/input_item">
-
-
+            android:nextFocusDown="@+id/input_item"
+            android:singleLine="true" >
         </EditText>
+
+        <TextView
+            android:id="@+id/count"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="1" />
 
         <Button
             android:id="@+id/minus_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="-" />
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="2dp"
+            android:background="@drawable/minus_button_selector"
+            android:text="-"
+            android:textColor="#000000"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/plus_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="+" />
-
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:background="@drawable/plus_button_selector"
+            android:text="+"
+            android:textColor="#000000"
+            android:textSize="20sp" />
     </LinearLayout>
 
 </LinearLayout>

@@ -55,6 +55,12 @@ public class AdapterShopList extends CursorAdapter {
 		CheckBox check = (CheckBox) row.findViewById(R.id.item_check);
 		check.setChecked(isDone);
 		check.setTag(ids);
+		
+		if (isDone)
+		{
+			itemName.setPaintFlags(itemName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+			itemName.setTextColor(Color.GRAY);
+		}
 
 		btnRemoveItem.setOnClickListener(new OnClickListener() {
 
@@ -80,7 +86,7 @@ public class AdapterShopList extends CursorAdapter {
 					itemName.setTextColor(Color.GRAY);
 				} else{
 					itemName.setPaintFlags(itemName.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
-					itemName.setTextColor(Color.WHITE);
+					itemName.setTextColor(Color.BLACK);
 				}
 				refresh();
 			}
