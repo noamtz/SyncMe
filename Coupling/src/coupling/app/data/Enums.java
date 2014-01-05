@@ -24,6 +24,9 @@ public class Enums {
 		public String getValue() {
 			return Integer.toString(value);
 		}
+		public void setValue(int val){
+			value = val;
+		}
 	}
 	
 	public enum ActionType {
@@ -38,6 +41,9 @@ public class Enums {
 		}
 		public int value(){
 			return value;
+		}
+		public void setValue(int val){
+			value = val;
 		}
 	}
 }

@@ -91,8 +91,9 @@ public class API { // Mabe move the ITask responsibility to another object
 		}	
 	}
 
-	public void getMessage(long messageId) {
+	public JSONObject getMessage(long messageId) {
 		Request request = new Request();
+		JSONObject resp = null;
 		try {
 
 			JSONObject params = new JSONObject();
@@ -103,11 +104,13 @@ public class API { // Mabe move the ITask responsibility to another object
 			request.setMethod(GET_MESSAGE);
 			request.setParams(params);
 
-			server.post(request, taskers, true);
+			resp = server.post(request, taskers, false);
 
 		} catch(JSONException e){
 			e.printStackTrace();
 		}	
+		
+		return resp;
 	}
 
 	public void invite(User reciever) {

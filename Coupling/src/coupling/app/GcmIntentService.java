@@ -18,8 +18,11 @@ package coupling.app;
  */
 
 
+import org.json.JSONObject;
+
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.nit.coupling.R;
+
+import coupling.app.com.API;
 
 import android.app.IntentService;
 import android.app.NotificationManager;
@@ -68,13 +71,19 @@ public class GcmIntentService extends IntentService {
                 sendNotification("Deleted messages on server: " + extras.toString());
             // If it's a regular GCM message, do some work.
             } else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
-
-                Log.i(TAG, "Completed work @ " + SystemClock.elapsedRealtime());
+            	
+            	String messageId = extras.getString("messageId");
+            	
+            	JSONObject message = API.getInstance().getMessage(Long.parseLong(messageId));
+            	
                 // Post notification of received message.
-                sendNotification("type: " + extras.getString("type") + " data: " + extras.getString("data"));
+                sendNotification("type: " + extras.getString("messageId") + " data: " + extras.getString("data"));
                 Log.i(TAG, "Received: " + extras.toString());
             }
+        } else{
+        	sendNotification("Empty");
         }
+        Utils.Log("NOTIFICATION", "MESSAGE");
         // Release the wake lock provided by the WakefulBroadcastReceiver.
         GcmBroadcastReceiver.completeWakefulIntent(intent);
     }
