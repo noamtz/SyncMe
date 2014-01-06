@@ -21,6 +21,7 @@ package coupling.app;
 import org.json.JSONObject;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.nit.coupling.R;
 
 import coupling.app.com.API;
 
@@ -75,7 +76,7 @@ public class GcmIntentService extends IntentService {
             	String messageId = extras.getString("messageId");
             	
             	JSONObject message = API.getInstance().getMessage(Long.parseLong(messageId));
-            	
+            	//recieveData//TODO:finish
                 // Post notification of received message.
                 sendNotification("type: " + extras.getString("messageId") + " data: " + extras.getString("data"));
                 Log.i(TAG, "Received: " + extras.toString());

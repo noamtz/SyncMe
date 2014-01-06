@@ -2,6 +2,8 @@ package coupling.app;
 
 
 
+import com.nit.coupling.R;
+
 import coupling.app.data.DALShopListOverview;
 
 import android.content.Intent;

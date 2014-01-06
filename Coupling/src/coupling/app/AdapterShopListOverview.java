@@ -1,6 +1,9 @@
 package coupling.app;
 
 import java.util.Date;
+
+import com.nit.coupling.R;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.view.LayoutInflater;

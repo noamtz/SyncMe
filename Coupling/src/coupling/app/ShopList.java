@@ -1,5 +1,7 @@
 package coupling.app;
 
+import com.nit.coupling.R;
+
 import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
