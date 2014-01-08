@@ -16,7 +16,7 @@ import coupling.app.data.Enums.CategoryType;
 
 public class BLShopList extends AppFeature {
 
-	private static final String ID = "UId";
+	private static final String UID = "UId";
 	private static final String ITEM_NAME = "ItemName";
 	private static final String QUANTITY = "Quantity";
 	private static final String IS_DONE = "IsDone";
@@ -34,15 +34,16 @@ public class BLShopList extends AppFeature {
 	}
 
 	public boolean createItem(String name, int quantity){
-		return createItem(UUID.randomUUID().toString(),name, quantity, true);
+		return createItem(null,name, quantity, true);
 	}
 
-	public boolean createItem(String UId, String name, int quantity, boolean remote){
+	public boolean createItem(Long UId, String name, int quantity, boolean remote){
 		boolean res = dataSource.createItem(UId, name, quantity);
 
 		if(remote) {
 			Message message = new Message();
-			message.getData().put(ID, UId);
+			
+			message.getData().put(UID, UId);
 			message.getData().put(ITEM_NAME, name);
 			message.getData().put(QUANTITY, quantity);
 			
@@ -60,7 +61,7 @@ public class BLShopList extends AppFeature {
 		boolean res = dataSource.updateItem(ids, name, quantity, isDone);
 		if(remote){
 			Message message = new Message();
-			message.getData().put(ID, ids.getGlobalId());
+			message.getData().put(UID, ids.getGlobalId());
 			if(name != null)
 				message.getData().put(ITEM_NAME, name);
 			if(quantity != null)
@@ -83,7 +84,7 @@ public class BLShopList extends AppFeature {
 		boolean res = dataSource.deleteItem(ids);
 		if(remote){
 			Message message = new Message();
-			message.getData().put(ID, ids.getGlobalId());
+			message.getData().put(UID, ids.getGlobalId());
 			
 			message.setCategoryType(categoryType);
 			message.setActionType(ActionType.DELETE);
@@ -100,7 +101,7 @@ public class BLShopList extends AppFeature {
 	@Override
 	public void recieveData(JSONObject data, ActionType actionType) {
 		try{
-			String UId = data.getString(ID);
+			Long UId = data.getLong(UID);
 			Ids ids = new Ids();
 			switch (actionType) {
 			case CREATE:

@@ -38,7 +38,7 @@ public class AdapterShopList extends CursorAdapter {
 	public void bindView(View row, Context context, Cursor cursor) {
 		//Retrieve data from database
 		Long id = cursor.getLong(cursor.getColumnIndexOrThrow("_id"));
-		String Uid = cursor.getString(cursor.getColumnIndex("UId"));
+		Long Uid = cursor.getLong(cursor.getColumnIndex("UId"));
 		String name =  cursor.getString(cursor.getColumnIndexOrThrow("ItemName"));
 		int quantity = cursor.getInt(cursor.getColumnIndexOrThrow("ItemQuantity"));
 		boolean isDone = cursor.getInt(cursor.getColumnIndexOrThrow("ItemStatus")) > 0;

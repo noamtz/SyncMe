@@ -3,12 +3,12 @@ package coupling.app;
 public class Ids {
 
 	private long DBId;
-	private String globalId;
+	private Long globalId;
 	
 	public Ids(){
 	}
 	
-	public Ids(long DBId, String globalId){
+	public Ids(long DBId, Long globalId){
 		this.DBId = DBId;
 		this.globalId = globalId;
 	}
@@ -21,11 +21,11 @@ public class Ids {
 		DBId = dBId;
 	}
 
-	public String getGlobalId() {
+	public Long getGlobalId() {
 		return globalId;
 	}
 
-	public void setGlobalId(String globalId) {
+	public void setGlobalId(Long globalId) {
 		this.globalId = globalId;
 	}	
 	

@@ -57,7 +57,7 @@ public class API { // Mabe move the ITask responsibility to another object
 		try{
 
 			JSONObject params = new JSONObject();
-			params.put(EMAIL, sender.getEmail());
+			params.put(EMAIL, "abc");//sender.getEmail());//TODO: change back
 			params.put(MESSAGE, message.toJson());
 
 			Utils.Log(API.class.getSimpleName(), "sync", "email: "+sender.getEmail()+"Message: " + message.toJson().toString());

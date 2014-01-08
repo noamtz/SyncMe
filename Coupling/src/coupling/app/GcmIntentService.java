@@ -18,6 +18,7 @@ package coupling.app;
  */
 
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -73,12 +74,24 @@ public class GcmIntentService extends IntentService {
             // If it's a regular GCM message, do some work.
             } else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
             	
-            	String messageId = extras.getString("messageId");
-            	
-            	JSONObject message = API.getInstance().getMessage(Long.parseLong(messageId));
+            	long messageId = Long.parseLong(extras.getString("messageId"));
+            	Log.i("ILAN MSG",extras.toString());
+            	JSONObject message = API.getInstance().getMessage(messageId);
+            	sendNotification(message.toString());
+            	Log.i("ILAN MSG", "message: " + message.toString());
+            	try {
+					JSONObject obj = message.getJSONObject("data");
+					
+					Log.i("ILAN MSG", "message: " + obj.toString());
+					
+					
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             	//recieveData//TODO:finish
                 // Post notification of received message.
-                sendNotification("type: " + extras.getString("messageId") + " data: " + extras.getString("data"));
+             
                 Log.i(TAG, "Received: " + extras.toString());
             }
         } else{

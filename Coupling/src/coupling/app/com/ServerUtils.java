@@ -80,7 +80,7 @@ public class ServerUtils {
 			resp = postRequest(request);
 			if(resp != null){
 				Utils.Log(TAG, "post", resp.toString());
-				notifyTaskers(tasker, request, resp);
+				//notifyTaskers(tasker, request, resp);
 			} else {
 				Utils.LogError(TAG, "Failed to execute post form request: " + request.toString());
 			}

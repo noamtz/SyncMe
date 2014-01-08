@@ -131,7 +131,7 @@ public class ShopList extends Activity{
 				Cursor cursor = (Cursor) adapter.getItem(position);
 
 				long dbId = cursor.getLong(cursor.getColumnIndex("_id"));
-				String globalId = cursor.getString(cursor.getColumnIndex("UId"));
+				Long globalId = cursor.getLong(cursor.getColumnIndex("UId"));
 				selectedItemIds = new Ids(dbId, globalId);
 
 				String itemName = cursor.getString(cursor.getColumnIndex("ItemName"));

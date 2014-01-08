@@ -14,10 +14,10 @@ public class Response {
 	}
 	
 	public Response(JSONObject response){
-		this.response = response.toString();
+		this.response = response != null ? response.toString() : null;
 		try {
 			messageId = response.getJSONObject("message").getLong("id");
-		} catch (JSONException e) {
+		} catch (Exception e) {
 			Utils.Log(Response.class.getName(), "C-tor", "No Message Id");
 		}
 	}

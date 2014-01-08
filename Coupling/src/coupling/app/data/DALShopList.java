@@ -21,7 +21,7 @@ public class DALShopList {
 		return dbHandler.getWritableDatabase().rawQuery("SELECT * FROM ShopList WHERE ShopListId = " + listId, null);
 	}
 	
-	public boolean createItem(String UId, String name, int quantity){
+	public boolean createItem(Long UId, String name, int quantity){
 		ContentValues values = new ContentValues();
 		values.put("ShopListId", listId);
 		values.put("ItemName", name);
