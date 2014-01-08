@@ -45,7 +45,7 @@
         </activity>
 
         <receiver
-            android:name="syncme.app.GcmBroadcastReceiver"
+            android:name="coupling.app.GcmBroadcastReceiver"
             android:exported="true"
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
@@ -57,7 +57,7 @@
             </intent-filter>
         </receiver>
 
-        <service android:name="syncme.app.GcmIntentService" />
+        <service android:name="coupling.app.GcmIntentService" />
         
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
     </application>
