@@ -73,8 +73,9 @@ public class Mediator {
 			JSONObject data = new JSONObject(message.getString("data"));
 			
 			Long LocalId = null;
+			Utils.Log("Deliver", "HAS: " + data.has("GlobalListId"));
 			if(data.has("GlobalListId")){
-				LocalId = DAL.getInstance().getLocalId(CategoryType.SHOPLIST, data.getLong("GlobalListId"));
+				LocalId = DAL.getInstance().getLocalId(CategoryType.SHOPLIST_OVERVIEW, data.getLong("GlobalListId"));
 			}
 			
 			AppFeature feature = getAppFeature(message.getInt("type"), LocalId);
