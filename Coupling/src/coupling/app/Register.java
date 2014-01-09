@@ -86,11 +86,9 @@ public class Register extends Activity{
 
 			@Override
 			public void onTaskComplete(Request request, Response response) {
-				Utils.Log(Register.class.getName(), "onTaskComplete", response.getResponse());
 			}
-		};
 
-		API.getInstance().registerTasker(tasker);
+		};	
 	}
 
 	@Override
@@ -102,7 +100,6 @@ public class Register extends Activity{
 	@Override
 	protected void onPause() {
 		super.onPause();
-		API.getInstance().unRegisterTasker(tasker);
 	}
 
 	private OnClickListener registerListener(){

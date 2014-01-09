@@ -1,9 +1,10 @@
 package coupling.app;
 
-
-
+import com.google.android.gms.internal.ad;
 import com.nit.coupling.R;
 
+import coupling.app.BL.BLShopListOverview;
+import coupling.app.com.IBLConnector;
 import coupling.app.data.DALShopListOverview;
 
 import android.content.Intent;
@@ -21,18 +22,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-public class FragmentShopList extends Fragment {
+public class FragmentShopList extends Fragment implements IBLConnector{
 
 	private AdapterShopListOverview adapter;
-	private DALShopListOverview dataSource = DALShopListOverview.getInstance();
+	
+	private BLShopListOverview blShopListOverview;
+	
 
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
 		View rootView = inflater.inflate(R.layout.fragment_main_shoplist, container, false);
+		blShopListOverview = new BLShopListOverview();
+		
 		ListView lv = (ListView) rootView.findViewById(R.id.shoplist_lv);
-		adapter = new AdapterShopListOverview(this.getActivity(), dataSource.getSource(), true);
+		adapter = new AdapterShopListOverview(this.getActivity(), blShopListOverview);
 		
 		lv.setAdapter(adapter);
 
@@ -47,8 +53,8 @@ public class FragmentShopList extends Fragment {
 			public void onClick(View v) {
 				String title = listName.getText().toString();
 				if(!title.isEmpty()){
-					dataSource.addList(title);
-					refreshList();
+					blShopListOverview.createList(title);
+					adapter.refreshList();
 				}
 			}
 		});
@@ -77,9 +83,26 @@ public class FragmentShopList extends Fragment {
 		return rootView;
 	}
 
-	private void refreshList(){
-		adapter.swapCursor(dataSource.getSource());
-		adapter.notifyDataSetChanged();
+
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		blShopListOverview.unsetBLConnector();
 	}
 
+
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		blShopListOverview.setBLConnector(this);
+	}
+
+
+
+	@Override
+	public void Refresh() {
+		adapter.refreshList();
+	}
 }

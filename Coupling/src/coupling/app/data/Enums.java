@@ -24,6 +24,9 @@ public class Enums {
 		public String getValue() {
 			return Integer.toString(value);
 		}
+		public int value() {
+			return value;
+		}
 		public void setValue(int val){
 			value = val;
 		}
@@ -45,5 +48,23 @@ public class Enums {
 		public void setValue(int val){
 			value = val;
 		}
+	}
+	
+	public static ActionType toActionType(int action){
+		switch (action) {
+		case 1: return ActionType.CREATE;
+		case 2: return ActionType.UPDATE;
+		case 3: return ActionType.DELETE;
+		}
+		return null;
+	}
+	
+	public static CategoryType toCategoryType(int action){
+		switch (action) {
+		case 1: return CategoryType.SHOPLIST_OVERVIEW;
+		case 2: return CategoryType.SHOPLIST;
+		case 3: return CategoryType.CALENDER;
+		}
+		return null;
 	}
 }

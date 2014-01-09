@@ -2,18 +2,29 @@ package coupling.app;
 
 public class Ids {
 
-	private long DBId;
+	private Long DBId;
 	private Long globalId;
+	private boolean remote;
 	
 	public Ids(){
+		remote = false;
+		globalId = null;
 	}
 	
-	public Ids(long DBId, Long globalId){
+	public boolean isRemote() {
+		return remote;
+	}
+
+	public void setRemote(boolean remote) {
+		this.remote = remote;
+	}
+
+	public Ids(Long DBId, Long globalId){
 		this.DBId = DBId;
 		this.globalId = globalId;
 	}
 
-	public long getDBId() {
+	public Long getDBId() {
 		return DBId;
 	}
 
@@ -22,6 +33,8 @@ public class Ids {
 	}
 
 	public Long getGlobalId() {
+		if(globalId == null || globalId == 0)
+			return null;
 		return globalId;
 	}
 

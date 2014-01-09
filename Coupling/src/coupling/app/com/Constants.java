@@ -31,4 +31,9 @@ public class Constants {
 	
 	public static final String UNIMPLEMENTED_MSG = "unimplemented method";
 
+	//App Features
+
+	public static final String LOCALID = "LocalId";
+	public static final String UID = "UId";
+	
 }

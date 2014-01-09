@@ -4,6 +4,8 @@ import java.util.Date;
 
 import com.nit.coupling.R;
 
+import coupling.app.BL.BLShopListOverview;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.view.LayoutInflater;
@@ -17,10 +19,13 @@ public class AdapterShopListOverview extends CursorAdapter {
 	 private LayoutInflater mLayoutInflater;
 	 private Context mContext;
 	
-	public AdapterShopListOverview(Context context, Cursor c, boolean autoRequery) {
-		super(context, c, autoRequery);
+	 private BLShopListOverview blShopListOverview;
+	 
+	public AdapterShopListOverview(Context context, BLShopListOverview blShopListOverview) {
+		super(context, blShopListOverview.getSource(), true);
 		 mContext = context;
-	     mLayoutInflater = LayoutInflater.from(context); 
+	     mLayoutInflater = LayoutInflater.from(context);
+	     this.blShopListOverview = blShopListOverview;
 	}
 
 	@Override
@@ -39,5 +44,10 @@ public class AdapterShopListOverview extends CursorAdapter {
 	public View newView(Context context, Cursor cursor, ViewGroup parent) {
 		 View v = mLayoutInflater.inflate(R.layout.shoplist_row, parent, false);
 	     return v;
+	}
+	
+	public void refreshList(){
+		swapCursor(blShopListOverview.getSource());
+		notifyDataSetChanged();
 	}
 }

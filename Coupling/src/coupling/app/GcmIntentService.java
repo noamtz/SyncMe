@@ -25,6 +25,9 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.nit.coupling.R;
 
 import coupling.app.com.API;
+import coupling.app.com.AppFeature;
+import coupling.app.data.Enums;
+import coupling.app.data.Enums.ActionType;
 
 import android.app.IntentService;
 import android.app.NotificationManager;
@@ -75,22 +78,12 @@ public class GcmIntentService extends IntentService {
             } else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
             	
             	long messageId = Long.parseLong(extras.getString("messageId"));
-            	Log.i("ILAN MSG",extras.toString());
+            	
             	JSONObject message = API.getInstance().getMessage(messageId);
+            	
             	sendNotification(message.toString());
-            	Log.i("ILAN MSG", "message: " + message.toString());
-            	try {
-					JSONObject obj = message.getJSONObject("data");
-					
-					Log.i("ILAN MSG", "message: " + obj.toString());
-					
-					
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-            	//recieveData//TODO:finish
-                // Post notification of received message.
+            	
+            	Mediator.getInstance().deliverMessage(message);
              
                 Log.i(TAG, "Received: " + extras.toString());
             }
@@ -102,9 +95,6 @@ public class GcmIntentService extends IntentService {
         GcmBroadcastReceiver.completeWakefulIntent(intent);
     }
 
-    // Put the message into a notification and post it.
-    // This is just one simple example of what you might choose to do with
-    // a GCM message.
     private void sendNotification(String msg) {
         mNotificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);

@@ -11,4 +11,8 @@ public abstract class AppFeature {
 	protected CategoryType categoryType;
 	
 	public abstract void recieveData(JSONObject data, ActionType actionType);
+	
+	public abstract boolean updateId(Ids ids);
+	
+	
 }

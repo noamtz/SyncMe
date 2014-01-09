@@ -8,7 +8,7 @@ import android.util.Log;
 public class DBHandler extends SQLiteOpenHelper {
 
 	public DBHandler(Context context) {
-		super(context,"coupling.db", null, 8);
+		super(context,"coupling.db", null, 9);
 	}
 
 	@Override
@@ -16,7 +16,7 @@ public class DBHandler extends SQLiteOpenHelper {
 		database.execSQL(
 				"CREATE TABLE ShopListOverview ( " +
 							"_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-							"UId INTEGER," + 
+							"UId INTEGER NULL," + 
 							"Title VARCHAR(50), " +
 							"TotalItems Int DEFAULT 0, " +
 							"IsMine INTEGER DEFAULT 1, " +
@@ -26,7 +26,7 @@ public class DBHandler extends SQLiteOpenHelper {
 		database.execSQL(
 				"CREATE TABLE ShopList ( " +
 						"_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-						"UId INTEGER," + 
+						"UId INTEGER NULL," + 
 						"ShopListId INTEGER, " +
 						"ItemName VARCHAR(50), " +
 						"ItemQuantity INTEGER DEFAULT 1, " +

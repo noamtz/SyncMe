@@ -1,6 +1,7 @@
 package coupling.app.data;
 
 import coupling.app.App;
+import coupling.app.Ids;
 import android.content.ContentValues;
 import android.database.Cursor;
 
@@ -24,11 +25,13 @@ public class DALShopListOverview {
 		return dbHandler.getWritableDatabase().rawQuery("SELECT * FROM ShopListOverview", null);
 	}
 	
-	public boolean addList(String title){
+	public long createList(Long UId, String title){
 		ContentValues values = new ContentValues();
 		values.put("Title", title);
+		if(UId != null)
+			values.put("UId", UId);
 		
-		return dbHandler.getWritableDatabase().insert("ShopListOverview", null, values) != -1;
+		return dbHandler.getWritableDatabase().insert("ShopListOverview", null, values);
 	}
 	
 	public boolean updateList(long id, String title, Integer totalItems){
@@ -39,5 +42,12 @@ public class DALShopListOverview {
 			values.put("TotalItems", totalItems);
 		
 		return dbHandler.getWritableDatabase().update("ShopListOverview",values,"_id = " + id, null) > 0;
+	}
+	
+	public boolean updateId(Ids ids){
+		ContentValues values = new ContentValues();
+		if(ids.getGlobalId() != null)
+			values.put("UId", ids.getGlobalId());
+		return dbHandler.getWritableDatabase().update("ShopListOverview",values,"_id = " + ids.getDBId(), null) > 0;
 	}
 }

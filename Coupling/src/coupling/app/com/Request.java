@@ -78,4 +78,8 @@ public class Request {
 		return null;
 	}
 	
+	public String toString(){
+		return prepareToPost();
+	}
+	
 }

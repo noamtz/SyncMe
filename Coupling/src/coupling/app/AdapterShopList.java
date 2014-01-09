@@ -3,6 +3,8 @@ package coupling.app;
 
 import com.nit.coupling.R;
 
+import coupling.app.BL.BLShopList;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
@@ -74,7 +76,7 @@ public class AdapterShopList extends CursorAdapter {
 			public void onClick(View v) {
 				boolean isSucceed = blShoplist.deleteItem((Ids)v.getTag());
 				if(!isSucceed)
-					Log.e("adaptor_shoplist", "failed to delete item: " + (Long)v.getTag());
+					Log.e("adaptor_shoplist", "failed to delete item: " + ((Ids)v.getTag()).getDBId());
 				refresh();
 			}
 		});

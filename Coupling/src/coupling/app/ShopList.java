@@ -2,6 +2,10 @@ package coupling.app;
 
 import com.nit.coupling.R;
 
+import coupling.app.BL.BLShopList;
+import coupling.app.com.IBLConnector;
+
+
 import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -11,7 +15,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -20,7 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-public class ShopList extends Activity{
+public class ShopList extends Activity implements IBLConnector{
 
 	private TextView tvItemQuantity;
 	private EditText etItemName;
@@ -48,6 +51,7 @@ public class ShopList extends Activity{
 		initGui();
 
 		blShopList = new BLShopList(listId);
+		blShopList.setBLConnector(this);
 
 		adapter = new AdapterShopList(this, blShopList);
 
@@ -58,6 +62,18 @@ public class ShopList extends Activity{
 		selectedItemIds = null;
 
 
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		blShopList.unsetBLConnector();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		blShopList.setBLConnector(this);
 	}
 
 	private void initGui(){ 
@@ -168,5 +184,10 @@ public class ShopList extends Activity{
 		selectedItemIds = null;
 		itemQuantity = 1;
 		tvItemQuantity.setText(Integer.toString(itemQuantity));
+	}
+
+	@Override
+	public void Refresh() {	
+		adapter.refresh();
 	}
 }

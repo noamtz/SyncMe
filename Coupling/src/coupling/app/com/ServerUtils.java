@@ -2,27 +2,25 @@ package coupling.app.com;
 
 import static coupling.app.com.Constants.*;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
+
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.NameValuePair;
+
 import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
+
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
@@ -33,7 +31,6 @@ import org.json.JSONObject;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.webkit.JsPromptResult;
 import coupling.app.Utils;
 import coupling.app.data.Enums.HttpType;
 
@@ -56,6 +53,12 @@ public class ServerUtils {
 	}
 
 
+	public JSONObject post(Request request ,ITask tasker , boolean async){
+		ArrayList<ITask> taskers = new ArrayList<ITask>();
+		taskers.add(tasker);
+		return post(request, taskers, async);
+	}
+	
 	/**
 	 * 
 	 * @param request
@@ -72,14 +75,14 @@ public class ServerUtils {
 		JSONObject resp = null;
 		
 		if(async){
-			Utils.Log(TAG, "execute unsynchronize: " + request.getMethod() + " TO: " + request.getServerIP());
+			Utils.Log(TAG, request.toString());
 			new RequestTask(request, tasker).execute(null,null,null);
 		}
 		else{
-			Utils.Log(TAG, "execute synchronize: " + request.getMethod() + " TO: " + request.getServerIP());
+			Utils.Log(TAG, request.toString());
 			resp = postRequest(request);
 			if(resp != null){
-				Utils.Log(TAG, "post", resp.toString());
+				//Utils.Log(TAG, "post", resp.toString());
 				//notifyTaskers(tasker, request, resp);
 			} else {
 				Utils.LogError(TAG, "Failed to execute post form request: " + request.toString());
@@ -195,12 +198,10 @@ public class ServerUtils {
 	}
 
 	private void notifyTaskers(ArrayList<ITask> taskManagers , Request request , JSONObject result){
-		Utils.Log(this.getClass().getName(), "NOTIFY " + taskManagers);
 		if(taskManagers != null){
 			Response response =  new Response(result);
 			for(ITask tasker : taskManagers){
 				tasker.onTaskComplete(request ,response);
-				Utils.Log(TAG, "Notify to :" + tasker.getClass().getName());
 			}
 			if(response.getMessageId() != null)
 				API.getInstance().messageRecieved(response.getMessageId());

@@ -1,6 +1,5 @@
 package coupling.app.com;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import coupling.app.Utils;
@@ -9,11 +8,13 @@ public class Response {
 	
 	private String response;
 	private Long messageId;
+	private JSONObject json;
 	
 	public Response(){
 	}
 	
 	public Response(JSONObject response){
+		this.json = response;
 		this.response = response != null ? response.toString() : null;
 		try {
 			messageId = response.getJSONObject("message").getLong("id");
@@ -22,6 +23,14 @@ public class Response {
 		}
 	}
 	
+	public JSONObject getJson() {
+		return json;
+	}
+
+	public void setJson(JSONObject json) {
+		this.json = json;
+	}
+
 	public Response(String response){
 		this.response = response;
 	}
