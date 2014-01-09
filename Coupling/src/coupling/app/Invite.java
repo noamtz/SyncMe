@@ -19,6 +19,7 @@ public class Invite extends Activity implements OnClickListener{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.invite_layout);
 		
 		friendET = (EditText) findViewById(R.id.friend_et);
 		
