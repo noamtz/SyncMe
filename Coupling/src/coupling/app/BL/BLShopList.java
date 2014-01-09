@@ -139,7 +139,7 @@ public class BLShopList extends AppFeature{
 		try{
 			
 			Ids ids = new Ids();
-			if(data.has(UID) && data.get(UID).equals("null"))
+			if(data.has(UID) && !data.get(UID).equals("null"))
 					ids.setGlobalId(data.getLong(UID));
 			
 			String itemName = null;
