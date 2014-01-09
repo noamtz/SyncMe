@@ -59,7 +59,7 @@ public class BLShopListOverview extends AppFeature {
 	public void recieveData(JSONObject data, ActionType actionType) {
 		try{	
 			Ids ids = new Ids();
-			if(data.has(UID) && data.get(UID).equals("null"))
+			if(data.has(UID) && !data.get(UID).equals(null))
 					ids.setGlobalId(data.getLong(UID));
 			
 			String title = null;
