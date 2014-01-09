@@ -78,8 +78,10 @@ public class Mediator {
 			}
 			
 			AppFeature feature = getAppFeature(message.getInt("type"), LocalId);
-			ActionType action = Enums.toActionType(message.getInt("action"));
-			feature.recieveData(data, action);
+			if(feature != null){
+				ActionType action = Enums.toActionType(message.getInt("action"));
+				feature.recieveData(data, action);
+			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
