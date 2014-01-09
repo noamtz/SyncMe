@@ -139,8 +139,10 @@ public class BLShopList extends AppFeature{
 		try{
 			
 			Ids ids = new Ids();
-			if(data.has(UID) && !data.get(UID).equals("null"))
+			if(data.has(UID) && !data.get(UID).equals(null))
 					ids.setGlobalId(data.getLong(UID));
+			
+			ids.setRemote(true);
 			
 			String itemName = null;
 			Integer quantity = null;
@@ -157,7 +159,8 @@ public class BLShopList extends AppFeature{
 				break;
 
 			case UPDATE:	
-				updateItem(ids, itemName, quantity , isDone, false);
+				boolean isUpdated = updateItem(ids, itemName, quantity , isDone, false);
+				Utils.Log("BLShopList", "isUpdated: " + isUpdated);
 				break;
 			case DELETE:
 				deleteItem(ids, false);
