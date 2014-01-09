@@ -77,8 +77,8 @@ public class Main extends FragmentActivity implements ActionBar.TabListener{
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.invite:
-			Intent inviteIntent = new Intent(this, Invite.class);
-			//startActivity(inviteIntent);
+			Intent inviteIntent = new Intent(Main.this, Invite.class);
+			startActivity(inviteIntent);
 			Log.w("MENU", "in invite");
 			return true;
 		default:
