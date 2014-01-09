@@ -40,12 +40,13 @@ public class Invite extends Activity implements OnClickListener{
 				
 				api = API.getInstance();
 				api.invite(friendEmail);
+				finish();
 				
 			} else {
 				Utils.shopToast("Please Enter Friends Email");
 			}
 		} else if (v.getId() == cancel.getId()){
-			
+			finish();
 		}
 	}
 
