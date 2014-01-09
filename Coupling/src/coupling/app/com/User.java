@@ -17,7 +17,7 @@ public class User {
 		this.id = -1;
 		this.regId = "";
 	}
-	 
+	
 	public User(String firstname , String lastname, String email) { 
 		this.firstname = firstname;
 		this.lastname = lastname;

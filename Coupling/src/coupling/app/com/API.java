@@ -119,14 +119,14 @@ public class API { // Mabe move the ITask responsibility to another object
 		return resp;
 	}
 
-	public void invite(User reciever) {
+	public void invite(String email) {
 		Request request = new Request();
 
 		try{
 
 			JSONObject params = new JSONObject();
 			params.put(EMAIL, sender.getEmail());
-			params.put(FRIEND_EMAIL, reciever.getEmail());
+			params.put(FRIEND_EMAIL, email);
 
 			request.setMethod(INVITE);
 			request.setParams(params);
