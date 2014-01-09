@@ -45,7 +45,8 @@
         </activity>
         <activity
             android:name="coupling.app.Invite"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:theme="@android:style/Theme.Holo.Dialog" >
         </activity>
 
         <receiver

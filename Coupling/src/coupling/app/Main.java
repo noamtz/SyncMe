@@ -78,6 +78,7 @@ public class Main extends FragmentActivity implements ActionBar.TabListener{
 		switch (item.getItemId()) {
 		case R.id.invite:
 			Intent inviteIntent = new Intent(Main.this, Invite.class);
+			Log.w("MENU", inviteIntent.toString());
 			startActivity(inviteIntent);
 			Log.w("MENU", "in invite");
 			return true;
