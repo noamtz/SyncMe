@@ -14,7 +14,7 @@ import android.widget.EditText;
 public class Invite extends Activity implements OnClickListener{
 
 	EditText friendET;
-	Button inviteBT;
+	Button inviteBT, cancel;
 	API api;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +25,9 @@ public class Invite extends Activity implements OnClickListener{
 		
 		inviteBT = (Button) findViewById(R.id.invite_bt);
 		inviteBT.setOnClickListener(this);
+		
+		cancel = (Button) findViewById(R.id.invite_cancel_bt);
+		cancel.setOnClickListener(this);
 		
 	}
 	@Override
@@ -41,6 +44,8 @@ public class Invite extends Activity implements OnClickListener{
 			} else {
 				Utils.shopToast("Please Enter Friends Email");
 			}
+		} else if (v.getId() == cancel.getId()){
+			
 		}
 	}
 
