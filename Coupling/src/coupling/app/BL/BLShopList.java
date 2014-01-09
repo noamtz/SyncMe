@@ -5,6 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.database.Cursor;
+import android.util.Log;
 import coupling.app.Ids;
 import coupling.app.Utils;
 import coupling.app.com.API;
@@ -162,6 +163,7 @@ public class BLShopList extends AppFeature{
 				deleteItem(ids, false);
 				break;
 			}
+
 			if(connector != null)
 				connector.Refresh();
 		}catch(JSONException e){

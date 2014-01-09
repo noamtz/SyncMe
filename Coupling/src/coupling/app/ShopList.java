@@ -2,6 +2,7 @@ package coupling.app;
 
 import com.nit.coupling.R;
 
+import coupling.app.BL.BLFactory;
 import coupling.app.BL.BLShopList;
 import coupling.app.com.IBLConnector;
 
@@ -50,7 +51,7 @@ public class ShopList extends Activity implements IBLConnector{
 
 		initGui();
 
-		blShopList = new BLShopList(listId);
+		blShopList = BLFactory.getInstance().getShopList(listId);
 		blShopList.setBLConnector(this);
 
 		adapter = new AdapterShopList(this, blShopList);
@@ -188,6 +189,13 @@ public class ShopList extends Activity implements IBLConnector{
 
 	@Override
 	public void Refresh() {	
-		adapter.refresh();
+		runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				adapter.refresh();
+				Utils.Log("ShopList", "*** ON REFRESH **");
+				}
+		});
 	}
 }

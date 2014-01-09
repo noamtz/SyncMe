@@ -1,14 +1,10 @@
 package coupling.app;
 
-import java.util.ArrayList;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import coupling.app.BL.BLShopList;
-import coupling.app.BL.BLShopListOverview;
+import coupling.app.BL.BLFactory;
 import coupling.app.com.AppFeature;
-import coupling.app.com.ITask;
 import coupling.app.data.DAL;
 import coupling.app.data.Enums;
 import coupling.app.data.Enums.ActionType;
@@ -63,10 +59,10 @@ public class Mediator {
 	public AppFeature getAppFeature(int category, Long LocalId){
 		if(category == CategoryType.SHOPLIST.value()){
 			Utils.Log("Mediator", "getAppFeature", "listid : " + LocalId);
-			return new BLShopList(LocalId);
+			return BLFactory.getInstance().getShopList(LocalId);
 		}
 		else if(category == CategoryType.SHOPLIST_OVERVIEW.value())
-			return new BLShopListOverview();
+			return BLFactory.getInstance().getShopListOverview();
 		return null;
 	}
 	

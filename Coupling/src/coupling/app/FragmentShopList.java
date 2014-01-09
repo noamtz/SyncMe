@@ -1,12 +1,9 @@
 package coupling.app;
 
-import com.google.android.gms.internal.ad;
 import com.nit.coupling.R;
-
+import coupling.app.BL.BLFactory;
 import coupling.app.BL.BLShopListOverview;
 import coupling.app.com.IBLConnector;
-import coupling.app.data.DALShopListOverview;
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -35,7 +32,7 @@ public class FragmentShopList extends Fragment implements IBLConnector{
 			Bundle savedInstanceState) {
 
 		View rootView = inflater.inflate(R.layout.fragment_main_shoplist, container, false);
-		blShopListOverview = new BLShopListOverview();
+		blShopListOverview = BLFactory.getInstance().getShopListOverview();
 		
 		ListView lv = (ListView) rootView.findViewById(R.id.shoplist_lv);
 		adapter = new AdapterShopListOverview(this.getActivity(), blShopListOverview);
@@ -103,6 +100,12 @@ public class FragmentShopList extends Fragment implements IBLConnector{
 
 	@Override
 	public void Refresh() {
-		adapter.refreshList();
+		this.getActivity().runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				adapter.refreshList();
+			}
+		});
 	}
 }
