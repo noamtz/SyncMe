@@ -73,8 +73,8 @@ public class Mediator {
 			JSONObject data = new JSONObject(message.getString("data"));
 			
 			Long LocalId = null;
-			if(Enums.toCategoryType(message.getInt("type")) == CategoryType.SHOPLIST){
-				LocalId = DAL.getInstance().getLocalId(CategoryType.SHOPLIST_OVERVIEW, data.getLong("GlobalListId"));
+			if(data.has("GlobalListId")){
+				LocalId = DAL.getInstance().getLocalId(CategoryType.SHOPLIST, data.getLong("GlobalListId"));
 			}
 			
 			AppFeature feature = getAppFeature(message.getInt("type"), LocalId);
