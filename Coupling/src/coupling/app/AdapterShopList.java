@@ -62,10 +62,11 @@ public class AdapterShopList extends CursorAdapter {
 		check.setTag(ids);
 		
 		final ImageView redLine = (ImageView) row.findViewById(R.id.red_line_view);
-		
+		Utils.Log("ShopListAdapter", "Item: " + name + " isMine? " + isMine);
 		if(!isMine)
 			row.setBackgroundColor(Color.YELLOW);
-		
+		else
+			row.setBackgroundColor(Color.WHITE);
 		if (isDone)
 		{
 			redLine.setVisibility(View.VISIBLE);

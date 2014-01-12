@@ -46,8 +46,6 @@ public class DALShopList {
 		if(ids.getGlobalId() != null)
 			values.put("UId", ids.getGlobalId());
 
-		values.put("IsMine", ids.isRemote());
-
 		Utils.Log("DAL", "Update", "Global: " + ids.getGlobalId());
 
 		String where = (ids.getGlobalId() != null) ? "UId = " + ids.getGlobalId() : "_id = " + ids.getDBId();
