@@ -4,20 +4,11 @@ public class Ids {
 
 	private Long DBId;
 	private Long globalId;
-	private boolean remote;
 	
 	public Ids(){
-		remote = false;
 		globalId = null;
 	}
-	
-	public boolean isRemote() {
-		return remote;
-	}
 
-	public void setRemote(boolean remote) {
-		this.remote = remote;
-	}
 
 	public Ids(Long DBId, Long globalId){
 		this.DBId = DBId;

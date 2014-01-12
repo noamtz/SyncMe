@@ -2,6 +2,7 @@ package coupling.app.data;
 
 import coupling.app.App;
 import coupling.app.Ids;
+import coupling.app.Utils;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -33,7 +34,7 @@ public class DALShopListOverview {
 			values.put("UId", UId);
 		if(isMine != null)
 			values.put("IsMine", isMine);
-		
+		Utils.Log("DAL_ShopListOverview", "Create: isMine? " + isMine);
 		return dbHandler.getWritableDatabase().insert("ShopListOverview", null, values);
 	}
 	
@@ -56,7 +57,7 @@ public class DALShopListOverview {
 		 try {
 			 isDeleted = db.delete("ShopListOverview", where, null) > 0;
 			 if(isDeleted)
-				 isDeleted = db.delete("ShopList" , "ShopListId = " + ids.getDBId(), null) > 0;
+				 db.delete("ShopList" , "ShopListId = " + ids.getDBId(), null);
 			 db.setTransactionSuccessful();
 		 } finally { 
 			 db.endTransaction();
