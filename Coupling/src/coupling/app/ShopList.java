@@ -1,25 +1,32 @@
 package coupling.app;
 
+import java.util.LinkedList;
+
 import com.nit.coupling.R;
 
 import coupling.app.BL.BLFactory;
+import coupling.app.BL.BLGroceryList;
 import coupling.app.BL.BLShopList;
 import coupling.app.com.IBLConnector;
-
 
 import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
@@ -27,7 +34,7 @@ import android.widget.TextView.OnEditorActionListener;
 public class ShopList extends Activity implements IBLConnector{
 
 	private TextView tvItemQuantity;
-	private EditText etItemName;
+	private AutoCompleteTextView acItemName;
 	private Button plus, minus, add;
 
 	private ListView listItems;
@@ -37,24 +44,32 @@ public class ShopList extends Activity implements IBLConnector{
 	private int itemQuantity;
 
 	private BLShopList blShopList;
+	private GroceryList groceryList;
+	
+	private LinkedList<String> grocerys;
+	
+	private ArrayAdapter<String> ACadapter ;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.list_item_layout);
-		
+
 		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		long listId = getIntent().getExtras().getLong("Id");
 		String listTitle = getIntent().getExtras().getString("Title");
 		setTitle(listTitle);
-
+		
+		groceryList = new GroceryList();
+	
 		initGui();
 
 		blShopList = BLFactory.getInstance().getShopList(listId);
 		blShopList.setBLConnector(this);
-
+		
 		adapter = new AdapterShopList(this, blShopList);
 
 		listItems.setAdapter(adapter);
@@ -62,8 +77,6 @@ public class ShopList extends Activity implements IBLConnector{
 
 		itemQuantity = 1;
 		selectedItemIds = null;
-
-
 	}
 
 	@Override
@@ -77,10 +90,14 @@ public class ShopList extends Activity implements IBLConnector{
 		super.onResume();
 		blShopList.setBLConnector(this);
 	}
-
+	
 	private void initGui(){ 
+		
+		grocerys = groceryList.getGroceryList();
+		ACadapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, grocerys);
+		
 		tvItemQuantity = (TextView) findViewById(R.id.count);
-		etItemName = (EditText) findViewById(R.id.input_item);
+		acItemName = (AutoCompleteTextView) findViewById(R.id.input_item);
 		plus = (Button) findViewById(R.id.plus_button);
 		minus = (Button) findViewById(R.id.minus_button);
 		add = (Button) findViewById(R.id.add_button);
@@ -89,8 +106,11 @@ public class ShopList extends Activity implements IBLConnector{
 		plus.setOnClickListener(increaseQuantity());
 		minus.setOnClickListener(decreaseQuantity());
 		add.setOnClickListener(addItem());
-		etItemName.setOnEditorActionListener(itemHandler());
+		acItemName.setOnEditorActionListener(itemHandler());
 		listItems.setOnItemClickListener(editItem());
+		
+		acItemName.setAdapter(ACadapter);
+		acItemName.setThreshold(1);
 	}
 
 	private OnClickListener increaseQuantity(){
@@ -155,7 +175,7 @@ public class ShopList extends Activity implements IBLConnector{
 				String itemName = cursor.getString(cursor.getColumnIndex("ItemName"));
 				Integer itemQuantity = cursor.getInt(cursor.getColumnIndex("ItemQuantity"));
 
-				etItemName.setText(itemName);
+				acItemName.setText(itemName);
 				tvItemQuantity.setText(itemQuantity.toString());
 
 				Log.v("", "selected: " + itemName);
@@ -166,14 +186,15 @@ public class ShopList extends Activity implements IBLConnector{
 
 	public void addItemToList()
 	{
-		if (etItemName.getText().length() > 0){
+		if (acItemName.getText().length() > 0){
 			if(selectedItemIds == null){
-				boolean isSucceed = blShopList.createItem(etItemName.getText().toString() , itemQuantity); 
+				groceryList.addItem(acItemName.getText().toString() ,ACadapter);
+				boolean isSucceed = blShopList.createItem(acItemName.getText().toString() , itemQuantity); 
 				if(!isSucceed)
 					Log.e("shoplist", "failed to add an item");
 			}
 			else{
-				boolean isSucceed = blShopList.updateItem(selectedItemIds ,etItemName.getText().toString() , itemQuantity, null);
+				boolean isSucceed = blShopList.updateItem(selectedItemIds ,acItemName.getText().toString() , itemQuantity, null);
 				if(!isSucceed)
 					Log.e("shoplist", "failed to update an item with id: " + selectedItemIds);
 			}
@@ -182,7 +203,7 @@ public class ShopList extends Activity implements IBLConnector{
 
 		listItems.setSelection(listItems.getCount() - 1);
 
-		etItemName.setText("");
+		acItemName.setText("");
 		selectedItemIds = null;
 		itemQuantity = 1;
 		tvItemQuantity.setText(Integer.toString(itemQuantity));
@@ -191,12 +212,29 @@ public class ShopList extends Activity implements IBLConnector{
 	@Override
 	public void Refresh() {	
 		runOnUiThread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				adapter.refresh();
 				Utils.Log("ShopList", "*** ON REFRESH **");
-				}
+			}
 		});
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu items for use in the action bar
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			NavUtils.navigateUpFromSameTask(this);
+			return true;
+		}
+		return false;	
 	}
 }

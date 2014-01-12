@@ -13,6 +13,7 @@ public class BLFactory {
 	
 	private Map<Long, BLShopList> shopLists;
 	private BLShopListOverview blShopListOverview;
+	private BLGroceryList blGroceryList;
 	
 	private BLFactory(){
 		shopLists = new HashMap<Long, BLShopList>();
@@ -38,6 +39,12 @@ public class BLFactory {
 		if(blShopListOverview == null)
 			blShopListOverview = new BLShopListOverview();
 		return blShopListOverview;
+	}
+	
+	public BLGroceryList getGroceryList(){
+		if (blGroceryList == null)
+			blGroceryList = new BLGroceryList();
+		return blGroceryList;
 	}
 	
 }

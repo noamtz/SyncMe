@@ -22,6 +22,8 @@ public class Main extends FragmentActivity implements ActionBar.TabListener{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		//Utils.exportDatabse("coupling");
 
 		setContentView(R.layout.activity_main);
 		mAppSectionsPagerAdapter = new AppSectionsPagerAdapter(getSupportFragmentManager());

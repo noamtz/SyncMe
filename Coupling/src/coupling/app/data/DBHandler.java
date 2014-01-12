@@ -8,19 +8,19 @@ import android.util.Log;
 public class DBHandler extends SQLiteOpenHelper {
 
 	public DBHandler(Context context) {
-		super(context,"coupling.db", null, 10);
+		super(context,"coupling.db", null, 11);
 	}
 
 	@Override
 	public void onCreate(SQLiteDatabase database) {
 		database.execSQL(
 				"CREATE TABLE ShopListOverview ( " +
-							"_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-							"UId INTEGER NULL," + 
-							"Title VARCHAR(50), " +
-							"TotalItems Int DEFAULT 0, " +
-							"IsMine INTEGER DEFAULT 1, " +
-							"CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP " +
+						"_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+						"UId INTEGER NULL," + 
+						"Title VARCHAR(50), " +
+						"TotalItems Int DEFAULT 0, " +
+						"IsMine INTEGER DEFAULT 1, " +
+						"CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP " +
 						");"
 				);
 		database.execSQL(
@@ -33,8 +33,14 @@ public class DBHandler extends SQLiteOpenHelper {
 						"ItemStatus INTEGER DEFAULT 0, " +
 						"IsMine INTEGER DEFAULT 1, " +
 						"FOREIGN KEY(ShopListId) REFERENCES ShopListOverview(_id)" +
-				");"
-			);
+						");"
+				);
+		database.execSQL(
+				"CREATE TABLE GroceryList ( " +
+						"_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+						"ItemName VARCHAR(50)" + 
+						");"
+				);
 	}
 
 	@Override
