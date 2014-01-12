@@ -33,11 +33,11 @@ public class BLShopListOverview extends AppFeature {
 	}
 
 	public boolean createList(String title){
-		return createList(null,title, true);
+		return createList(null,title,null, true);
 	}
 
-	public boolean createList(Long UId, String title, boolean remote){
-		long localId = dataSource.createList(UId,title);
+	public boolean createList(Long UId, String title,Boolean isMine, boolean remote){
+		long localId = dataSource.createList(UId,title,isMine);
 		boolean isCreated = (localId != -1); 
 
 		if(remote && isCreated){
@@ -87,7 +87,7 @@ public class BLShopListOverview extends AppFeature {
 
 			switch (actionType) {
 			case CREATE:
-				createList(ids.getGlobalId(), title, false);
+				createList(ids.getGlobalId(), title,false, false);
 				break;
 			case DELETE:
 				deleteItem(ids, false);

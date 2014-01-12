@@ -8,6 +8,7 @@ import coupling.app.BL.BLShopListOverview;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,10 @@ public class AdapterShopListOverview extends CursorAdapter {
 		String title =  cursor.getString(cursor.getColumnIndexOrThrow("Title"));
 		int totalItems = cursor.getInt(cursor.getColumnIndexOrThrow("TotalItems"));
 		Date createdAt = Utils.toDate(cursor.getString(cursor.getColumnIndexOrThrow("CreatedAt")));
+		boolean isMine = (cursor.getInt(cursor.getColumnIndexOrThrow("IsMine")) == 1);
+		
+		if(!isMine)
+			row.setBackgroundColor(Color.YELLOW);
 		
 		TextView tvTitle = (TextView) row.findViewById(R.id.tvTitle);
 		tvTitle.setText(title);

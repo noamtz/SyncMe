@@ -22,13 +22,15 @@ public class DALShopList {
 		return dbHandler.getReadableDatabase().rawQuery("SELECT * FROM ShopList WHERE ShopListId = " + listId, null);
 	}
 
-	public long createItem(Long UId, String name, int quantity){
+	public long createItem(Long UId, String name, int quantity, Boolean isMine){
 		ContentValues values = new ContentValues();
 		values.put("ShopListId", listId);
 		values.put("ItemName", name);
 		values.put("ItemQuantity", quantity);
 		if(UId != null)
 			values.put("UId", UId);
+		if(isMine != null)
+			values.put("IsMine", isMine);
 		Log.v("dal_shoplist","id: " + listId + " name: " + name + " quantity: "+ quantity);
 		return dbHandler.getWritableDatabase().insertOrThrow("ShopList", null, values);
 	}

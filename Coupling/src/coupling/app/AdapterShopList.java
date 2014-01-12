@@ -7,6 +7,7 @@ import coupling.app.BL.BLShopList;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +43,7 @@ public class AdapterShopList extends CursorAdapter {
 		String name =  cursor.getString(cursor.getColumnIndexOrThrow("ItemName"));
 		int quantity = cursor.getInt(cursor.getColumnIndexOrThrow("ItemQuantity"));
 		boolean isDone = cursor.getInt(cursor.getColumnIndexOrThrow("ItemStatus")) > 0;
+		boolean isMine = cursor.getInt(cursor.getColumnIndexOrThrow("IsMine")) == 1;
 		
 		Ids ids = new Ids(id, Uid);
 		
@@ -60,6 +62,9 @@ public class AdapterShopList extends CursorAdapter {
 		check.setTag(ids);
 		
 		final ImageView redLine = (ImageView) row.findViewById(R.id.red_line_view);
+		
+		if(!isMine)
+			row.setBackgroundColor(Color.YELLOW);
 		
 		if (isDone)
 		{

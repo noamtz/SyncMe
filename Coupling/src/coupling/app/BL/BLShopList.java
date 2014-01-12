@@ -51,11 +51,11 @@ public class BLShopList extends AppFeature{
 	
 
 	public boolean createItem(String name, int quantity){
-		return createItem(null,name, quantity, true);
+		return createItem(null,name, quantity,null ,  true);
 	}
 
-	public boolean createItem(Long UId, String name, int quantity, boolean remote){
-		long localId = dataSource.createItem(UId, name, quantity);
+	public boolean createItem(Long UId, String name, int quantity, Boolean isMine, boolean remote){
+		long localId = dataSource.createItem(UId, name, quantity, isMine);
 		boolean createdSuccessfuly = (localId != -1);
 		
 		if(remote && createdSuccessfuly) {
@@ -155,7 +155,7 @@ public class BLShopList extends AppFeature{
 			
 			switch (actionType) {
 			case CREATE:
-				createItem(ids.getGlobalId(), itemName, quantity, false);
+				createItem(ids.getGlobalId(), itemName, quantity, false, false);
 				break;
 
 			case UPDATE:	

@@ -26,11 +26,13 @@ public class DALShopListOverview {
 		return dbHandler.getReadableDatabase().rawQuery("SELECT * FROM ShopListOverview", null);
 	}
 	
-	public long createList(Long UId, String title){
+	public long createList(Long UId, String title , Boolean isMine){
 		ContentValues values = new ContentValues();
 		values.put("Title", title);
 		if(UId != null)
 			values.put("UId", UId);
+		if(isMine != null)
+			values.put("IsMine", isMine);
 		
 		return dbHandler.getWritableDatabase().insert("ShopListOverview", null, values);
 	}
