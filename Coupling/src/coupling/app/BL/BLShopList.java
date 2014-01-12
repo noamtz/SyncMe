@@ -142,8 +142,6 @@ public class BLShopList extends AppFeature{
 			if(data.has(UID) && !data.get(UID).equals(null))
 					ids.setGlobalId(data.getLong(UID));
 			
-			ids.setRemote(true);
-			
 			String itemName = null;
 			Integer quantity = null;
 			Boolean isDone = null;
