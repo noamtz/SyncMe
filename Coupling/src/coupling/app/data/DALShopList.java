@@ -19,7 +19,7 @@ public class DALShopList {
 	}
 
 	public Cursor getSource(){
-		return dbHandler.getWritableDatabase().rawQuery("SELECT * FROM ShopList WHERE ShopListId = " + listId, null);
+		return dbHandler.getReadableDatabase().rawQuery("SELECT * FROM ShopList WHERE ShopListId = " + listId, null);
 	}
 
 	public long createItem(Long UId, String name, int quantity){

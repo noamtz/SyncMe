@@ -54,6 +54,25 @@ public class BLShopListOverview extends AppFeature {
 		}
 		return isCreated;
 	}
+	
+	public boolean deleteItem(Ids ids){
+		return deleteItem(ids, true);
+	}
+
+	public boolean deleteItem(Ids ids, boolean remote){
+		boolean res = dataSource.deleteList(ids);
+		if(remote && res){
+			Message message = new Message();
+
+			message.getData().put(UID, ids.getGlobalId());
+			
+			message.setCategoryType(categoryType);
+			message.setActionType(ActionType.DELETE);
+
+			api.sync(message);
+		}
+		return res;
+	}
 
 	@Override
 	public void recieveData(JSONObject data, ActionType actionType) {
@@ -69,6 +88,9 @@ public class BLShopListOverview extends AppFeature {
 			switch (actionType) {
 			case CREATE:
 				createList(ids.getGlobalId(), title, false);
+				break;
+			case DELETE:
+				deleteItem(ids, false);
 				break;
 			}
 			if(connector != null)

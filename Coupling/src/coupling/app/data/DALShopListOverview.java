@@ -4,6 +4,7 @@ import coupling.app.App;
 import coupling.app.Ids;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 public class DALShopListOverview {
 
@@ -22,7 +23,7 @@ public class DALShopListOverview {
 	}
 	
 	public Cursor getSource(){
-		return dbHandler.getWritableDatabase().rawQuery("SELECT * FROM ShopListOverview", null);
+		return dbHandler.getReadableDatabase().rawQuery("SELECT * FROM ShopListOverview", null);
 	}
 	
 	public long createList(Long UId, String title){
@@ -42,6 +43,23 @@ public class DALShopListOverview {
 			values.put("TotalItems", totalItems);
 		
 		return dbHandler.getWritableDatabase().update("ShopListOverview",values,"_id = " + id, null) > 0;
+	}
+	
+	
+	public boolean deleteList(Ids ids){
+		String where = ids.getGlobalId() != null ? "UId = '" + ids.getGlobalId() + "'" : "_id = " + ids.getDBId();
+		SQLiteDatabase db = dbHandler.getWritableDatabase();
+		boolean isDeleted = false;
+		db.beginTransaction();
+		 try {
+			 isDeleted = db.delete("ShopListOverview", where, null) > 0;
+			 if(isDeleted)
+				 isDeleted = db.delete("ShopList" , "ShopListId = " + ids.getDBId(), null) > 0;
+			 db.setTransactionSuccessful();
+		 } finally { 
+			 db.endTransaction();
+		 }
+		 return isDeleted;
 	}
 	
 	public boolean updateId(Ids ids){
