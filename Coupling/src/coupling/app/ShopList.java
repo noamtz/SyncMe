@@ -48,6 +48,7 @@ public class ShopList extends Activity implements IBLConnector{
 
 		long listId = getIntent().getExtras().getLong("Id");
 		String listTitle = getIntent().getExtras().getString("Title");
+		setTitle(listTitle);
 
 		initGui();
 

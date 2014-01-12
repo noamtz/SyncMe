@@ -87,7 +87,7 @@ public class BLShopListOverview extends AppFeature {
 
 			switch (actionType) {
 			case CREATE:
-				createList(ids.getGlobalId(), title,false, false);
+				createList(ids.getGlobalId(), title, false, false);
 				break;
 			case DELETE:
 				deleteItem(ids, false);
@@ -111,5 +111,6 @@ public class BLShopListOverview extends AppFeature {
 	public void unsetBLConnector(){
 		this.connector = null;
 	}
+	
 
 }
