@@ -131,7 +131,7 @@ public class API { // Mabe move the ITask responsibility to another object
 			request.setMethod(INVITE);
 			request.setParams(params);
 
-			server.post(request, apiTasker, false);
+			server.post(request, apiTasker, true);
 		}catch(JSONException e){
 			e.printStackTrace();
 		}	
