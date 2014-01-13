@@ -12,12 +12,12 @@ public class DALGroceryList {
 	}
 	
 	public Cursor getSource(){
-		return dbHandler.getReadableDatabase().rawQuery("SELECT * FROM GroceryList", null);
+		return dbHandler.getReadableDatabase().rawQuery("SELECT DISTINCT ItemName FROM GroceryList", null);
 	}
 	
 	public long addItem(String item){
 		ContentValues values = new ContentValues();
 		values.put("ItemName", item);
-		return dbHandler.getWritableDatabase().insertOrThrow("ShopList", null, values);		
+		return dbHandler.getWritableDatabase().insertOrThrow("GroceryList", null, values);		
 	}
 }

@@ -4,8 +4,10 @@ import com.nit.coupling.R;
 import coupling.app.BL.BLFactory;
 import coupling.app.BL.BLShopListOverview;
 import coupling.app.com.IBLConnector;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.hardware.input.InputManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -13,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -34,7 +37,7 @@ public class FragmentShopList extends Fragment implements IBLConnector{
 		View rootView = inflater.inflate(R.layout.fragment_main_shoplist, container, false);
 		blShopListOverview = BLFactory.getInstance().getShopListOverview();
 		
-		ListView lv = (ListView) rootView.findViewById(R.id.shoplist_lv);
+		final ListView lv = (ListView) rootView.findViewById(R.id.shoplist_lv);
 		adapter = new AdapterShopListOverview(this.getActivity(), blShopListOverview);
 		
 		lv.setAdapter(adapter);
@@ -52,6 +55,11 @@ public class FragmentShopList extends Fragment implements IBLConnector{
 				if(!title.isEmpty()){
 					blShopListOverview.createList(title);
 					adapter.refreshList();
+					
+					lv.setSelection(lv.getCount() - 1);
+					listName.setText("");
+					final InputMethodManager im = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+					im.hideSoftInputFromWindow(listName.getWindowToken(), 0);
 				}
 			}
 		});

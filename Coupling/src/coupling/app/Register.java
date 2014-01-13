@@ -14,6 +14,7 @@ import coupling.app.com.ITask;
 import coupling.app.com.Request;
 import coupling.app.com.Response;
 import coupling.app.com.User;
+import coupling.app.data.XMLParser;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,9 +22,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -46,34 +52,35 @@ public class Register extends Activity{
 	EditText etFirstName;
 	EditText etLastName;
 
-	private ProgressBar bar;
-
 	private User owner;
 
 	ITask tasker;
+	Thread thread;
+	Activity activity;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//If user not register with server & google
 		
+		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+		activity = this;
+		//If user not register with server & google
 		if(getPrefs().getBoolean(Constants.IS_REGISTERED, false)){
 			App.loadOwner(getPrefs());
 			startActivity(new Intent(this, Main.class));
+		} else {
+			insertItemsSQLThread();
 		}
 
 		setContentView(R.layout.settings);
 
 		context = getApplicationContext();
 
-		etEmail = (EditText) findViewById(R.id.etEmail);
+		etEmail = (EditText) findViewById(R.id.etPnumber);
 		etFirstName = (EditText) findViewById(R.id.etFirstName);
 		etLastName = (EditText) findViewById(R.id.etLastName);
 
 		Button btnRegister = (Button) findViewById(R.id.register);
-
-		bar = (ProgressBar) findViewById(R.id.progressBar);
-		bar.setVisibility(View.GONE);
 
 		btnRegister.setOnClickListener(registerListener());
 
@@ -100,6 +107,22 @@ public class Register extends Activity{
 	@Override
 	protected void onPause() {
 		super.onPause();
+	}
+	
+	private void insertItemsSQLThread(){
+		
+		thread = new Thread(){
+
+			@Override
+			public void run() {
+				GroceryList gl = new GroceryList();
+				gl.initGroceryListItems(activity);
+				Log.w("ILAN DEBUG", "RUN");
+				super.run();
+			}
+			
+		};
+		thread.start();
 	}
 
 	private OnClickListener registerListener(){
@@ -179,7 +202,7 @@ public class Register extends Activity{
 
 			@Override
 			protected void onPreExecute() {
-				bar.setVisibility(View.VISIBLE);
+				setProgressBarIndeterminateVisibility(true);
 			}
 
 			@Override
@@ -202,7 +225,7 @@ public class Register extends Activity{
 
 			@Override
 			protected void onPostExecute(String msg) {
-				bar.setVisibility(View.GONE);
+				setProgressBarIndeterminateVisibility(false);
 				if(msg.contentEquals("Device registered")){
 					SharedPreferences prefs =  getSharedPreferences(Register.class.getSimpleName(),
 							Context.MODE_PRIVATE);
@@ -240,5 +263,24 @@ public class Register extends Activity{
 		return getSharedPreferences(Register.class.getSimpleName(),
 				Context.MODE_PRIVATE);
 	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu items for use in the action bar
+		//MenuInflater inflater = getMenuInflater();
+		//inflater.inflate(R.menu.shop_list_menu, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	/*
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			//NavUtils.navigateUpFromSameTask(this);
+			return true;
+		}
+		return false;	
+	}
+	*/
 
 }

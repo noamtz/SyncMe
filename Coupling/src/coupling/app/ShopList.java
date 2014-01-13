@@ -64,6 +64,7 @@ public class ShopList extends Activity implements IBLConnector{
 		setTitle(listTitle);
 		
 		groceryList = new GroceryList();
+		groceryList.loadItems();
 	
 		initGui();
 
@@ -173,10 +174,10 @@ public class ShopList extends Activity implements IBLConnector{
 				selectedItemIds = new Ids(dbId, globalId);
 
 				String itemName = cursor.getString(cursor.getColumnIndex("ItemName"));
-				Integer itemQuantity = cursor.getInt(cursor.getColumnIndex("ItemQuantity"));
+				itemQuantity = cursor.getInt(cursor.getColumnIndex("ItemQuantity"));
 
 				acItemName.setText(itemName);
-				tvItemQuantity.setText(itemQuantity.toString());
+				tvItemQuantity.setText(itemQuantity + "");
 
 				Log.v("", "selected: " + itemName);
 			}
@@ -223,9 +224,6 @@ public class ShopList extends Activity implements IBLConnector{
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu items for use in the action bar
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.main, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 

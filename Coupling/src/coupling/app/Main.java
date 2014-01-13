@@ -22,10 +22,11 @@ public class Main extends FragmentActivity implements ActionBar.TabListener{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		//Utils.exportDatabse("coupling");
-
+	
 		setContentView(R.layout.activity_main);
+		
+		Utils.exportDatabse("coupling.db");
+		
 		mAppSectionsPagerAdapter = new AppSectionsPagerAdapter(getSupportFragmentManager());
 		ActionBar actionBar = getActionBar();
 
@@ -80,9 +81,7 @@ public class Main extends FragmentActivity implements ActionBar.TabListener{
 		switch (item.getItemId()) {
 		case R.id.invite:
 			Intent inviteIntent = new Intent(Main.this, Invite.class);
-			Log.w("MENU", inviteIntent.toString());
 			startActivity(inviteIntent);
-			Log.w("MENU", "in invite");
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
