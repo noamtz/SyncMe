@@ -63,7 +63,7 @@ public class ShopList extends Activity implements IBLConnector{
 		String listTitle = getIntent().getExtras().getString("Title");
 		setTitle(listTitle);
 		
-		groceryList = new GroceryList();
+		groceryList = GroceryList.getInstance();
 		groceryList.loadItems();
 	
 		initGui();

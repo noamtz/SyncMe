@@ -65,8 +65,7 @@ public class Register extends Activity{
 			startActivity(new Intent(this, Main.class));
 		} else {
 			insertItemsSQLThread();
-
-
+			
 			setContentView(R.layout.settings);
 
 			context = getApplicationContext();
@@ -98,8 +97,9 @@ public class Register extends Activity{
 	public void getDeviceNumber(){
 		TelephonyManager tManager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
 		String pNumber = tManager.getLine1Number();
-		if (pNumber != null){
+		if (pNumber != null && pNumber.length() > 0){
 			Utils.shopToast("Suggested Device Phone Number Added");
+			
 			etPnumber.setText(pNumber);
 
 		} else {
@@ -124,7 +124,7 @@ public class Register extends Activity{
 
 			@Override
 			public void run() {
-				GroceryList gl = new GroceryList();
+				GroceryList gl = GroceryList.getInstance();
 				gl.initGroceryListItems(activity);
 				Log.w("ILAN DEBUG", "RUN");
 				super.run();
