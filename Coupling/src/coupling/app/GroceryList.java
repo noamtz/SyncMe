@@ -26,13 +26,10 @@ public class GroceryList {
 	
 	public void loadItems(){
 		Cursor c = blGroceryList.getSource();
-		Log.w("GL", c.getColumnCount() + "");
 		if (c.moveToFirst()) {
 	        do {
 	        	//Utils.Log("GroceryList", "C-tor", c.getString(1));
 	        	GroceryList.add(c.getString(c.getColumnIndex("ItemName")));
-	        	Log.w("GL", "added item from cursor: " + c.getString(c.getColumnIndex("ItemName")));
-	        	Log.w("ILAN DEBUG", "LOAD ITEM: " + c.getString(c.getColumnIndex("ItemName")));
 	        } while (c.moveToNext());
 		}
         c.close();
@@ -61,9 +58,7 @@ public class GroceryList {
 		
 		try {
 			LinkedList<String> list = xml.parseItems();
-			Log.w("ILAN DEBUG", "LIST: " + list.size());
 			for (String item : list) {
-				Log.w("ILAN DEBUG", "ITEM: " + item);
 				addItem(item);
 			}
 		} catch (XmlPullParserException e) {

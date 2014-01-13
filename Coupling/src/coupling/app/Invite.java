@@ -1,7 +1,5 @@
 package coupling.app;
 
-import java.util.ArrayList;
-
 import com.nit.coupling.R;
 
 import coupling.app.com.API;

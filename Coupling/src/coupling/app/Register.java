@@ -14,25 +14,20 @@ import coupling.app.com.ITask;
 import coupling.app.com.Request;
 import coupling.app.com.Response;
 import coupling.app.com.User;
-import coupling.app.data.XMLParser;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 
 public class Register extends Activity{
 
@@ -48,7 +43,7 @@ public class Register extends Activity{
 
 	Context context;
 
-	EditText etEmail;
+	EditText etPnumber;
 	EditText etFirstName;
 	EditText etLastName;
 
@@ -61,7 +56,7 @@ public class Register extends Activity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		activity = this;
 		//If user not register with server & google
@@ -70,32 +65,46 @@ public class Register extends Activity{
 			startActivity(new Intent(this, Main.class));
 		} else {
 			insertItemsSQLThread();
+
+
+			setContentView(R.layout.settings);
+
+			context = getApplicationContext();
+
+			etPnumber = (EditText) findViewById(R.id.etPnumber);
+			etFirstName = (EditText) findViewById(R.id.etFirstName);
+			etLastName = (EditText) findViewById(R.id.etLastName);
+
+			Button btnRegister = (Button) findViewById(R.id.register);
+
+			btnRegister.setOnClickListener(registerListener());
+
+			if (!checkPlayServices())
+				Log.i(TAG, "No valid Google Play Services APK found.");
+
+			owner = App.getOwner();
+			getDeviceNumber();
+
+			tasker = new ITask() {			
+
+				@Override
+				public void onTaskComplete(Request request, Response response) {
+				}
+
+			};
 		}
+	}
 
-		setContentView(R.layout.settings);
+	public void getDeviceNumber(){
+		TelephonyManager tManager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
+		String pNumber = tManager.getLine1Number();
+		if (pNumber != null){
+			Utils.shopToast("Suggested Device Phone Number Added");
+			etPnumber.setText(pNumber);
 
-		context = getApplicationContext();
-
-		etEmail = (EditText) findViewById(R.id.etPnumber);
-		etFirstName = (EditText) findViewById(R.id.etFirstName);
-		etLastName = (EditText) findViewById(R.id.etLastName);
-
-		Button btnRegister = (Button) findViewById(R.id.register);
-
-		btnRegister.setOnClickListener(registerListener());
-
-		if (!checkPlayServices())
-			Log.i(TAG, "No valid Google Play Services APK found.");
-
-		owner = App.getOwner();
-
-		tasker = new ITask() {			
-
-			@Override
-			public void onTaskComplete(Request request, Response response) {
-			}
-
-		};	
+		} else {
+			Utils.shopToast("Device Phone Number Not Found");
+		}
 	}
 
 	@Override
@@ -108,9 +117,9 @@ public class Register extends Activity{
 	protected void onPause() {
 		super.onPause();
 	}
-	
+
 	private void insertItemsSQLThread(){
-		
+
 		thread = new Thread(){
 
 			@Override
@@ -120,7 +129,7 @@ public class Register extends Activity{
 				Log.w("ILAN DEBUG", "RUN");
 				super.run();
 			}
-			
+
 		};
 		thread.start();
 	}
@@ -131,7 +140,7 @@ public class Register extends Activity{
 			@Override
 			public void onClick(View arg0) {	
 				if (checkPlayServices()) {
-					owner.setEmail(etEmail.getText().toString());
+					owner.setEmail(etPnumber.getText().toString());
 					owner.setFirstname(etFirstName.getText().toString());
 					owner.setLastname(etLastName.getText().toString());
 					if(owner.getEmail().isEmpty())
@@ -258,12 +267,12 @@ public class Register extends Activity{
 		editor.commit();
 		owner.setRegid(regId);
 	}
-	
+
 	private SharedPreferences getPrefs(){
 		return getSharedPreferences(Register.class.getSimpleName(),
 				Context.MODE_PRIVATE);
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar
@@ -281,6 +290,6 @@ public class Register extends Activity{
 		}
 		return false;	
 	}
-	*/
+	 */
 
 }
