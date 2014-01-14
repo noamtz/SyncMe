@@ -47,7 +47,20 @@ public class DALShopListOverview {
 		
 		return dbHandler.getWritableDatabase().update("ShopListOverview",values,"_id = " + id, null) > 0;
 	}
-	
+	/**
+	 * If increment is true then totalItems++
+	 * Else totalItems--
+	 * @param increment
+	 * @return
+	 */
+	public boolean updateTotalItems(long id, boolean increment){
+		String op = increment ? "+" : "-";
+		Cursor c = dbHandler.getWritableDatabase().rawQuery("UPDATE ShopListOverview SET TotalItems = TotalItems " + op + " 1 WHERE _id = " + id, null);
+		boolean res =  c.getCount() > 0;
+		if(!res)
+			Utils.Log("DALShopListOverview", "updateTotalItems", "Failed to " + (increment ? "increment" : "decrement") +" totalItems listid: " + id);
+		return res;
+	}
 	
 	public boolean deleteList(Ids ids){
 		String where = ids.getGlobalId() != null ? "UId = '" + ids.getGlobalId() + "'" : "_id = " + ids.getDBId();

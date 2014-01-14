@@ -32,7 +32,10 @@ public class DALShopList {
 		if(isMine != null)
 			values.put("IsMine", isMine);
 		Log.v("dal_shoplist","id: " + listId + " name: " + name + " quantity: "+ quantity);
-		return dbHandler.getWritableDatabase().insertOrThrow("ShopList", null, values);
+		long itemId = dbHandler.getWritableDatabase().insertOrThrow("ShopList", null, values);
+		if(itemId != -1)
+			DALShopListOverview.getInstance().updateTotalItems(listId, true);
+		return itemId;
 	}
 
 	public boolean updateItem(Ids ids, String name, Integer quantity, Boolean isDone){
@@ -55,7 +58,10 @@ public class DALShopList {
 
 	public boolean deleteItem(Ids ids){
 		String where = ids.getGlobalId() != null ? "UId = '" + ids.getGlobalId() + "'" : "_id = " + ids.getDBId();
-		return dbHandler.getWritableDatabase().delete("ShopList", where, null) > 0;
+		boolean res = dbHandler.getWritableDatabase().delete("ShopList", where, null) > 0;
+		if(res)
+			DALShopListOverview.getInstance().updateTotalItems(listId, false);
+		return res;
 	}
 
 	public boolean updateId(Ids ids){

@@ -35,10 +35,8 @@ public class API { // Mabe move the ITask responsibility to another object
 				//Utils.Log(API.class.getSimpleName(), "onTaskComplete", response.getResponse());
 				Mediator.getInstance().manage(response.getJson());
 			}
-
 		};
 	}
-	
 	
 	
 	public static API getInstance(){
