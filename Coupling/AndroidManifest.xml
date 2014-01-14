@@ -20,6 +20,8 @@
     <uses-permission android:name="com.example.gcm.permission.C2D_MESSAGE" />
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
+    <uses-permission android:name="android.permission.READ_CALENDAR"/>
 
     <application
         android:name="coupling.app.App"

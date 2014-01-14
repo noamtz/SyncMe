@@ -8,7 +8,7 @@ import android.util.Log;
 public class DBHandler extends SQLiteOpenHelper {
 
 	public DBHandler(Context context) {
-		super(context,"coupling.db", null, 13);
+		super(context,"coupling.db", null, 14);
 	}
 
 	@Override
@@ -41,6 +41,17 @@ public class DBHandler extends SQLiteOpenHelper {
 						"ItemName VARCHAR(50)" + 
 						");"
 				);
+		database.execSQL(
+				"CREATE TABLE CalendarEvents ( " +
+						"_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+						"UId INTEGER ," + 
+						"Title VARCHAR(100), " +
+						"Description TEXT, " +
+						"StartTime INTEGER, " +
+						"EndTime INTEGER, " +
+						"IsMine INTEGER DEFAULT 1 " +
+						");"
+				);
 	}
 
 	@Override
@@ -51,6 +62,7 @@ public class DBHandler extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS ShopList");
 		db.execSQL("DROP TABLE IF EXISTS ShopListOverview");
 		db.execSQL("DROP TABLE IF EXISTS GroceryList");
+		db.execSQL("DROP TABLE IF EXISTS CalendarEvents");
 		onCreate(db);
 	}
 } 

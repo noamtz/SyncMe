@@ -14,6 +14,7 @@ public class BLFactory {
 	private Map<Long, BLShopList> shopLists;
 	private BLShopListOverview blShopListOverview;
 	private BLGroceryList blGroceryList;
+	private BLCalendarEvents blCalendarEvents;
 	
 	private BLFactory(){
 		shopLists = new HashMap<Long, BLShopList>();
@@ -46,5 +47,12 @@ public class BLFactory {
 			blGroceryList = new BLGroceryList();
 		return blGroceryList;
 	}
+	
+	public BLCalendarEvents getCalendarEvents(){
+		if (blCalendarEvents == null)
+			blCalendarEvents = new BLCalendarEvents();
+		return blCalendarEvents;
+	}
+	
 	
 }

@@ -19,7 +19,7 @@ public class AppSectionsPagerAdapter extends FragmentPagerAdapter {
 			fragment = new FragmentShopList();
 			break;
 		case 1:
-			fragment = new Fragment();
+			fragment = new FragmentCalendar();
 			break;
 		}
 		return fragment;

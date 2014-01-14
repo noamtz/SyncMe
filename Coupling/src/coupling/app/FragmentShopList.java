@@ -7,7 +7,6 @@ import coupling.app.com.IBLConnector;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.hardware.input.InputManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
