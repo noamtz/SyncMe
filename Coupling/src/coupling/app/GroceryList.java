@@ -60,9 +60,9 @@ public class GroceryList {
 		return groceryList;
 	}
 	
-	public void  initGroceryListItems(Activity a){
+	public void  initGroceryListItems(){
 		Log.w("ILAN DEBUG", "INIT");
-		XMLParser xml = new XMLParser(a);
+		XMLParser xml = new XMLParser();
 		
 		try {
 			LinkedList<String> list = xml.parseItems();
