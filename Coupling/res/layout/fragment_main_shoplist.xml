@@ -21,7 +21,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="4"
-            android:ems="10" />
+            android:ems="10"
+            android:hint="Add New Shop List" />
 
         <Button
             android:id="@+id/btnAddList"

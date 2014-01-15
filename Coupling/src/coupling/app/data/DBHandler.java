@@ -8,7 +8,7 @@ import android.util.Log;
 public class DBHandler extends SQLiteOpenHelper {
 
 	public DBHandler(Context context) {
-		super(context,"coupling.db", null, 14);
+		super(context,"coupling.db", null, 15);
 	}
 
 	@Override
@@ -61,7 +61,6 @@ public class DBHandler extends SQLiteOpenHelper {
 						+ newVersion + ", which will destroy all old data");
 		db.execSQL("DROP TABLE IF EXISTS ShopList");
 		db.execSQL("DROP TABLE IF EXISTS ShopListOverview");
-		db.execSQL("DROP TABLE IF EXISTS GroceryList");
 		db.execSQL("DROP TABLE IF EXISTS CalendarEvents");
 		onCreate(db);
 	}
