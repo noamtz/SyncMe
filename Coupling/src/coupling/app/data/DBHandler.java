@@ -10,8 +10,7 @@ import static coupling.app.data.Constants.*;
 public class DBHandler extends SQLiteOpenHelper {
 
 	public DBHandler(Context context) {
-		super(context,"coupling.db", null, 16);
-	}
+super(context,"coupling.db", null, 16);	}
 
 	@Override
 	public void onCreate(SQLiteDatabase database) {
@@ -63,7 +62,6 @@ public class DBHandler extends SQLiteOpenHelper {
 						+ newVersion + ", which will destroy all old data");
 		db.execSQL("DROP TABLE IF EXISTS ShopList");
 		db.execSQL("DROP TABLE IF EXISTS ShopListOverview");
-		db.execSQL("DROP TABLE IF EXISTS GroceryList");
 		db.execSQL("DROP TABLE IF EXISTS CalendarEvents");
 		onCreate(db);
 	}

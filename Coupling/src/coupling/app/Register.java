@@ -51,14 +51,13 @@ public class Register extends Activity{
 
 	ITask tasker;
 	Thread thread;
-	Activity activity;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-		activity = this;
+
 		//If user not register with server & google
 		if(getPrefs().getBoolean(Constants.IS_REGISTERED, false)){
 			App.loadOwner(getPrefs());
@@ -125,8 +124,7 @@ public class Register extends Activity{
 			@Override
 			public void run() {
 				GroceryList gl = GroceryList.getInstance();
-				gl.initGroceryListItems(activity);
-				Log.w("ILAN DEBUG", "RUN");
+				gl.initGroceryListItems();
 				super.run();
 			}
 
