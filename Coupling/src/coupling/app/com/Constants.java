@@ -36,4 +36,9 @@ public class Constants {
 	public static final String LOCALID = "LocalId";
 	public static final String UID = "UId";
 	
+	//Calender Event
+	public static final String CALENDER_PREFS = "calender_prefs";
+	public static final String EVENT_ID= "event_id";
+
+	
 }

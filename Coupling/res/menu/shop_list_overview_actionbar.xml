@@ -2,12 +2,13 @@
 
     <item
         android:id="@+id/invite"
-        android:icon="@android:drawable/ic_menu_add"
+        android:icon="@drawable/ic_menu_invite"
         android:showAsAction="ifRoom"
         android:title="@string/action_settings"/>
-    <item
+  <!--   <item
         android:id="@+id/settings"
         android:showAsAction="never"
         android:title="@string/action_settings"/>
+         -->
 
 </menu>

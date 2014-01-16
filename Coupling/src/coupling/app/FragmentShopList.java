@@ -11,6 +11,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -35,6 +38,7 @@ public class FragmentShopList extends Fragment implements IBLConnector{
 
 		View rootView = inflater.inflate(R.layout.fragment_main_shoplist, container, false);
 		blShopListOverview = BLFactory.getInstance().getShopListOverview();
+
 		
 		final ListView lv = (ListView) rootView.findViewById(R.id.shoplist_lv);
 		adapter = new AdapterShopListOverview(this.getActivity(), blShopListOverview);
@@ -83,6 +87,7 @@ public class FragmentShopList extends Fragment implements IBLConnector{
 				startActivity(i);
 			}
 		});
+		setHasOptionsMenu(true);
 
 		return rootView;
 	}
@@ -115,4 +120,28 @@ public class FragmentShopList extends Fragment implements IBLConnector{
 			}
 		});
 	}
+
+
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		// TODO Auto-generated method stub
+		inflater.inflate(R.menu.shop_list_overview_actionbar, menu);
+
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.invite:
+			Intent inviteIntent = new Intent(getActivity(), Invite.class);
+			startActivity(inviteIntent);
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+	
+	
+	
 }

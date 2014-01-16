@@ -12,18 +12,24 @@ import coupling.app.BL.BLCalendarEvents;
 import coupling.app.BL.BLFactory;
 import coupling.app.com.IBLConnector;
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +53,7 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 	BLCalendarEvents blCalendarEvents;
 	View rootView;
 	Activity activity;
+	ListView eventList;
 
 
 	@Override
@@ -75,6 +82,18 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 
 		TextView title = (TextView) rootView.findViewById(R.id.title);
 		title.setText(android.text.format.DateFormat.format("MMMM yyyy", month));
+		
+		ListView eventList = (ListView) rootView.findViewById(R.id.events_list);
+		ArrayAdapter<String> list = new ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1);
+		eventList.setAdapter(list);
+		list.add("Event1");
+		list.add("Event2");
+		list.add("Event3");
+		list.add("Event4");
+		list.add("Event5");
+		list.add("Event6");
+		list.add("Event7");
+		
 
 		RelativeLayout previous = (RelativeLayout) rootView.findViewById(R.id.previous);
 
@@ -155,7 +174,7 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 		});
 
 
-
+		setHasOptionsMenu(true);
 		return rootView;
 	}
 	
@@ -224,6 +243,25 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 	@Override
 	public void Refresh() {
 
+	}
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		// TODO Auto-generated method stub
+		inflater.inflate(R.menu.calendar_actionbar, menu);
+
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.add_event_action:
+			Intent inviteIntent = new Intent(getActivity(), CalendarEventActivity.class);
+			startActivity(inviteIntent);
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 }

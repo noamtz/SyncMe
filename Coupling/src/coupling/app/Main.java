@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
 public class Main extends FragmentActivity implements ActionBar.TabListener{
 
@@ -44,6 +46,8 @@ public class Main extends FragmentActivity implements ActionBar.TabListener{
 					.setText(mAppSectionsPagerAdapter.getPageTitle(i))
 					.setTabListener(this));
 		}
+		
+		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 	}
 
 	private ViewPager.SimpleOnPageChangeListener onPageSelected(final ActionBar actionBar){
@@ -68,24 +72,5 @@ public class Main extends FragmentActivity implements ActionBar.TabListener{
 	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu items for use in the action bar
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.main, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.invite:
-			Intent inviteIntent = new Intent(Main.this, Invite.class);
-			startActivity(inviteIntent);
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
 
 }
