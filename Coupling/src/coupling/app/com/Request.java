@@ -7,7 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import coupling.app.data.Enums.HttpType;
-import static coupling.app.com.Constants.*;
+import static coupling.app.data.Constants.*;
 
 public class Request {
 

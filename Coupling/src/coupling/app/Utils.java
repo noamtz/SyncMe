@@ -45,7 +45,7 @@ public class Utils {
 	}
 
 	public static void Log(String className , String msg){
-		android.util.Log.v(className, msg);
+		android.util.Log.i(className, msg);
 	}
 
 	public static void Log(String className , String methodName , String msg){

@@ -9,11 +9,11 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.nit.coupling.R;
 
 import coupling.app.com.API;
-import coupling.app.com.Constants;
 import coupling.app.com.ITask;
 import coupling.app.com.Request;
 import coupling.app.com.Response;
 import coupling.app.com.User;
+import coupling.app.data.Constants;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;

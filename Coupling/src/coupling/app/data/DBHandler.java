@@ -5,10 +5,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import static coupling.app.data.Constants.*;
+
 public class DBHandler extends SQLiteOpenHelper {
 
 	public DBHandler(Context context) {
-		super(context,"coupling.db", null, 14);
+		super(context,"coupling.db", null, 16);
 	}
 
 	@Override
@@ -30,7 +32,7 @@ public class DBHandler extends SQLiteOpenHelper {
 						"ShopListId INTEGER, " +
 						"ItemName VARCHAR(50), " +
 						"ItemQuantity INTEGER DEFAULT 1, " +
-						"ItemStatus INTEGER DEFAULT 0, " +
+						"IsDone INTEGER DEFAULT 0, " +
 						"IsMine INTEGER DEFAULT 1, " +
 						"FOREIGN KEY(ShopListId) REFERENCES ShopListOverview(_id)" +
 						");"

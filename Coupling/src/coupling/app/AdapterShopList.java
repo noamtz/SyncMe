@@ -4,6 +4,7 @@ package coupling.app;
 import com.nit.coupling.R;
 
 import coupling.app.BL.BLShopList;
+import coupling.app.models.ShopListItem;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -24,53 +25,43 @@ import android.widget.TextView;
 public class AdapterShopList extends CursorAdapter {
 
 	private LayoutInflater mLayoutInflater;
-	
+
 	private BLShopList blShoplist;
-	
-	
+
+
 	public AdapterShopList(Context context, BLShopList blShoplist) {
 		super(context, blShoplist.getSource(), true);
 		mLayoutInflater = LayoutInflater.from(context); 
-		
+
 		this.blShoplist = blShoplist;
 	}
 
 	@Override
 	public void bindView(View row, Context context, Cursor cursor) {
 		//Retrieve data from database
-		Long id = cursor.getLong(cursor.getColumnIndexOrThrow("_id"));
-		Long Uid = cursor.getLong(cursor.getColumnIndex("UId"));
-		String name =  cursor.getString(cursor.getColumnIndexOrThrow("ItemName"));
-		int quantity = cursor.getInt(cursor.getColumnIndexOrThrow("ItemQuantity"));
-		boolean isDone = cursor.getInt(cursor.getColumnIndexOrThrow("ItemStatus")) > 0;
-		boolean isMine = cursor.getInt(cursor.getColumnIndexOrThrow("IsMine")) == 1;
-		
-		Ids ids = new Ids(id, Uid);
-		
+		ShopListItem item = new ShopListItem(cursor);
 		//Construct views
 		Button btnRemoveItem = (Button)row.findViewById(R.id.btnRemoveItem);
-		btnRemoveItem.setTag(ids);
+		btnRemoveItem.setTag(item.getIds());
 
 		final TextView itemName = (TextView) row.findViewById(R.id.item_name);
-		itemName.setText(name);
+		itemName.setText(item.getName());
 
 		TextView itemQuantity = (TextView) row.findViewById(R.id.item_count);
-		itemQuantity.setText(Integer.toString(quantity));
+		itemQuantity.setText(Integer.toString(item.getQuantity()));
 
 		CheckBox check = (CheckBox) row.findViewById(R.id.item_check);
-		check.setChecked(isDone);
-		check.setTag(ids);
-		
+		check.setChecked(item.isDone());
+		check.setTag(item.getIds());
+
 		final ImageView redLine = (ImageView) row.findViewById(R.id.red_line_view);
-		if(!isMine)
+		if(!item.isMine())
 			row.setBackgroundColor(Color.YELLOW);
 		else
 			row.setBackgroundColor(Color.WHITE);
-		if (isDone)
+		if (item.isDone())
 		{
 			redLine.setVisibility(View.VISIBLE);
-			//itemName.setPaintFlags(itemName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-			//itemName.setTextColor(Color.GRAY);
 		} else {
 			redLine.setVisibility(View.INVISIBLE);
 		}
@@ -79,9 +70,7 @@ public class AdapterShopList extends CursorAdapter {
 
 			@Override
 			public void onClick(View v) {
-				boolean isSucceed = blShoplist.deleteItem((Ids)v.getTag());
-				if(!isSucceed)
-					Log.e("adaptor_shoplist", "failed to delete item: " + ((Ids)v.getTag()).getDBId());
+				blShoplist.deleteItem((Ids)v.getTag());
 				refresh();
 			}
 		});
@@ -91,23 +80,23 @@ public class AdapterShopList extends CursorAdapter {
 
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				boolean isSucceed = blShoplist.updateItem((Ids)buttonView.getTag(), null, null, isChecked);
-				if(!isSucceed)
-					Log.e("adaptor_shoplist", "failed to update item");
-				if(isChecked){
-					//itemName.setPaintFlags(itemName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-					//itemName.setTextColor(Color.GRAY);
-					redLine.setVisibility(View.VISIBLE);
-				} else{
-					//itemName.setPaintFlags(itemName.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
-					//itemName.setTextColor(Color.BLACK);
-					redLine.setVisibility(View.INVISIBLE);
+				ShopListItem item = new ShopListItem(blShoplist.getShopListId() , (Ids)buttonView.getTag());
+				item.setIsDone(isChecked);
+				boolean isUpdated = blShoplist.updateItem(item);
+
+				if(isUpdated){
+					Utils.Log("AdapterShopList", "Update isDone: " + isChecked);
+					if(isChecked){
+						redLine.setVisibility(View.VISIBLE);
+					} else{
+						redLine.setVisibility(View.INVISIBLE);
+					}
 				}
 				refresh();
 			}
 		});
 	}
-	
+
 	@Override
 	public View newView(Context context, Cursor cursor, ViewGroup parent) {
 		return mLayoutInflater.inflate(R.layout.shoplist_item, parent, false);

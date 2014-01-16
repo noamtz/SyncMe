@@ -1,6 +1,6 @@
 package coupling.app.com;
 
-import static coupling.app.com.Constants.*;
+import static coupling.app.data.Constants.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,6 +31,7 @@ import org.json.JSONObject;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 import coupling.app.Utils;
 import coupling.app.data.Enums.HttpType;
 
@@ -79,7 +80,6 @@ public class ServerUtils {
 			new RequestTask(request, tasker).execute(null,null,null);
 		}
 		else{
-			Utils.Log(TAG, request.toString());
 			resp = postRequest(request);
 			if(resp != null){
 				//Utils.Log(TAG, "post", resp.toString());
@@ -105,7 +105,8 @@ public class ServerUtils {
 
 		HttpResponse response = null;
 		HttpEntity entity = null;
-
+		
+		String result = "";
 		try {
 			switch (request.getHttpType()) {
 			case GET:
@@ -113,11 +114,6 @@ public class ServerUtils {
 				break;
 
 			case POST:
-				//List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-				// Add your parameters
-				Log.v("API", request.getMethod());
-				Log.v("API", request.getParams().toString());
-				
 				HttpPost httppost = new HttpPost(request.getServerIP());
 
 				String json = request.prepareToPost();
@@ -135,7 +131,7 @@ public class ServerUtils {
 			entity = response.getEntity();
 			StatusLine statusLine = response.getStatusLine();
 			if(statusLine.getStatusCode() == HttpStatus.SC_OK){
-				String result = EntityUtils.toString(entity);
+				result = EntityUtils.toString(entity);
 				result = Utils.removeHtml(result);
 				// Create a JSON object from the request response
 				Utils.Log("DEBUG", result);
@@ -152,6 +148,7 @@ public class ServerUtils {
 			e.printStackTrace();
 		} catch (JSONException e) {
 			e.printStackTrace();
+			Utils.shopToast(result);
 		}
 
 		return serverResponse;

@@ -85,5 +85,10 @@ public class Message {
 		}
 		return message;
 	}
+	
+	@Override
+	public String toString(){
+		return "TYPE: " + categoryType + ", ACTION: " + actionType + ", DATA: " + data.toString();
+	}
 }
 
