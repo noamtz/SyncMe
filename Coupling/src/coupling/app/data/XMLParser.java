@@ -12,6 +12,7 @@ import com.nit.coupling.R;
 import coupling.app.App;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 

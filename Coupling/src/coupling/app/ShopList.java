@@ -8,6 +8,7 @@ import coupling.app.BL.BLFactory;
 import coupling.app.BL.BLGroceryList;
 import coupling.app.BL.BLShopList;
 import coupling.app.com.IBLConnector;
+import coupling.app.models.ShopListItem;
 
 import android.app.Activity;
 import android.database.Cursor;
@@ -31,8 +32,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+import static coupling.app.data.Constants.*;
+
 public class ShopList extends Activity implements IBLConnector{
 
+	private static final String TAG = "ShopList";
+	
+	private static final int DEFUALT_ITEM_QUANTITY = 1;
 	private TextView tvItemQuantity;
 	private AutoCompleteTextView acItemName;
 	private Button plus, minus, add;
@@ -40,11 +46,14 @@ public class ShopList extends Activity implements IBLConnector{
 	private ListView listItems;
 	private AdapterShopList adapter;	
 
-	private Ids selectedItemIds;
+	//private Ids selectedItemIds;
 	private int itemQuantity;
+	private ShopListItem selectedItem;
 
 	private BLShopList blShopList;
 	private GroceryList groceryList;
+	
+	private long listId;
 	
 	private LinkedList<String> grocerys;
 	
@@ -59,7 +68,7 @@ public class ShopList extends Activity implements IBLConnector{
 		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
-		long listId = getIntent().getExtras().getLong("Id");
+		listId = getIntent().getExtras().getLong("Id");
 		String listTitle = getIntent().getExtras().getString("Title");
 		setTitle(listTitle);
 		
@@ -77,7 +86,8 @@ public class ShopList extends Activity implements IBLConnector{
 		listItems.setSelection(listItems.getCount() - 1);
 
 		itemQuantity = 1;
-		selectedItemIds = null;
+		//selectedItemIds = null;
+		selectedItem = null;
 	}
 
 	@Override
@@ -118,8 +128,7 @@ public class ShopList extends Activity implements IBLConnector{
 		return new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				itemQuantity ++;
-				tvItemQuantity.setText(Integer.toString(itemQuantity));
+				tvItemQuantity.setText(Integer.toString(++itemQuantity));
 			}
 		};
 	}
@@ -129,8 +138,7 @@ public class ShopList extends Activity implements IBLConnector{
 			@Override
 			public void onClick(View v) {
 				if (itemQuantity > 1) {
-					itemQuantity --;
-					tvItemQuantity.setText(Integer.toString(itemQuantity));
+					tvItemQuantity.setText(Integer.toString(--itemQuantity));
 				}
 			}
 		};
@@ -169,17 +177,16 @@ public class ShopList extends Activity implements IBLConnector{
 					long id) {
 				Cursor cursor = (Cursor) adapter.getItem(position);
 
-				long dbId = cursor.getLong(cursor.getColumnIndex("_id"));
-				Long globalId = cursor.getLong(cursor.getColumnIndex("UId"));
-				selectedItemIds = new Ids(dbId, globalId);
+				long dbId = cursor.getLong(cursor.getColumnIndex(ID));
+				Long globalId = cursor.getLong(cursor.getColumnIndex(UID));
+				selectedItem = new ShopListItem(listId, new Ids(dbId, globalId));
+				
+				selectedItem.setName(cursor.getString(cursor.getColumnIndex(ITEM_NAME)));
+				selectedItem.setQuantity(cursor.getInt(cursor.getColumnIndex(ITEM_QUANTITY)));
 
-				String itemName = cursor.getString(cursor.getColumnIndex("ItemName"));
-				itemQuantity = cursor.getInt(cursor.getColumnIndex("ItemQuantity"));
-
-				acItemName.setText(itemName);
-				tvItemQuantity.setText(itemQuantity + "");
-
-				Log.v("", "selected: " + itemName);
+				acItemName.setText(selectedItem.getName());
+				tvItemQuantity.setText(Integer.toString(selectedItem.getQuantity()));
+				Utils.Log(TAG, "editItem", "Selected: " + selectedItem);
 			}
 		};
 	}
@@ -188,16 +195,17 @@ public class ShopList extends Activity implements IBLConnector{
 	public void addItemToList()
 	{
 		if (acItemName.getText().length() > 0){
-			if(selectedItemIds == null){
-				groceryList.addItem(acItemName.getText().toString() ,ACadapter);
-				boolean isSucceed = blShopList.createItem(acItemName.getText().toString() , itemQuantity); 
-				if(!isSucceed)
-					Log.e("shoplist", "failed to add an item");
+			if(selectedItem == null){
+				boolean isItemAdded =blShopList.createItem(acItemName.getText().toString() , itemQuantity);
+				if(isItemAdded)
+					groceryList.addItem(acItemName.getText().toString() ,ACadapter);
+				
 			}
 			else{
-				boolean isSucceed = blShopList.updateItem(selectedItemIds ,acItemName.getText().toString() , itemQuantity, null);
-				if(!isSucceed)
-					Log.e("shoplist", "failed to update an item with id: " + selectedItemIds);
+				selectedItem.setName(acItemName.getText().toString());
+				selectedItem.setQuantity(Integer.parseInt(tvItemQuantity.getText().toString()));
+				
+				blShopList.updateItem(selectedItem);
 			}
 			adapter.refresh();
 		}
@@ -205,8 +213,7 @@ public class ShopList extends Activity implements IBLConnector{
 		listItems.setSelection(listItems.getCount() - 1);
 
 		acItemName.setText("");
-		selectedItemIds = null;
-		itemQuantity = 1;
+		itemQuantity = DEFUALT_ITEM_QUANTITY;
 		tvItemQuantity.setText(Integer.toString(itemQuantity));
 	}
 

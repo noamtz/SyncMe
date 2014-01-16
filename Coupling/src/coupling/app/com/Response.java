@@ -19,7 +19,7 @@ public class Response {
 		try {
 			messageId = response.getJSONObject("message").getLong("id");
 		} catch (Exception e) {
-			Utils.Log(Response.class.getName(), "C-tor", "No Message Id");
+			//Utils.Log(Response.class.getName(), "C-tor", "No Message Id");
 		}
 	}
 	

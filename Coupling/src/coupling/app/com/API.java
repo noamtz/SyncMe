@@ -9,7 +9,7 @@ import coupling.app.App;
 import coupling.app.Mediator;
 import coupling.app.Utils;
 
-import static coupling.app.com.Constants.*;
+import static coupling.app.data.Constants.*;
 
 public class API { // Mabe move the ITask responsibility to another object
 
@@ -32,7 +32,6 @@ public class API { // Mabe move the ITask responsibility to another object
 			
 			@Override
 			public void onTaskComplete(Request request, Response response) {
-				//Utils.Log(API.class.getSimpleName(), "onTaskComplete", response.getResponse());
 				Mediator.getInstance().manage(response.getJson());
 			}
 		};
@@ -65,10 +64,12 @@ public class API { // Mabe move the ITask responsibility to another object
 			params.put(EMAIL, sender.getEmail());//TODO: change back
 			params.put(MESSAGE, message.toJson());
 
-			//Utils.Log(API.class.getSimpleName(), "sync", "email: "+sender.getEmail()+"Message: " + message.toJson().toString());
-			
 			request.setMethod(SYNC);
 			request.setParams(params);
+			
+			//DEBUG
+			Utils.Log(TAG, "Methos: " + SYNC + ", Params: " + message.toString());
+			//DEBUG
 			
 			server.post(request, apiTasker, true);
 

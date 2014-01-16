@@ -3,9 +3,9 @@ package coupling.app.data;
 import coupling.app.App;
 import coupling.app.Ids;
 import coupling.app.Utils;
+import coupling.app.models.ShopListItem;
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.util.Log;
 
 public class DALShopList {
 
@@ -22,38 +22,20 @@ public class DALShopList {
 		return dbHandler.getReadableDatabase().rawQuery("SELECT * FROM ShopList WHERE ShopListId = " + listId, null);
 	}
 
-	public long createItem(Long UId, String name, int quantity, Boolean isMine){
-		ContentValues values = new ContentValues();
-		values.put("ShopListId", listId);
-		values.put("ItemName", name);
-		values.put("ItemQuantity", quantity);
-		if(UId != null)
-			values.put("UId", UId);
-		if(isMine != null)
-			values.put("IsMine", isMine);
-		Log.v("dal_shoplist","id: " + listId + " name: " + name + " quantity: "+ quantity);
-		long itemId = dbHandler.getWritableDatabase().insertOrThrow("ShopList", null, values);
+	public long createItem(ShopListItem item){
+		long itemId = dbHandler.getWritableDatabase().insertOrThrow("ShopList", null, item.toDb());
 		if(itemId != -1)
 			DALShopListOverview.getInstance().updateTotalItems(listId, true);
+		else
+			Utils.LogError("DALShopList", "createItem", "createItem");
 		return itemId;
 	}
 
-	public boolean updateItem(Ids ids, String name, Integer quantity, Boolean isDone){
-		ContentValues values = new ContentValues();
-		if(name != null)
-			values.put("ItemName", name);
-		if(quantity != null)
-			values.put("ItemQuantity", quantity);
-		if(isDone != null)
-			values.put("ItemStatus", isDone);
-		if(ids.getGlobalId() != null)
-			values.put("UId", ids.getGlobalId());
+	public boolean updateItem(ShopListItem item) {
 
-		Utils.Log("DAL", "Update", "Global: " + ids.getGlobalId());
-
-		String where = (ids.getGlobalId() != null) ? "UId = " + ids.getGlobalId() : "_id = " + ids.getDBId();
+		String where = (item.getGlobalId() != null) ? "UId = " + item.getGlobalId() : "_id = " + item.getLocalId();
 		Utils.Log("DAL", "Update", where);
-		return dbHandler.getWritableDatabase().update("ShopList",values, where, null) > 0;
+		return dbHandler.getWritableDatabase().update("ShopList",item.toDb(), where, null) > 0;
 	}
 
 	public boolean deleteItem(Ids ids){

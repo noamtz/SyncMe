@@ -1,4 +1,4 @@
-package coupling.app.com;
+package coupling.app.data;
 
 public class Constants {
 
@@ -31,10 +31,22 @@ public class Constants {
 	
 	public static final String UNIMPLEMENTED_MSG = "unimplemented method";
 
+	//Database
+	public static final String ID = "_id";
+	
 	//App Features
 
 	public static final String LOCALID = "LocalId";
 	public static final String UID = "UId";
+	public static final String IS_MINE = "IsMine";
+	
+	//Shop List Item
+	public static final String GLOBAL_LIST_ID = "GlobalListId";
+	public static final String ITEM_NAME = "ItemName";
+	public static final String ITEM_QUANTITY = "ItemQuantity";
+	public static final String IS_DONE = "IsDone";
+	public static final String SHOPLIST_ID = "ShopListId";
+	
 	
 	//Calender Event
 	public static final String CALENDER_PREFS = "calender_prefs";

@@ -12,7 +12,7 @@ import coupling.app.com.Message;
 import coupling.app.data.DALShopListOverview;
 import coupling.app.data.Enums.ActionType;
 import coupling.app.data.Enums.CategoryType;
-import static coupling.app.com.Constants.*;
+import static coupling.app.data.Constants.*;
 
 public class BLShopListOverview extends AppFeature {
 

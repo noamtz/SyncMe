@@ -29,7 +29,6 @@ public class BLFactory {
 	public BLShopList getShopList(Long listId){
 		BLShopList blShopList = shopLists.get(listId);
 		if(blShopList == null && listId != null){
-			Utils.Log("BLFactory", "ListId: " + listId);
 			blShopList = new BLShopList(listId);
 			shopLists.put(listId, blShopList);
 		}

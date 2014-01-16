@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -80,9 +79,7 @@ public class FragmentShopList extends Fragment implements IBLConnector{
 				
 				bundle.putString("Title", cursor.getString(cursor.getColumnIndexOrThrow("Title")));
 				bundle.putLong("Id", id);
-				
-				Log.v("fragment_shoplist", "id: " + id + " , title: " + cursor.getString(cursor.getColumnIndexOrThrow("Title")));
-				
+
 				i.putExtras(bundle);
 				startActivity(i);
 			}

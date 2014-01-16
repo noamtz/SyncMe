@@ -1,5 +1,8 @@
 package coupling.app;
 
+import android.database.Cursor;
+import static coupling.app.data.Constants.*;
+
 public class Ids {
 
 	private Long DBId;
@@ -9,6 +12,10 @@ public class Ids {
 		globalId = null;
 	}
 
+	public Ids(Cursor c){
+		DBId = c.getLong(c.getColumnIndexOrThrow(ID));
+		globalId = c.getLong(c.getColumnIndexOrThrow(UID));
+	}
 
 	public Ids(Long DBId, Long globalId){
 		this.DBId = DBId;

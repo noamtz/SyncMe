@@ -9,7 +9,7 @@ import coupling.app.data.DAL;
 import coupling.app.data.Enums;
 import coupling.app.data.Enums.ActionType;
 import coupling.app.data.Enums.CategoryType;
-import static coupling.app.com.Constants.*;
+import static coupling.app.data.Constants.*;
 public class Mediator {
 
 	private static Mediator mediator;

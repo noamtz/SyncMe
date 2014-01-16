@@ -1,4 +1,4 @@
-package coupling.app;
+package coupling.app.models;
 
 public class CalenderEvent {
 	
