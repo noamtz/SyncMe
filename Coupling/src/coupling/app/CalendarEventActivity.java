@@ -4,7 +4,7 @@ import java.util.Calendar;
 
 import com.nit.coupling.R;
 
-import coupling.app.com.Constants;
+import coupling.app.data.Constants;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
