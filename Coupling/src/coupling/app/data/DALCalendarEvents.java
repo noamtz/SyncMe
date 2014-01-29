@@ -20,6 +20,11 @@ public class DALCalendarEvents {
 		return dbHandler.getReadableDatabase().rawQuery("SELECT * FROM CalendarEvents", null);
 	}
 	
+	public CalenderEvent getEvent(Ids ids){
+		//Cursor c = dbHandler.getReadableDatabase().rawQuery("SELECT * FROM CalendarEvents", null);
+		return null;
+	}
+	
 	public long createEvent(Long UId, CalenderEvent calenderEvent, Boolean isMine){
 		ContentValues values = new ContentValues();
 		values.put("Title", calenderEvent.getTitle());

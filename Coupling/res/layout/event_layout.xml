@@ -5,12 +5,33 @@
     android:orientation="vertical"
     android:padding="10dp" >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/event_ok_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OK"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/event_cancel_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:layout_weight="1" />
+    </LinearLayout>
+
     <EditText
         android:id="@+id/event_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Event Title" >
+        android:hint="Event Title"
+        android:layout_marginTop="15dp" >
     </EditText>
 
     <TextView
@@ -38,8 +59,8 @@
             style="?android:attr/spinnerStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="2"  
-            android:gravity="center"/>
+            android:layout_weight="2"
+            android:gravity="center" />
     </LinearLayout>
 
     <TextView
@@ -67,8 +88,8 @@
             style="?android:attr/spinnerStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="2" 
-            android:gravity="center"/>
+            android:layout_weight="2"
+            android:gravity="center" />
     </LinearLayout>
 
     <EditText

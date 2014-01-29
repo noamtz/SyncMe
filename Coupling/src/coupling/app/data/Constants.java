@@ -51,6 +51,11 @@ public class Constants {
 	//Calender Event
 	public static final String CALENDER_PREFS = "calender_prefs";
 	public static final String EVENT_ID= "event_id";
+	public static final int EVENT_CREATE= 0;
+	public static final int EVENT_UPDATE= 1;
+	public static final String EVENT_YEAR = "year";
+	public static final String EVENT_MONTH = "month";
+	public static final String EVENT_DAY = "day";
 
 	
 }
