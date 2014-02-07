@@ -97,12 +97,12 @@ public class Register extends Activity{
 		TelephonyManager tManager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
 		String pNumber = tManager.getLine1Number();
 		if (pNumber != null && pNumber.length() > 0){
-			Utils.shopToast("Suggested Device Phone Number Added");
+			Utils.showToast("Suggested Device Phone Number Added");
 			
 			etPnumber.setText(pNumber);
 
 		} else {
-			Utils.shopToast("Device Phone Number Not Found");
+			Utils.showToast("Device Phone Number Not Found");
 		}
 	}
 
@@ -142,11 +142,11 @@ public class Register extends Activity{
 					owner.setFirstname(etFirstName.getText().toString());
 					owner.setLastname(etLastName.getText().toString());
 					if(owner.getEmail().isEmpty())
-						Utils.shopToast("Please fill email");
+						Utils.showToast("Please fill email");
 					else if(owner.getFirstname().isEmpty())
-						Utils.shopToast("Please fill firstname");
+						Utils.showToast("Please fill firstname");
 					else if(owner.getLastname().isEmpty())
-						Utils.shopToast("Please fill lastname");
+						Utils.showToast("Please fill lastname");
 					else{
 						SharedPreferences prefs =  getSharedPreferences(Register.class.getSimpleName(),
 								Context.MODE_PRIVATE);
@@ -161,7 +161,7 @@ public class Register extends Activity{
 						if (regid == "") {
 							registerInBackground();
 						}else{
-							Utils.shopToast("Error: there is regid already!");
+							Utils.showToast("Error: there is regid already!");
 						}
 					}
 				}
@@ -242,7 +242,7 @@ public class Register extends Activity{
 					editor.commit();
 					startActivity(new Intent(Register.this, Main.class));
 				}
-				Utils.shopToast(msg);
+				Utils.showToast(msg);
 			}
 		}.execute(null, null, null);
 	}

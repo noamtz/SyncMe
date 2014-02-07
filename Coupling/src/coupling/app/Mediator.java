@@ -1,7 +1,17 @@
 package coupling.app;
 
+import static coupling.app.data.Constants.LOCALID;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
+
+import com.nit.coupling.R;
 
 import coupling.app.BL.BLFactory;
 import coupling.app.com.AppFeature;
@@ -9,13 +19,11 @@ import coupling.app.data.DAL;
 import coupling.app.data.Enums;
 import coupling.app.data.Enums.ActionType;
 import coupling.app.data.Enums.CategoryType;
-import static coupling.app.data.Constants.*;
 public class Mediator {
-
+	
 	private static Mediator mediator;
 
-	
-	
+
 	private Mediator(){
 	}
 
@@ -26,17 +34,17 @@ public class Mediator {
 	}
 
 	public void manage(JSONObject json){
-		if(json != null){
-			if(json.has("Details")){
-				try {
+		try {
+			if(json != null){
+				if(json.has("Details")){
 					Utils.Log("Mediator", "manage", json.getJSONObject("Details").toString());
 					updateLocalEntry(json.getJSONObject("Details"));
-					
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				} else if(json.has("error")){
+					Utils.showToast(json.getString("error"));
 				}
 			}
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -65,19 +73,18 @@ public class Mediator {
 			return BLFactory.getInstance().getShopListOverview();
 		return null;
 	}
-	
+
 	public void deliverMessage(JSONObject message){
 		try {
 			String m = message.getString("message");
 			message = new JSONObject(m);
 			JSONObject data = new JSONObject(message.getString("data"));
-			
+
 			Long LocalId = null;
-			Utils.Log("Deliver", "HAS: " + data.has("GlobalListId"));
 			if(data.has("GlobalListId")){
 				LocalId = DAL.getInstance().getLocalId(CategoryType.SHOPLIST_OVERVIEW, data.getLong("GlobalListId"));
 			}
-			
+
 			AppFeature feature = getAppFeature(message.getInt("type"), LocalId);
 			if(feature != null){
 				ActionType action = Enums.toActionType(message.getInt("action"));

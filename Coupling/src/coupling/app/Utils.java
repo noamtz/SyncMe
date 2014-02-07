@@ -10,13 +10,21 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.nit.coupling.R;
+
+import coupling.app.data.Constants;
+
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -60,7 +68,7 @@ public class Utils {
 		android.util.Log.e(className, msg);
 	}
 
-	public static void shopToast(String msg){
+	public static void showToast(String msg){
 		Toast.makeText(App.getAppCtx(), msg, Toast.LENGTH_LONG).show();
 	}
 
@@ -116,7 +124,26 @@ public class Utils {
 		return formatter.format(calendar.getTime());
 	}
 
+	public static void sendNotification(String msg , Class<?> target) {
+		NotificationManager mNotificationManager = (NotificationManager)
+				App.getAppCtx().getSystemService(Context.NOTIFICATION_SERVICE);
 
+		PendingIntent contentIntent = PendingIntent.getActivity(App.getAppCtx(), 0,
+				new Intent(App.getAppCtx(), target), 0);
+
+		NotificationCompat.Builder mBuilder =
+				new NotificationCompat.Builder(App.getAppCtx())
+		.setSmallIcon(R.drawable.ic_launcher)
+		.setContentTitle("SyncMe")
+		.setStyle(new NotificationCompat.BigTextStyle()
+		.bigText(msg))
+		.setContentText(msg);
+
+		mBuilder.setContentIntent(contentIntent);
+		mNotificationManager.notify(Constants.NOTIFICATION_ID, mBuilder.build());
+	}
+
+	
 	//public static ArrayList<CalenderEvent> events = new ArrayList<CalenderEvent>();
 	//public static ArrayList<String> nameOfEvent = new ArrayList<String>();
 	//public static ArrayList<String> startDates = new ArrayList<String>();

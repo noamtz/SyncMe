@@ -164,9 +164,11 @@ public class BLShopList extends AppFeature{
 				deleteItem(item.getIds(), false);
 				break;
 			}
-
+			
 			if(connector != null)
 				connector.Refresh();
+			else
+				super.recieveData(data, actionType);
 		}catch(JSONException e){
 			e.printStackTrace();
 		}

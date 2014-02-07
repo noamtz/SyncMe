@@ -39,7 +39,6 @@ import android.util.Log;
  * wake lock.
  */
 public class GcmIntentService extends IntentService {
-	public static final int NOTIFICATION_ID = 1;
 	private NotificationManager mNotificationManager;
 	NotificationCompat.Builder builder;
 
@@ -63,48 +62,30 @@ public class GcmIntentService extends IntentService {
 			 * not interested in, or that you don't recognize.
 			 */
 			if (GoogleCloudMessaging.MESSAGE_TYPE_SEND_ERROR.equals(messageType)) {
-				sendNotification("Send error: " + extras.toString());
+				Utils.LogError("GcmIntentService",  extras.toString());
 			} else if (GoogleCloudMessaging.MESSAGE_TYPE_DELETED.equals(messageType)) {
-				sendNotification("Deleted messages on server: " + extras.toString());
+				Utils.LogError("GcmIntentService",  "Deleted messages on server: " + extras.toString());
 				// If it's a regular GCM message, do some work.
 			} else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
 
-				long messageId = Long.parseLong(extras.getString("messageId"));
+				if(extras.getString("messageId") != null){
+					long messageId = Long.parseLong(extras.getString("messageId"));
 
-				JSONObject message = API.getInstance().getMessage(messageId);
-				if(message != null){
-					sendNotification(message.toString());
-
-					Mediator.getInstance().deliverMessage(message);
+					JSONObject message = API.getInstance().getMessage(messageId);
+					if(message != null){
+						Mediator.getInstance().deliverMessage(message);
+					} else {
+						Utils.LogError(TAG, "Process Get Message Response", "Message json is null");
+					}
+					Log.i(TAG, "Received: " + extras.toString());
 				} else {
-					Utils.LogError(TAG, "Process Get Message Response", "Message json is null");
+					Utils.LogError("GcmIntentService", "No Message Id");
 				}
-				Log.i(TAG, "Received: " + extras.toString());
 			}
-		} else{
-			sendNotification("Empty");
-		}
-		Utils.Log("NOTIFICATION", "MESSAGE");
+		} 
 		// Release the wake lock provided by the WakefulBroadcastReceiver.
 		GcmBroadcastReceiver.completeWakefulIntent(intent);
 	}
 
-	private void sendNotification(String msg) {
-		mNotificationManager = (NotificationManager)
-				this.getSystemService(Context.NOTIFICATION_SERVICE);
 
-		PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-				new Intent(this, Main.class), 0);
-
-		NotificationCompat.Builder mBuilder =
-				new NotificationCompat.Builder(this)
-		.setSmallIcon(R.drawable.ic_launcher)
-		.setContentTitle("SyncMe")
-		.setStyle(new NotificationCompat.BigTextStyle()
-		.bigText(msg))
-		.setContentText(msg);
-
-		mBuilder.setContentIntent(contentIntent);
-		mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
-	}
 }

@@ -52,5 +52,6 @@ public class Constants {
 	public static final String CALENDER_PREFS = "calender_prefs";
 	public static final String EVENT_ID= "event_id";
 
-	
+	//Notifications
+	public static final int NOTIFICATION_ID = 1;
 }

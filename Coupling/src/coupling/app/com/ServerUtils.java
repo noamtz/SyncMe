@@ -148,7 +148,7 @@ public class ServerUtils {
 			e.printStackTrace();
 		} catch (JSONException e) {
 			e.printStackTrace();
-			Utils.shopToast(result);
+			Utils.showToast(result);
 		}
 
 		return serverResponse;

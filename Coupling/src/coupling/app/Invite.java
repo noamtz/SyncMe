@@ -105,7 +105,7 @@ public class Invite extends Activity implements OnClickListener{
 				finish();
 
 			} else {
-				Utils.shopToast("Please Enter Friends Email");
+				Utils.showToast("Please Enter Friends Email");
 			}
 		} else if (v.getId() == cancel.getId()){
 			finish();
