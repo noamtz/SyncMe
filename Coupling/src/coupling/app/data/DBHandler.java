@@ -1,5 +1,6 @@
 package coupling.app.data;
 
+import coupling.app.GroceryList;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -8,9 +9,11 @@ import android.util.Log;
 import static coupling.app.data.Constants.*;
 
 public class DBHandler extends SQLiteOpenHelper {
-
+	Thread thread;
+	
 	public DBHandler(Context context) {
-super(context,"coupling.db", null, 16);	}
+		super(context,"coupling.db", null, 16);	
+	}
 
 	@Override
 	public void onCreate(SQLiteDatabase database) {
@@ -53,6 +56,7 @@ super(context,"coupling.db", null, 16);	}
 						"IsMine INTEGER DEFAULT 1 " +
 						");"
 				);
+		insertItemsSQLThread();
 	}
 
 	@Override
@@ -62,7 +66,23 @@ super(context,"coupling.db", null, 16);	}
 						+ newVersion + ", which will destroy all old data");
 		db.execSQL("DROP TABLE IF EXISTS ShopList");
 		db.execSQL("DROP TABLE IF EXISTS ShopListOverview");
+		db.execSQL("DROP TABLE IF EXISTS GroceryList");
 		db.execSQL("DROP TABLE IF EXISTS CalendarEvents");
 		onCreate(db);
+	}
+
+	private void insertItemsSQLThread(){
+
+		thread = new Thread(){
+
+			@Override
+			public void run() {
+				GroceryList gl = GroceryList.getInstance();
+				gl.initGroceryListItems();
+				super.run();
+			}
+
+		};
+		thread.start();
 	}
 } 

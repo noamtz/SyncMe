@@ -50,7 +50,6 @@ public class Register extends Activity{
 	private User owner;
 
 	ITask tasker;
-	Thread thread;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +62,6 @@ public class Register extends Activity{
 			App.loadOwner(getPrefs());
 			startActivity(new Intent(this, Main.class));
 		} else {
-			insertItemsSQLThread();
 			
 			setContentView(R.layout.settings);
 
@@ -117,20 +115,7 @@ public class Register extends Activity{
 		super.onPause();
 	}
 
-	private void insertItemsSQLThread(){
 
-		thread = new Thread(){
-
-			@Override
-			public void run() {
-				GroceryList gl = GroceryList.getInstance();
-				gl.initGroceryListItems();
-				super.run();
-			}
-
-		};
-		thread.start();
-	}
 
 	private OnClickListener registerListener(){
 		return new OnClickListener() {

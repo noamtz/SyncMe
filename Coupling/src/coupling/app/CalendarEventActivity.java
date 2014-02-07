@@ -4,6 +4,8 @@ import java.util.Calendar;
 
 import com.nit.coupling.R;
 
+import coupling.app.BL.BLCalendarEvents;
+import coupling.app.BL.BLFactory;
 import coupling.app.data.Constants;
 
 import android.app.Activity;
@@ -27,7 +29,7 @@ import android.widget.TimePicker;
 public class CalendarEventActivity extends Activity implements OnClickListener{
 
 	EditText title, discription;
-	Button fromDatebt, fromHourbt, toDatebt, toHourbt;
+	Button fromDatebt, fromHourbt, toDatebt, toHourbt, ok, cancel;
 	
 	DatePickerDialog fromDatePicker, toDatePicker;
 	TimePickerDialog fromHourPicker, toHourPicker;
@@ -35,6 +37,8 @@ public class CalendarEventActivity extends Activity implements OnClickListener{
 	int fromMonth, fromYear, fromDay, toMonth, toYear, toDay;
 	int fromHour, fromMinute, toHour, toMinute;
 	String titleTXT = "", discreptionTXT = "";
+	
+	BLCalendarEvents blCalendarEvents;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +48,14 @@ public class CalendarEventActivity extends Activity implements OnClickListener{
 		
 		initGUI();
 		
+		blCalendarEvents = BLFactory.getInstance().getCalendarEvents();
+		
 		SharedPreferences settings = getSharedPreferences(Constants.CALENDER_PREFS, 0);
-		long eventId = settings.getLong(Constants.EVENT_ID, 0);
+		long eventId = settings.getLong(Constants.EVENT_ID, Constants.EVENT_CREATE);
 		
 		Calendar calendar = Calendar.getInstance();
 		
-		if (eventId == 0) {
+		if (eventId == Constants.EVENT_CREATE) {
 			fromYear = toYear = calendar.get(Calendar.YEAR);
 			fromMonth = toMonth = calendar.get(Calendar.MONTH);
 			fromDay = toDay = calendar.get(Calendar.DAY_OF_MONTH);
@@ -57,6 +63,7 @@ public class CalendarEventActivity extends Activity implements OnClickListener{
 			fromHour = toHour = calendar.get(Calendar.HOUR_OF_DAY);
 			fromMinute = toMinute = calendar.get(Calendar.MINUTE);
 		} else {
+		
 
 		}
 		
@@ -73,11 +80,15 @@ public class CalendarEventActivity extends Activity implements OnClickListener{
 		fromHourbt = (Button)findViewById(R.id.from_time);
 		toDatebt = (Button)findViewById(R.id.to_date);
 		toHourbt = (Button)findViewById(R.id.to_time);
+		ok = (Button)findViewById(R.id.event_ok_bt);
+		cancel = (Button)findViewById(R.id.event_cancel_bt);
 		
 		fromDatebt.setOnClickListener(this);
 		fromHourbt.setOnClickListener(this);
 		toDatebt.setOnClickListener(this);
 		toHourbt.setOnClickListener(this);
+		ok.setOnClickListener(this);
+		cancel.setOnClickListener(this);
 		
 		fromDatePicker = new DatePickerDialog(this, fromDateSetListener, fromYear, fromMonth, fromDay);
 		toDatePicker = new DatePickerDialog(this, toDateSetListener, toYear, toMonth, toDay);
@@ -131,7 +142,12 @@ public class CalendarEventActivity extends Activity implements OnClickListener{
 			toDatePicker.show();
 		} else if (v.getId() == toHourbt.getId()) {
 			toHourPicker.show();
-		}		
+		} else if (v.getId() == ok.getId()) {
+			//TODO: add to DB
+			finish();
+		} else if (v.getId() == cancel.getId()) {
+			finish();
+		}
 	}
 	
 	private String DateTotext(int year, int month, int day){
