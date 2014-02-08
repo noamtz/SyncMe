@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import android.database.Cursor;
 import coupling.app.Ids;
+import coupling.app.Utils;
 import coupling.app.com.API;
 import coupling.app.com.AppFeature;
 import coupling.app.com.IBLConnector;
@@ -91,6 +92,9 @@ public class BLShopListOverview extends AppFeature {
 				break;
 			case DELETE:
 				deleteItem(ids, false);
+				break;
+			case UPDATE:
+				Utils.LogError("BLShopListOverview", "not implemented UPDATE case");
 				break;
 			}
 			if(connector != null)

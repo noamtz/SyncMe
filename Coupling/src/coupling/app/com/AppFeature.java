@@ -22,6 +22,11 @@ public abstract class AppFeature {
 		case SHOPLIST:
 			Utils.sendNotification("New Shop List Recieved", ShopList.class);
 			break;
+		case CALENDER:
+			Utils.LogError("AppFeature", "not implemented CALENDER case");
+			break;
+		default:
+			break;
 		}
 	}
 	

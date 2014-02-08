@@ -67,26 +67,26 @@ public class ShopList extends Activity implements IBLConnector{
 
 		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-
+		//Get list information from shopListOverview section
 		listId = getIntent().getExtras().getLong("Id");
 		String listTitle = getIntent().getExtras().getString("Title");
 		setTitle(listTitle);
 		
 		groceryList = GroceryList.getInstance();
 		groceryList.loadItems();
-	
+		
 		initGui();
-
+		
 		blShopList = BLFactory.getInstance().getShopList(listId);
 		blShopList.setBLConnector(this);
 		
 		adapter = new AdapterShopList(this, blShopList);
 
 		listItems.setAdapter(adapter);
+		//Focus on the last item on list for UX
 		listItems.setSelection(listItems.getCount() - 1);
 
 		itemQuantity = 1;
-		//selectedItemIds = null;
 		selectedItem = null;
 	}
 
@@ -102,6 +102,9 @@ public class ShopList extends Activity implements IBLConnector{
 		blShopList.setBLConnector(this);
 	}
 	
+	/**
+	 * Initialize all GUI components
+	 */
 	private void initGui(){ 
 		
 		grocerys = groceryList.getGroceryList();
@@ -149,7 +152,7 @@ public class ShopList extends Activity implements IBLConnector{
 
 			@Override
 			public void onClick(View v) {
-				addItemToList();
+				itemAction();
 			}
 		};
 	}
@@ -161,7 +164,7 @@ public class ShopList extends Activity implements IBLConnector{
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 				if (actionId == EditorInfo.IME_ACTION_NEXT) {
-					addItemToList();
+					itemAction();
 					return true;
 				}
 				return false;
@@ -191,8 +194,11 @@ public class ShopList extends Activity implements IBLConnector{
 		};
 	}
 
-
-	public void addItemToList()
+	/**
+	 * If no item is choosen create new item otherwise update
+	 * the selected item
+	 */
+	public void itemAction()
 	{
 		if (acItemName.getText().length() > 0){
 			if(selectedItem == null){
@@ -220,6 +226,9 @@ public class ShopList extends Activity implements IBLConnector{
 		tvItemQuantity.setText(Integer.toString(itemQuantity));
 	}
 
+	/**
+	 * Refresh list (activated also from BL)
+	 */
 	@Override
 	public void Refresh() {	
 		runOnUiThread(new Runnable() {
