@@ -22,13 +22,13 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class FragmentShopList extends Fragment implements IBLConnector{
 
 	private AdapterShopListOverview adapter;
 	
 	private BLShopListOverview blShopListOverview;
-	
 
 	
 	@Override
@@ -38,6 +38,8 @@ public class FragmentShopList extends Fragment implements IBLConnector{
 		View rootView = inflater.inflate(R.layout.fragment_main_shoplist, container, false);
 		blShopListOverview = BLFactory.getInstance().getShopListOverview();
 
+		
+		
 		
 		final ListView lv = (ListView) rootView.findViewById(R.id.shoplist_lv);
 		adapter = new AdapterShopListOverview(this.getActivity(), blShopListOverview);

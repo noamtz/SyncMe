@@ -42,8 +42,12 @@ public class AdapterShopListOverview extends CursorAdapter {
 		Date createdAt = Utils.toDate(cursor.getString(cursor.getColumnIndexOrThrow("CreatedAt")));
 		boolean isMine = (cursor.getInt(cursor.getColumnIndexOrThrow("IsMine")) == 1);
 		
-		if(!isMine)
-			row.setBackgroundColor(Color.YELLOW);
+		TextView tvNotMine = (TextView) row.findViewById(R.id.tvNotMine);
+		
+		if(!isMine){
+			tvNotMine.setVisibility(View.VISIBLE);
+			tvNotMine.setBackgroundColor(Color.YELLOW);
+		}
 		
 		TextView tvTitle = (TextView) row.findViewById(R.id.tvTitle);
 		tvTitle.setText(title);
