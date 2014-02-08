@@ -49,7 +49,6 @@ public class Register extends Activity{
 
 	private User owner;
 
-	ITask tasker;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +58,10 @@ public class Register extends Activity{
 
 		//If user not register with server & google
 		if(getPrefs().getBoolean(Constants.IS_REGISTERED, false)){
+			
 			App.loadOwner(getPrefs());
 			startActivity(new Intent(this, Main.class));
+			
 		} else {
 			
 			setContentView(R.layout.settings);
@@ -81,26 +82,6 @@ public class Register extends Activity{
 			owner = App.getOwner();
 			getDeviceNumber();
 
-			tasker = new ITask() {			
-
-				@Override
-				public void onTaskComplete(Request request, Response response) {
-				}
-
-			};
-		}
-	}
-
-	public void getDeviceNumber(){
-		TelephonyManager tManager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
-		String pNumber = tManager.getLine1Number();
-		if (pNumber != null && pNumber.length() > 0){
-			Utils.showToast("Suggested Device Phone Number Added");
-			
-			etPnumber.setText(pNumber);
-
-		} else {
-			Utils.showToast("Device Phone Number Not Found");
 		}
 	}
 
@@ -116,7 +97,18 @@ public class Register extends Activity{
 	}
 
 
+	public void getDeviceNumber(){
+		TelephonyManager tManager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
+		String pNumber = tManager.getLine1Number();
+		if (pNumber != null && pNumber.length() > 0){
+			Utils.showToast("Suggested Device Phone Number Added");
+			
+			etPnumber.setText(pNumber);
 
+		} else {
+			Utils.showToast("Device Phone Number Not Found");
+		}
+	}
 	private OnClickListener registerListener(){
 		return new OnClickListener() {
 

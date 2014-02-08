@@ -29,7 +29,7 @@ public class Invite extends Activity implements OnClickListener{
 
 	AutoCompleteTextView frientAC;
 	Button inviteBT, cancel;
-	API api;
+	API api	= API.getInstance();;
 	ContentResolver content;
 	boolean flag = true;
 	String phoneNumber = "";
@@ -99,7 +99,14 @@ public class Invite extends Activity implements OnClickListener{
 					}
 				}
 
-				api = API.getInstance();
+				//If not from auto complete
+				if(phoneNumber.isEmpty()){
+					phoneNumber = frientAC.getText().toString();
+				}
+				
+				//Reformat text to contain just numbers
+				phoneNumber = phoneNumber.replaceAll("[^0-9]+", "");
+				//Send api request
 				api.invite(phoneNumber);
 				
 				finish();

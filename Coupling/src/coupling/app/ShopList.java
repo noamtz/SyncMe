@@ -212,7 +212,10 @@ public class ShopList extends Activity implements IBLConnector{
 
 		listItems.setSelection(listItems.getCount() - 1);
 
+		//Reset Session
 		acItemName.setText("");
+		selectedItem = null;
+		
 		itemQuantity = DEFUALT_ITEM_QUANTITY;
 		tvItemQuantity.setText(Integer.toString(itemQuantity));
 	}

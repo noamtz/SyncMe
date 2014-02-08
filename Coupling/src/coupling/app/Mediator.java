@@ -5,14 +5,6 @@ import static coupling.app.data.Constants.LOCALID;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.support.v4.app.NotificationCompat;
-
-import com.nit.coupling.R;
-
 import coupling.app.BL.BLFactory;
 import coupling.app.com.AppFeature;
 import coupling.app.data.DAL;
