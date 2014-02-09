@@ -1,7 +1,8 @@
-package coupling.app;
+package coupling.app.ui;
 
 import com.nit.coupling.R;
 
+import coupling.app.Utils;
 import coupling.app.com.API;
 
 import android.app.Activity;

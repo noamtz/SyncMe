@@ -1,4 +1,4 @@
-package coupling.app;
+package coupling.app.ui;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

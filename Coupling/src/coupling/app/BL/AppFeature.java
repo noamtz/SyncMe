@@ -2,12 +2,11 @@ package coupling.app.BL;
 
 import org.json.JSONObject;
 
-import coupling.app.FragmentShopList;
 import coupling.app.Ids;
-import coupling.app.ShopList;
 import coupling.app.Utils;
 import coupling.app.data.Enums.ActionType;
 import coupling.app.data.Enums.CategoryType;
+import coupling.app.ui.FragmentShopList;
 
 public abstract class AppFeature {
 

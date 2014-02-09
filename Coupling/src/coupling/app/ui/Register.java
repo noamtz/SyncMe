@@ -1,4 +1,4 @@
-package coupling.app;
+package coupling.app.ui;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -8,6 +8,9 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.nit.coupling.R;
 
+import coupling.app.App;
+import coupling.app.Main;
+import coupling.app.Utils;
 import coupling.app.com.API;
 import coupling.app.com.ITask;
 import coupling.app.com.Request;

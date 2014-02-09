@@ -1,9 +1,11 @@
-package coupling.app;
+package coupling.app.ui;
 
 import java.util.Date;
 
 import com.nit.coupling.R;
 
+import coupling.app.Ids;
+import coupling.app.Utils;
 import coupling.app.BL.BLShopListOverview;
 
 import android.content.Context;

@@ -1,4 +1,4 @@
-package coupling.app;
+package coupling.app.ui;
 
 import java.util.Calendar;
 

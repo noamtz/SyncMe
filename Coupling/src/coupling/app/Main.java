@@ -2,6 +2,8 @@ package coupling.app;
 
 import com.nit.coupling.R;
 
+import coupling.app.ui.AppSectionsPagerAdapter;
+
 import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;

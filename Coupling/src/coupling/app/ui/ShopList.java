@@ -1,9 +1,12 @@
-package coupling.app;
+package coupling.app.ui;
 
 import java.util.LinkedList;
 
 import com.nit.coupling.R;
 
+import coupling.app.GroceryList;
+import coupling.app.Ids;
+import coupling.app.Utils;
 import coupling.app.BL.BLFactory;
 import coupling.app.BL.BLGroceryList;
 import coupling.app.BL.BLShopList;
