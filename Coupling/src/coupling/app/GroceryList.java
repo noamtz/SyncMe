@@ -8,7 +8,6 @@ import org.xmlpull.v1.XmlPullParserException;
 import coupling.app.BL.BLFactory;
 import coupling.app.BL.BLGroceryList;
 import coupling.app.com.API;
-import coupling.app.data.XMLParser;
 
 import android.app.Activity;
 import android.database.Cursor;
@@ -26,6 +25,7 @@ public class GroceryList {
 		blGroceryList = BLFactory.getInstance().getGroceryList();
 
 	}
+	
 	public static GroceryList getInstance(){
 		if(gl == null)
 			gl = new GroceryList();

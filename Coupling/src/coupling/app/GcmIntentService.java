@@ -17,20 +17,14 @@ package coupling.app;
  * limitations under the License.
  */
 
-
-import org.json.JSONObject;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.nit.coupling.R;
 import coupling.app.com.API;
 import android.app.IntentService;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
-
 /**
  * This {@code IntentService} does the actual handling of the GCM message.
  * {@code GcmBroadcastReceiver} (a {@code WakefulBroadcastReceiver}) holds a
@@ -54,7 +48,6 @@ public class GcmIntentService extends IntentService {
 		// The getMessageType() intent parameter must be the intent you received
 		// in your BroadcastReceiver.
 		String messageType = gcm.getMessageType(intent);
-		Utils.Log("IntentGCMSERVICe", "Incoming notification");
 		if (!extras.isEmpty()) {  // has effect of unparcelling Bundle
 			/*
 			 * Filter messages based on message type. Since it is likely that GCM will be
@@ -70,14 +63,7 @@ public class GcmIntentService extends IntentService {
 
 				if(extras.getString("messageId") != null){
 					long messageId = Long.parseLong(extras.getString("messageId"));
-
-					JSONObject message = API.getInstance().getMessage(messageId);
-					if(message != null){
-						Mediator.getInstance().deliverMessage(message);
-					} else {
-						Utils.LogError(TAG, "Process Get Message Response", "Message json is null");
-					}
-					Log.i(TAG, "Received: " + extras.toString());
+					API.getInstance().getMessage(messageId);
 				} else {
 					Utils.LogError("GcmIntentService", "No Message Id");
 				}

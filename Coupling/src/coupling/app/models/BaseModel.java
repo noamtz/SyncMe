@@ -1,5 +1,11 @@
 package coupling.app.models;
 
+import static coupling.app.data.Constants.IS_LOCKED;
+import static coupling.app.data.Constants.IS_MINE;
+import static coupling.app.data.Constants.LOCALID;
+import static coupling.app.data.Constants.UID;
+
+import java.util.HashMap;
 import java.util.Map;
 
 import android.content.ContentValues;
@@ -9,7 +15,16 @@ public abstract class BaseModel {
 
 	protected Ids ids;
 	protected Boolean isMine;
+	protected Boolean isLocked;
 	
+	public Boolean getIsLocked() {
+		return isLocked;
+	}
+
+	public void setIsLocked(Boolean isLocked) {
+		this.isLocked = isLocked;
+	}
+
 	public Ids getIds() {
 		return ids;
 	}
@@ -38,7 +53,23 @@ public abstract class BaseModel {
 		ids = new Ids();
 	}
 	
-	public abstract ContentValues toDb();
+	public ContentValues toDb(){
+		ContentValues values = new ContentValues();
+		if(ids.getGlobalId() != null)
+			values.put(UID, ids.getGlobalId());
+		if(isMine != null)
+			values.put(IS_MINE, isMine);
+		if(isLocked != null)
+			values.put(IS_LOCKED, isLocked);
+		return values;
+	}
 	
-	public abstract Map<String,Object> toNetwork();
+	public Map<String,Object> toNetwork(){
+		Map<String,Object> data = new HashMap<String, Object>();
+
+		data.put(UID, getGlobalId());
+		if(ids.getDBId() != null)
+			data.put(LOCALID, ids.getDBId());
+		return data;
+	}
 }

@@ -106,6 +106,7 @@ public class FragmentShopList extends Fragment implements IBLConnector{
 	public void onResume() {
 		super.onResume();
 		blShopListOverview.setBLConnector(this);
+		adapter.refreshList();
 	}
 
 

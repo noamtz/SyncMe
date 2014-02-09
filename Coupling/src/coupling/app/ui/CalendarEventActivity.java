@@ -72,6 +72,8 @@ public class CalendarEventActivity extends Activity implements OnClickListener{
 	}
 	
 	
+	//TODO: (NOAM) Ilan don't forget to refresh the adapter onResume
+	
 	private void initGUI(){
 		title = (EditText)findViewById(R.id.event_title);
 		discription = (EditText)findViewById(R.id.event_description);
@@ -95,7 +97,10 @@ public class CalendarEventActivity extends Activity implements OnClickListener{
 		
 		fromHourPicker = new TimePickerDialog(this, fromHourTimeLstener, fromHour, fromMinute, true);
 		toHourPicker = new TimePickerDialog(this, toHourTimeLstener, toHour, toMinute, true);
+	
 	}
+	
+	
 	
 	
 	OnTimeSetListener fromHourTimeLstener = new OnTimeSetListener() {

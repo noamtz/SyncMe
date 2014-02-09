@@ -82,4 +82,16 @@ public class Request {
 		return prepareToPost();
 	}
 	
+	public JSONObject toJson(){
+		JSONObject json = new JSONObject();
+		try {
+			json.put(METHOD, method);
+			json.put(PARAMS, params);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return json;
+	}
+	
 }

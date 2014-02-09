@@ -20,8 +20,12 @@ import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
+import static coupling.app.data.Constants.*;
+
 public class AdapterShopListOverview extends CursorAdapter {
 
+	 private static final String TAG = "AdapterShopListOverview";
+	
 	 private LayoutInflater mLayoutInflater;
 	 private Context mContext;
 	
@@ -43,12 +47,28 @@ public class AdapterShopListOverview extends CursorAdapter {
 		int totalItems = cursor.getInt(cursor.getColumnIndexOrThrow("TotalItems"));
 		Date createdAt = Utils.toDate(cursor.getString(cursor.getColumnIndexOrThrow("CreatedAt")));
 		boolean isMine = (cursor.getInt(cursor.getColumnIndexOrThrow("IsMine")) == 1);
+		boolean isLocked = (cursor.getInt(cursor.getColumnIndexOrThrow(IS_LOCKED)) == 1);
 		
 		TextView tvNotMine = (TextView) row.findViewById(R.id.tvNotMine);
 		
 		if(!isMine){
+			Utils.Log(TAG, "List: " + title + ", is mine?=" + isMine);
 			tvNotMine.setVisibility(View.VISIBLE);
 			tvNotMine.setBackgroundColor(Color.YELLOW);
+		} else {
+			Utils.Log(TAG, "List: " + title + ", is mine?=" + isMine);
+			tvNotMine.setVisibility(View.GONE);
+			tvNotMine.setBackgroundColor(Color.WHITE);
+		}
+		
+		TextView tvIsLocked = (TextView) row.findViewById(R.id.tvIsLock);
+		
+		if(isLocked){
+			tvIsLocked.setVisibility(View.VISIBLE);
+			tvIsLocked.setBackgroundColor(Color.RED);
+		} else {
+			tvIsLocked.setVisibility(View.GONE);
+			tvIsLocked.setBackgroundColor(Color.WHITE);
 		}
 		
 		TextView tvTitle = (TextView) row.findViewById(R.id.tvTitle);

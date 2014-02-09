@@ -12,7 +12,7 @@ public class DBHandler extends SQLiteOpenHelper {
 	Thread thread;
 	
 	public DBHandler(Context context) {
-		super(context,"coupling.db", null, 16);	
+		super(context,"coupling.db", null, 17);	
 	}
 
 	@Override
@@ -24,6 +24,7 @@ public class DBHandler extends SQLiteOpenHelper {
 						"Title VARCHAR(50), " +
 						"TotalItems Int DEFAULT 0, " +
 						"IsMine INTEGER DEFAULT 1, " +
+						"IsLocked INTEGER DEFAULT 1, " +
 						"CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP " +
 						");"
 				);
@@ -36,6 +37,7 @@ public class DBHandler extends SQLiteOpenHelper {
 						"ItemQuantity INTEGER DEFAULT 1, " +
 						"IsDone INTEGER DEFAULT 0, " +
 						"IsMine INTEGER DEFAULT 1, " +
+						"IsLocked INTEGER DEFAULT 1, " +
 						"FOREIGN KEY(ShopListId) REFERENCES ShopListOverview(_id)" +
 						");"
 				);
@@ -53,7 +55,8 @@ public class DBHandler extends SQLiteOpenHelper {
 						"Description TEXT, " +
 						"StartTime INTEGER, " +
 						"EndTime INTEGER, " +
-						"IsMine INTEGER DEFAULT 1 " +
+						"IsMine INTEGER DEFAULT 1, " +
+						"IsLocked INTEGER DEFAULT 1 " +
 						");"
 				);
 		insertItemsSQLThread();

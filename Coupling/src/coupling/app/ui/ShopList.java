@@ -49,7 +49,6 @@ public class ShopList extends Activity implements IBLConnector{
 	private ListView listItems;
 	private AdapterShopList adapter;	
 
-	//private Ids selectedItemIds;
 	private int itemQuantity;
 	private ShopListItem selectedItem;
 
@@ -103,6 +102,7 @@ public class ShopList extends Activity implements IBLConnector{
 	protected void onResume() {
 		super.onResume();
 		blShopList.setBLConnector(this);
+		adapter.refresh();
 	}
 	
 	/**

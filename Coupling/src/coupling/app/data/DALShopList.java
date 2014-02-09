@@ -21,6 +21,14 @@ public class DALShopList {
 	public Cursor getSource(){
 		return dbHandler.getReadableDatabase().rawQuery("SELECT * FROM ShopList WHERE ShopListId = " + listId, null);
 	}
+	
+	public boolean updateId(Ids ids){
+		ContentValues values = new ContentValues();
+		if(ids.getGlobalId() != null)
+			values.put("UId", ids.getGlobalId());
+		values.put(Constants.IS_LOCKED, false);
+		return dbHandler.getWritableDatabase().update("ShopList",values,"_id = " + ids.getDBId(), null) > 0;
+	}
 
 	public long createItem(ShopListItem item){
 		long itemId = dbHandler.getWritableDatabase().insertOrThrow("ShopList", null, item.toDb());
@@ -44,13 +52,6 @@ public class DALShopList {
 		if(res)
 			DALShopListOverview.getInstance().updateTotalItems(listId, false);
 		return res;
-	}
-
-	public boolean updateId(Ids ids){
-		ContentValues values = new ContentValues();
-		if(ids.getGlobalId() != null)
-			values.put("UId", ids.getGlobalId());
-		return dbHandler.getWritableDatabase().update("ShopList",values,"_id = " + ids.getDBId(), null) > 0;
 	}
 
 	public Long getGlobalListId(){

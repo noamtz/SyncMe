@@ -52,7 +52,7 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="coupling.app.ui.Inviteite"
+            android:name="coupling.app.ui.Invite"
             android:label="@string/invite"
             android:theme="@android:style/Theme.Holo.Dialog" >
         </activity>

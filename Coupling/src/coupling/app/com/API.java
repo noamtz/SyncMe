@@ -20,6 +20,7 @@ public class API { // Mabe move the ITask responsibility to another object
 
 
 	private static ServerUtils server = ServerUtils.getInstance();
+	private static NetworkRequestQueue networkHandler = NetworkRequestQueue.getInstance();
 
 	private static API api;
 	private ITask apiTasker;
@@ -53,7 +54,8 @@ public class API { // Mabe move the ITask responsibility to another object
 		request.setMethod(REGISTER);
 		request.setParams(userDetails);
 
-		server.post(request, apiTasker, false);
+		//server.post(request, apiTasker, false);
+		networkHandler.postFutureJson(request.toJson());
 	}
 
 	public void sync(Message message){
@@ -72,7 +74,8 @@ public class API { // Mabe move the ITask responsibility to another object
 			Utils.Log(TAG, "Methos: " + SYNC + ", Params: " + message.toString());
 			//DEBUG
 			
-			server.post(request, apiTasker, true);
+			//server.post(request, apiTasker, true);
+			networkHandler.postJson(request.toJson());
 
 		}catch(JSONException e){
 			e.printStackTrace();
@@ -91,14 +94,14 @@ public class API { // Mabe move the ITask responsibility to another object
 			request.setMethod(MESSAGE_RECIEVED);
 			request.setParams(params);
 
-			server.post(request, apiTasker, true);
-
+			//server.post(request, apiTasker, true);
+			networkHandler.postJson(request.toJson());
 		} catch(JSONException e){
 			e.printStackTrace();
 		}	
 	}
 
-	public JSONObject getMessage(long messageId) {
+	public void getMessage(long messageId) {
 		Request request = new Request();
 		JSONObject resp = null;
 		try {
@@ -110,13 +113,13 @@ public class API { // Mabe move the ITask responsibility to another object
 			request.setMethod(GET_MESSAGE);
 			request.setParams(params);
 
-			resp = server.post(request, apiTasker, false);
-
+			//resp = server.post(request, apiTasker, false);
+			networkHandler.postJson(request.toJson());
 		} catch(JSONException e){
 			e.printStackTrace();
 		}	
 		
-		return resp;
+		//return resp;
 	}
 
 	public void invite(String email) {
@@ -131,7 +134,8 @@ public class API { // Mabe move the ITask responsibility to another object
 			request.setMethod(INVITE);
 			request.setParams(params);
 
-			server.post(request, apiTasker, true);
+			//server.post(request, apiTasker, true);
+			networkHandler.postJson(request.toJson());
 		}catch(JSONException e){
 			e.printStackTrace();
 		}	

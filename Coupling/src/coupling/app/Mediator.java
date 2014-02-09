@@ -12,7 +12,7 @@ import coupling.app.data.Enums;
 import coupling.app.data.Enums.ActionType;
 import coupling.app.data.Enums.CategoryType;
 public class Mediator {
-	
+
 	private static Mediator mediator;
 
 
@@ -28,12 +28,14 @@ public class Mediator {
 	public void manage(JSONObject json){
 		try {
 			if(json != null){
-				if(json.has("Details")){
+				if(json.has("message")){
+					deliverMessage(json);
+				} else if(json.has("Details")){
 					Utils.Log("Mediator", "manage", json.getJSONObject("Details").toString());
 					updateLocalEntry(json.getJSONObject("Details"));
 				} else if(json.has("error")){
 					Utils.showToast(json.getString("error"));
-				}
+				} 
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();

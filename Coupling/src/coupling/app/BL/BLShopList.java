@@ -148,9 +148,13 @@ public class BLShopList extends AppFeature{
 			//Insert listId to data for notification
 			data.put(SHOPLIST_ID, listId);
 			
+			
 			ShopListItem item = new ShopListItem(listId);
 			if(data.has(UID) && !data.get(UID).equals(null))
 				item.getIds().setGlobalId(data.getLong(UID));
+			
+			//Unlock item
+			item.setIsLocked(false);
 
 
 			if(data.has(ITEM_NAME)) item.setName(data.getString(ITEM_NAME));

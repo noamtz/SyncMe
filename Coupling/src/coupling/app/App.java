@@ -1,29 +1,38 @@
 package coupling.app;
 
 
-import coupling.app.data.Constants;
-import coupling.app.models.User;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
+
+import coupling.app.data.Constants;
+import coupling.app.models.User;
 
 public class App extends Application {
-
+	
 	private static Context appCtx;
 	private static User owner;
-	
+	private static App app;
+
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
+
+		app = this;
+
 		appCtx = getApplicationContext();
-		owner = new User();
+		owner = new User();	
 	}
 
-	public static Context getAppCtx(){
+	public static synchronized Context getAppCtx(){
 		return appCtx;
 	}
-	
+
+	public static synchronized App getInstance(){
+		return app;
+	}
+
 	public static void loadOwner(SharedPreferences prefs){
 		Utils.Log("APP","USER REGISTERED?: " + prefs.getBoolean(Constants.IS_REGISTERED, false));
 
@@ -34,12 +43,13 @@ public class App extends Application {
 			owner.setRegid(prefs.getString(Constants.REG_ID, null));
 		}
 	}
-	
+
 	public static void setOwner(User owr){
 		owner = owr;
 	}
-	
+
 	public static User getOwner(){
 		return owner;
 	}
+
 }

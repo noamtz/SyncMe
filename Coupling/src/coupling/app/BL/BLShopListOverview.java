@@ -33,10 +33,10 @@ public class BLShopListOverview extends AppFeature {
 	}
 
 	public boolean createList(String title){
-		return createList(null,title,null, true);
+		return createList(null,title,null,null, true);
 	}
 
-	public boolean createList(Long UId, String title,Boolean isMine, boolean remote){
+	public boolean createList(Long UId, String title,Boolean isMine,Boolean isLocked, boolean remote){
 		long localId = dataSource.createList(UId,title,isMine);
 		boolean isCreated = (localId != -1); 
 
@@ -63,7 +63,7 @@ public class BLShopListOverview extends AppFeature {
 		boolean res = dataSource.deleteList(ids);
 		if(remote && res){
 			Message message = new Message();
-			Utils.Log("**NOAM**", "IDS(DELETE): " +ids);
+
 			message.getData().put(UID, ids.getGlobalId());
 
 			message.setCategoryType(categoryType);
@@ -76,7 +76,7 @@ public class BLShopListOverview extends AppFeature {
 
 	@Override
 	public void recieveData(JSONObject data, ActionType actionType) {
-		Utils.LogError("BLShopListOverview", "RECIEVE DATA: " + data);
+
 		try{	
 			Ids ids = new Ids();
 			if(data.has(UID) && !data.get(UID).equals(null))
@@ -88,7 +88,7 @@ public class BLShopListOverview extends AppFeature {
 
 			switch (actionType) {
 			case CREATE:
-				createList(ids.getGlobalId(), title, false, false);
+				createList(ids.getGlobalId(), title, false, false, true);
 				break;
 			case DELETE:
 				deleteItem(ids, false);

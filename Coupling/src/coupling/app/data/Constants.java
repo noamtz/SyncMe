@@ -39,6 +39,10 @@ public class Constants {
 	public static final String LOCALID = "LocalId";
 	public static final String UID = "UId";
 	public static final String IS_MINE = "IsMine";
+	public static final String IS_LOCKED = "IsLocked";
+	
+	//Shop List Overview
+	public static final String TITLE = "Title";
 	
 	//Shop List Item
 	public static final String GLOBAL_LIST_ID = "GlobalListId";

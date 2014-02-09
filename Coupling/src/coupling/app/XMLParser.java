@@ -1,4 +1,4 @@
-package coupling.app.data;
+package coupling.app;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -9,7 +9,6 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import com.nit.coupling.R;
 
-import coupling.app.App;
 
 import android.app.Activity;
 import android.content.Context;

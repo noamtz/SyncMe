@@ -1,7 +1,5 @@
 package coupling.app.models;
 
-
-import java.util.HashMap;
 import java.util.Map;
 
 import coupling.app.Ids;
@@ -74,35 +72,27 @@ public class ShopListItem extends BaseModel{
 
 	@Override
 	public ContentValues toDb() {
-		ContentValues values = new ContentValues();
+		ContentValues values = super.toDb();
 		if(listId != null)
 			values.put(SHOPLIST_ID, listId);
 		if(name != null)
 			values.put(ITEM_NAME, name);
 		if(quantity != null)
 			values.put(ITEM_QUANTITY, quantity);
-		if(ids.getGlobalId() != null)
-			values.put(UID, ids.getGlobalId());
 		if(isDone != null)
 			values.put(IS_DONE, isDone);
-		if(isMine != null)
-			values.put(IS_MINE, isMine);
 		return values;
 	}
 
 	@Override
 	public Map<String, Object> toNetwork() {
-		Map<String,Object> data = new HashMap<String, Object>();
-
-		data.put(UID, getGlobalId());
-		if(ids.getDBId() != null)
-			data.put(LOCALID, ids.getDBId());
+		Map<String,Object> data = super.toNetwork();
+		if(isDone != null)
+			data.put(IS_DONE, isDone);
 		if(name != null)
 			data.put(ITEM_NAME, name);
 		if(quantity != null)
 			data.put(ITEM_QUANTITY, quantity);
-		if(isDone != null)
-			data.put(IS_DONE, isDone);
 		return data;
 	}
 	
