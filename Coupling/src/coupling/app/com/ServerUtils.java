@@ -1,7 +1,5 @@
 package coupling.app.com;
 
-import static coupling.app.data.Constants.*;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -30,8 +28,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.AsyncTask;
-import android.util.Log;
-import android.widget.Toast;
 import coupling.app.Utils;
 import coupling.app.data.Enums.HttpType;
 

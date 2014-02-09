@@ -1,4 +1,4 @@
-package coupling.app.com;
+package coupling.app.models;
 
 import org.json.JSONException;
 import org.json.JSONObject;

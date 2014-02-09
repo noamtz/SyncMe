@@ -82,6 +82,8 @@ public class DALShopListOverview {
 		ContentValues values = new ContentValues();
 		if(ids.getGlobalId() != null)
 			values.put("UId", ids.getGlobalId());
-		return dbHandler.getWritableDatabase().update("ShopListOverview",values,"_id = " + ids.getDBId(), null) > 0;
+		boolean a= dbHandler.getWritableDatabase().update("ShopListOverview",values,"_id = " + ids.getDBId(), null) > 0;
+		Utils.Log("**NOAM**", "Update the UID: " + ids + " and success: " + a);
+		return a;
 	}
 }

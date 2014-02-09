@@ -5,8 +5,8 @@ import static coupling.app.data.Constants.LOCALID;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import coupling.app.BL.AppFeature;
 import coupling.app.BL.BLFactory;
-import coupling.app.com.AppFeature;
 import coupling.app.data.DAL;
 import coupling.app.data.Enums;
 import coupling.app.data.Enums.ActionType;

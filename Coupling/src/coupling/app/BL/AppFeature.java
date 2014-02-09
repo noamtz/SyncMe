@@ -1,4 +1,4 @@
-package coupling.app.com;
+package coupling.app.BL;
 
 import org.json.JSONObject;
 
@@ -16,11 +16,11 @@ public abstract class AppFeature {
 	public void recieveData(JSONObject data, ActionType actionType){
 		switch (categoryType) {
 		case SHOPLIST_OVERVIEW:
-			Utils.sendNotification("New Shop List Recieved", FragmentShopList.class);
+			Utils.sendNotification("New Shop List Recieved", FragmentShopList.class,data);
 			break;
 
 		case SHOPLIST:
-			Utils.sendNotification("New Shop List Recieved", ShopList.class);
+			Utils.sendNotification("New Shop List Item Recieved", FragmentShopList.class, data);
 			break;
 		case CALENDER:
 			Utils.LogError("AppFeature", "not implemented CALENDER case");

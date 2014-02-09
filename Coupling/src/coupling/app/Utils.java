@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.json.JSONObject;
+
 import com.nit.coupling.R;
 
 import coupling.app.data.Constants;
@@ -23,6 +25,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -124,13 +127,13 @@ public class Utils {
 		return formatter.format(calendar.getTime());
 	}
 
-	public static void sendNotification(String msg , Class<?> target) {
+	public static void sendNotification(String msg , Class<?> target, JSONObject data) {
 		NotificationManager mNotificationManager = (NotificationManager)
 				App.getAppCtx().getSystemService(Context.NOTIFICATION_SERVICE);
 
 		PendingIntent contentIntent = PendingIntent.getActivity(App.getAppCtx(), 0,
 				new Intent(App.getAppCtx(), target), 0);
-
+		
 		NotificationCompat.Builder mBuilder =
 				new NotificationCompat.Builder(App.getAppCtx())
 		.setSmallIcon(R.drawable.ic_launcher)

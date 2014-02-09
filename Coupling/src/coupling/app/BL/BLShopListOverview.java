@@ -7,7 +7,6 @@ import android.database.Cursor;
 import coupling.app.Ids;
 import coupling.app.Utils;
 import coupling.app.com.API;
-import coupling.app.com.AppFeature;
 import coupling.app.com.IBLConnector;
 import coupling.app.com.Message;
 import coupling.app.data.DALShopListOverview;
@@ -22,7 +21,7 @@ public class BLShopListOverview extends AppFeature {
 	private API api;
 
 	private IBLConnector connector;
-	
+
 	public BLShopListOverview(){
 		dataSource = DALShopListOverview.getInstance();
 		categoryType = CategoryType.SHOPLIST_OVERVIEW;
@@ -55,7 +54,7 @@ public class BLShopListOverview extends AppFeature {
 		}
 		return isCreated;
 	}
-	
+
 	public boolean deleteItem(Ids ids){
 		return deleteItem(ids, true);
 	}
@@ -64,9 +63,9 @@ public class BLShopListOverview extends AppFeature {
 		boolean res = dataSource.deleteList(ids);
 		if(remote && res){
 			Message message = new Message();
-
+			Utils.Log("**NOAM**", "IDS(DELETE): " +ids);
 			message.getData().put(UID, ids.getGlobalId());
-			
+
 			message.setCategoryType(categoryType);
 			message.setActionType(ActionType.DELETE);
 
@@ -77,13 +76,14 @@ public class BLShopListOverview extends AppFeature {
 
 	@Override
 	public void recieveData(JSONObject data, ActionType actionType) {
+		Utils.LogError("BLShopListOverview", "RECIEVE DATA: " + data);
 		try{	
 			Ids ids = new Ids();
 			if(data.has(UID) && !data.get(UID).equals(null))
-					ids.setGlobalId(data.getLong(UID));
-			
+				ids.setGlobalId(data.getLong(UID));
+
 			String title = null;
-			
+
 			if(data.has(TITLE)) title = data.getString(TITLE);
 
 			switch (actionType) {
@@ -97,26 +97,32 @@ public class BLShopListOverview extends AppFeature {
 				Utils.LogError("BLShopListOverview", "not implemented UPDATE case");
 				break;
 			}
-			if(connector != null)
-				connector.Refresh();
-			else
+			if(connector == null)
 				super.recieveData(data, actionType);
 		}catch(JSONException e){
 			e.printStackTrace();
 		}
+
+		if(connector != null)
+			connector.Refresh();
 	}
 
 	@Override
 	public boolean updateId(Ids ids) {
-		return dataSource.updateId(ids);
+		if(dataSource.updateId(ids) && connector != null){
+			connector.Refresh();
+			return true;
+		} else {
+			return false;
+		}
 	}
-	
+
 	public void setBLConnector(IBLConnector connector){
 		this.connector = connector;
 	}
 	public void unsetBLConnector(){
 		this.connector = null;
 	}
-	
+
 
 }

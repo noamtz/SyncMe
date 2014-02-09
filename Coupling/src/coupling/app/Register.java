@@ -12,8 +12,8 @@ import coupling.app.com.API;
 import coupling.app.com.ITask;
 import coupling.app.com.Request;
 import coupling.app.com.Response;
-import coupling.app.com.User;
 import coupling.app.data.Constants;
+import coupling.app.models.User;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -162,7 +162,7 @@ public class Register extends Activity{
 		return true;
 	}
 
-	private String getRegistrationId() {
+	private String getRegistrationId() {	
 		String registrationId = getPrefs().getString(Constants.REG_ID, "");
 		if (registrationId == "") {
 			Log.i(TAG, "Registration not found.");

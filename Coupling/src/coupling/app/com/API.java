@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import coupling.app.App;
 import coupling.app.Mediator;
 import coupling.app.Utils;
+import coupling.app.models.User;
 
 import static coupling.app.data.Constants.*;
 

@@ -4,6 +4,7 @@ import com.nit.coupling.R;
 import coupling.app.BL.BLFactory;
 import coupling.app.BL.BLShopListOverview;
 import coupling.app.com.IBLConnector;
+import coupling.app.data.Constants;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -80,7 +81,7 @@ public class FragmentShopList extends Fragment implements IBLConnector{
 				Bundle bundle = new Bundle();
 				
 				bundle.putString("Title", cursor.getString(cursor.getColumnIndexOrThrow("Title")));
-				bundle.putLong("Id", id);
+				bundle.putLong(Constants.SHOPLIST_ID, id);
 
 				i.putExtras(bundle);
 				startActivity(i);

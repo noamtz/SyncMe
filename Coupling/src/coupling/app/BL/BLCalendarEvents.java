@@ -6,7 +6,6 @@ import android.database.Cursor;
 
 import coupling.app.Ids;
 import coupling.app.com.API;
-import coupling.app.com.AppFeature;
 import coupling.app.com.IBLConnector;
 import coupling.app.data.DALCalendarEvents;
 import coupling.app.data.Enums.ActionType;

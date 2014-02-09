@@ -1,8 +1,8 @@
 package coupling.app;
 
 
-import coupling.app.com.User;
 import coupling.app.data.Constants;
+import coupling.app.models.User;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;

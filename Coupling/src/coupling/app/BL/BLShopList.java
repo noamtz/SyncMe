@@ -8,7 +8,6 @@ import android.database.Cursor;
 import coupling.app.Ids;
 import coupling.app.Utils;
 import coupling.app.com.API;
-import coupling.app.com.AppFeature;
 import coupling.app.com.IBLConnector;
 import coupling.app.com.Message;
 import coupling.app.data.DALShopList;
@@ -61,7 +60,7 @@ public class BLShopList extends AppFeature{
 
 			message.setData(item.toNetwork());
 			message.getData().put(GLOBAL_LIST_ID, GlobalListId);
-			
+
 			message.setCategoryType(categoryType);
 			message.setActionType(ActionType.CREATE);
 
@@ -83,10 +82,10 @@ public class BLShopList extends AppFeature{
 			Message message = new Message();
 
 			GlobalListId = (GlobalListId == null) ? dataSource.getGlobalListId() : GlobalListId;
-			
+
 			message.setData(item.toNetwork());
 			message.getData().put(GLOBAL_LIST_ID, GlobalListId);
-			
+
 			message.setCategoryType(categoryType);
 			message.setActionType(ActionType.UPDATE);
 			api.sync(message);
@@ -125,7 +124,12 @@ public class BLShopList extends AppFeature{
 	}
 
 	public boolean updateId(Ids ids){
-		return dataSource.updateId(ids);
+		if(dataSource.updateId(ids) && connector != null){
+			connector.Refresh();
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public Cursor getSource(){
@@ -141,7 +145,9 @@ public class BLShopList extends AppFeature{
 	@Override
 	public void recieveData(JSONObject data, ActionType actionType) {
 		try{
-
+			//Insert listId to data for notification
+			data.put(SHOPLIST_ID, listId);
+			
 			ShopListItem item = new ShopListItem(listId);
 			if(data.has(UID) && !data.get(UID).equals(null))
 				item.getIds().setGlobalId(data.getLong(UID));
@@ -164,13 +170,14 @@ public class BLShopList extends AppFeature{
 				deleteItem(item.getIds(), false);
 				break;
 			}
-			
-			if(connector != null)
-				connector.Refresh();
-			else
+			if(connector == null)
 				super.recieveData(data, actionType);
 		}catch(JSONException e){
 			e.printStackTrace();
 		}
+		
+		if(connector != null)
+			connector.Refresh();
+
 	}
 }
