@@ -101,11 +101,14 @@ public class Invite extends Activity implements OnClickListener{
 
 				//If not from auto complete
 				if(phoneNumber.isEmpty()){
-					phoneNumber = frientAC.getText().toString();
+					phoneNumber = friendEmail;
 				}
+				
 				
 				//Reformat text to contain just numbers
 				phoneNumber = phoneNumber.replaceAll("[^0-9]+", "");
+				
+				Utils.showToast(phoneNumber);
 				//Send api request
 				api.invite(phoneNumber);
 				
