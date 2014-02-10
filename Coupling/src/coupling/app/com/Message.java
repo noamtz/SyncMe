@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import coupling.app.Utils;
 import coupling.app.data.Enums.ActionType;
 import coupling.app.data.Enums.CategoryType;
 

@@ -26,20 +26,19 @@ public class BLShopList extends AppFeature{
 
 	IBLConnector connector;
 
-	public BLShopList(){
-	}
-
-	public BLShopList(long listId){
-		dataSource = new DALShopList(listId);
+	
+	public BLShopList(long _listId){
 		api = API.getInstance();
-		categoryType = CategoryType.SHOPLIST;
+		dataSource = new DALShopList(_listId);
 		GlobalListId = dataSource.getGlobalListId();
-		this.listId = listId;
+		listId = _listId;
+		categoryType = CategoryType.SHOPLIST;
 	}
 
 	public void setBLConnector(IBLConnector connector){
 		this.connector = connector;
 	}
+	
 	public void unsetBLConnector(){
 		this.connector = null;
 	}
@@ -73,9 +72,11 @@ public class BLShopList extends AppFeature{
 
 		return isCreated;
 	}
+	
 	public boolean updateItem(ShopListItem item){
 		return updateItem(item, true);
 	}
+	
 	public boolean updateItem(ShopListItem item, boolean remote){
 		boolean isUpdated = dataSource.updateItem(item);
 		if(remote && isUpdated){
@@ -128,6 +129,7 @@ public class BLShopList extends AppFeature{
 			connector.Refresh();
 			return true;
 		} else {
+			Utils.showToast("Not connected to ShopList");
 			return false;
 		}
 	}
@@ -147,7 +149,6 @@ public class BLShopList extends AppFeature{
 		try{
 			//Insert listId to data for notification
 			data.put(SHOPLIST_ID, listId);
-			
 			
 			ShopListItem item = new ShopListItem(listId);
 			if(data.has(UID) && !data.get(UID).equals(null))

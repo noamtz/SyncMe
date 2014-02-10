@@ -8,11 +8,9 @@ import coupling.app.Ids;
 import coupling.app.Utils;
 import coupling.app.BL.BLShopList;
 import coupling.app.models.ShopListItem;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -58,10 +56,21 @@ public class AdapterShopList extends CursorAdapter {
 		check.setTag(item.getIds());
 
 		final ImageView redLine = (ImageView) row.findViewById(R.id.red_line_view);
-		if(!item.isMine())
-			row.setBackgroundColor(Color.YELLOW);
-		else
-			row.setBackgroundColor(Color.WHITE);
+		TextView tvStatue = (TextView) row.findViewById(R.id.tvItemStatus);
+		
+		if(item.isLocked()) {
+			tvStatue.setVisibility(View.VISIBLE);
+			tvStatue.setBackgroundColor(Color.RED);
+		} 
+		else if(!item.isMine()){
+			tvStatue.setVisibility(View.VISIBLE);
+			tvStatue.setBackgroundColor(Color.YELLOW);
+		}
+		else {
+			tvStatue.setVisibility(View.GONE);
+			tvStatue.setBackgroundColor(Color.WHITE);
+		}
+
 		if (item.isDone())
 		{
 			redLine.setVisibility(View.VISIBLE);

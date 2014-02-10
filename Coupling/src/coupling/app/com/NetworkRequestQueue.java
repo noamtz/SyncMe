@@ -23,11 +23,11 @@ import coupling.app.Utils;
 public class NetworkRequestQueue {
 
 	private static NetworkRequestQueue requestQueue;
-	
+
 	public static String SERVER_URL = "http://coupling.herobo.com/api/syncMeApp.php";
-	
+
 	private NetworkRequestQueue(){}
-	
+
 	public static NetworkRequestQueue getInstance(){
 		if(requestQueue == null)
 			requestQueue = new NetworkRequestQueue();
@@ -97,12 +97,12 @@ public class NetworkRequestQueue {
 			mRequestQueue.cancelAll(tag);
 		}
 	}
-	
+
 	public void postJson(JSONObject json){
 		JsonObjectRequest req = new JsonObjectRequest(SERVER_URL, json, responseHandler(), errorHandler());
 		addToRequestQueue(req);
 	}
-	
+
 	public JSONObject postFutureJson(JSONObject json){
 		RequestFuture<JSONObject> future = RequestFuture.newFuture();
 		JsonObjectRequest request = new JsonObjectRequest(Method.POST, SERVER_URL, json, future, future);
@@ -116,30 +116,26 @@ public class NetworkRequestQueue {
 			e.printStackTrace();
 		}
 		return response;
-		
+
 	}
-	
+
 	private Response.Listener<JSONObject> responseHandler(){
 
-	     return  new Response.Listener<JSONObject>() {
-	           @Override
-	           public void onResponse(JSONObject response) {
-	               try {
-	                   VolleyLog.v("Response:%n %s", response.toString(4));
-	               	   Mediator.getInstance().manage(response);
-	               } catch (JSONException e) {
-	                   e.printStackTrace();
-	               }
-	           }
-	       };
+		return  new Response.Listener<JSONObject>() {
+			@Override
+			public void onResponse(JSONObject response) {
+				Utils.Log(TAG,"responseHandler", response.toString());
+				Mediator.getInstance().manage(response);
+			}
+		};
 	}
-	
+
 	private Response.ErrorListener errorHandler(){
 		return  new Response.ErrorListener() {
-	           public void onErrorResponse(VolleyError error) {
-	               VolleyLog.e("Error: ", error.getMessage());
-	               Utils.showToast(error.getMessage());
-	           }
-	       };
+			public void onErrorResponse(VolleyError error) {
+				VolleyLog.e("Error: ", error.getMessage());
+				Utils.showToast("volley network:onErrorResponse= " + error.getMessage());
+			}
+		};
 	}
 }

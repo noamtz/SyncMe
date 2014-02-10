@@ -22,7 +22,6 @@ public class DAL {
 	
 	public Long getLocalId(CategoryType type , Long GlobalId){
 		Cursor c = dbHandler.getWritableDatabase().rawQuery("SELECT * FROM " + getTableName(type) + " WHERE UId = " + GlobalId, null);
-		Utils.Log("GetLocalId", "SELECT * FROM " + getTableName(type) + " WHERE UId = " + GlobalId + " Cursor: " + c.getCount());
 		if(c.getCount() > 0){
 			c.moveToFirst();
 			return c.getLong(c.getColumnIndex("_id"));

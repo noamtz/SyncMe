@@ -24,9 +24,10 @@ public class DALShopList {
 	
 	public boolean updateId(Ids ids){
 		ContentValues values = new ContentValues();
-		if(ids.getGlobalId() != null)
+		if(ids.getGlobalId() != null) {
 			values.put("UId", ids.getGlobalId());
-		values.put(Constants.IS_LOCKED, false);
+			values.put(Constants.IS_LOCKED, false);
+		}
 		return dbHandler.getWritableDatabase().update("ShopList",values,"_id = " + ids.getDBId(), null) > 0;
 	}
 
@@ -40,9 +41,7 @@ public class DALShopList {
 	}
 
 	public boolean updateItem(ShopListItem item) {
-
 		String where = (item.getGlobalId() != null) ? "UId = " + item.getGlobalId() : "_id = " + item.getLocalId();
-		Utils.Log("DAL", "Update", where);
 		return dbHandler.getWritableDatabase().update("ShopList",item.toDb(), where, null) > 0;
 	}
 

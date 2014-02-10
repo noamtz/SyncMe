@@ -17,7 +17,7 @@ public abstract class BaseModel {
 	protected Boolean isMine;
 	protected Boolean isLocked;
 	
-	public Boolean getIsLocked() {
+	public Boolean isLocked() {
 		return isLocked;
 	}
 

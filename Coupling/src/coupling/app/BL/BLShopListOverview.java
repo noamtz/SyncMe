@@ -12,11 +12,11 @@ import coupling.app.com.Message;
 import coupling.app.data.DALShopListOverview;
 import coupling.app.data.Enums.ActionType;
 import coupling.app.data.Enums.CategoryType;
+import coupling.app.models.ShopListOverView;
 import static coupling.app.data.Constants.*;
 
 public class BLShopListOverview extends AppFeature {
 
-	private static final String TITLE = "Title";
 	private DALShopListOverview dataSource;
 	private API api;
 
@@ -33,19 +33,21 @@ public class BLShopListOverview extends AppFeature {
 	}
 
 	public boolean createList(String title){
-		return createList(null,title,null,null, true);
+		ShopListOverView list = new ShopListOverView();
+		list.setTitle(title);
+		return createList(list, true);
 	}
 
-	public boolean createList(Long UId, String title,Boolean isMine,Boolean isLocked, boolean remote){
-		long localId = dataSource.createList(UId,title,isMine);
+	public boolean createList(ShopListOverView list, boolean remote){
+		long localId = dataSource.createList(list);
 		boolean isCreated = (localId != -1); 
 
 		if(remote && isCreated){
 			Message message = new Message();
 
+			message.setData(list.toNetwork());
 			message.getData().put(LOCALID, localId);
-			message.getData().put(UID, UId);
-			message.getData().put(TITLE, title);
+			message.getData().put(UID, list.getGlobalId());
 
 			message.setCategoryType(categoryType);
 			message.setActionType(ActionType.CREATE);
@@ -78,20 +80,24 @@ public class BLShopListOverview extends AppFeature {
 	public void recieveData(JSONObject data, ActionType actionType) {
 
 		try{	
-			Ids ids = new Ids();
+			ShopListOverView list = new ShopListOverView();
 			if(data.has(UID) && !data.get(UID).equals(null))
-				ids.setGlobalId(data.getLong(UID));
+				list.getIds().setGlobalId(data.getLong(UID));
 
-			String title = null;
 
-			if(data.has(TITLE)) title = data.getString(TITLE);
+			if(data.has(TITLE)) list.setTitle(data.getString(TITLE));
+			if(data.has(TOTAL_ITEMS)) list.setTotalItems(data.getInt(TOTAL_ITEMS));
 
+			//Unlock item
+			list.setIsLocked(false);
+			
 			switch (actionType) {
 			case CREATE:
-				createList(ids.getGlobalId(), title, false, false, true);
+				list.setIsMine(false);
+				createList(list, false);
 				break;
 			case DELETE:
-				deleteItem(ids, false);
+				deleteItem(list.getIds(), false);
 				break;
 			case UPDATE:
 				Utils.LogError("BLShopListOverview", "not implemented UPDATE case");

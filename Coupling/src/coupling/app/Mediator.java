@@ -31,7 +31,6 @@ public class Mediator {
 				if(json.has("message")){
 					deliverMessage(json);
 				} else if(json.has("Details")){
-					Utils.Log("Mediator", "manage", json.getJSONObject("Details").toString());
 					updateLocalEntry(json.getJSONObject("Details"));
 				} else if(json.has("error")){
 					Utils.showToast(json.getString("error"));

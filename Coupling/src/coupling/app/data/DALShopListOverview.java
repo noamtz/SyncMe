@@ -3,6 +3,7 @@ package coupling.app.data;
 import coupling.app.App;
 import coupling.app.Ids;
 import coupling.app.Utils;
+import coupling.app.models.ShopListOverView;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -30,33 +31,19 @@ public class DALShopListOverview {
 	
 	public boolean updateId(Ids ids){
 		ContentValues values = new ContentValues();
-		if(ids.getGlobalId() != null)
+		if(ids.getGlobalId() != null) {
 			values.put("UId", ids.getGlobalId());
-		values.put(Constants.IS_LOCKED, false);
-		boolean a= dbHandler.getWritableDatabase().update("ShopListOverview",values,"_id = " + ids.getDBId(), null) > 0;
-		Utils.Log("**NOAM**", "Update the UID: " + ids + " and success: " + a);
-		return a;
+			values.put(Constants.IS_LOCKED, false);
+		}
+		return dbHandler.getWritableDatabase().update("ShopListOverview",values,"_id = " + ids.getDBId(), null) > 0;
 	}
 	
-	public long createList(Long UId, String title , Boolean isMine){
-		ContentValues values = new ContentValues();
-		values.put("Title", title);
-		if(UId != null)
-			values.put("UId", UId);
-		if(isMine != null)
-			values.put("IsMine", isMine);
-		Utils.Log("DAL_ShopListOverview", "Create: isMine? " + isMine);
-		return dbHandler.getWritableDatabase().insert("ShopListOverview", null, values);
+	public long createList(ShopListOverView list){
+		return dbHandler.getWritableDatabase().insert("ShopListOverview", null, list.toDb());
 	}
 	
-	public boolean updateList(long id, String title, Integer totalItems){
-		ContentValues values = new ContentValues();
-		if(title != null)
-			values.put("Title", title);
-		if(totalItems != null)
-			values.put("TotalItems", totalItems);
-		
-		return dbHandler.getWritableDatabase().update("ShopListOverview",values,"_id = " + id, null) > 0;
+	public boolean updateList(ShopListOverView list){
+		return dbHandler.getWritableDatabase().update("ShopListOverview",list.toDb(),"_id = " + list.getLocalId(), null) > 0;
 	}
 	/**
 	 * If increment is true then totalItems++

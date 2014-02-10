@@ -21,6 +21,7 @@ public class ShopListItem extends BaseModel{
 		quantity = c.getInt(c.getColumnIndexOrThrow(ITEM_QUANTITY));
 		isDone = c.getInt(c.getColumnIndexOrThrow(IS_DONE)) > 0;
 		isMine = c.getInt(c.getColumnIndexOrThrow(IS_MINE)) == 1;	
+		isLocked = c.getInt(c.getColumnIndexOrThrow(IS_LOCKED)) == 1;	
 	}
 	
 	public ShopListItem(Long listId){

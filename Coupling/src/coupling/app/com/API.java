@@ -1,42 +1,21 @@
 package coupling.app.com;
 
-import java.util.ArrayList;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import coupling.app.App;
-import coupling.app.Mediator;
-import coupling.app.Utils;
 import coupling.app.models.User;
 
 import static coupling.app.data.Constants.*;
 
-public class API { // Mabe move the ITask responsibility to another object
-
-	private String TAG = this.getClass().getName(); 
+public class API {
 
 	private User sender;
-
-
-	private static ServerUtils server = ServerUtils.getInstance();
 	private static NetworkRequestQueue networkHandler = NetworkRequestQueue.getInstance();
 
 	private static API api;
-	private ITask apiTasker;
-	private ArrayList<ITask> taskers;
-	
 	
 	private API(){
 		this.sender = App.getOwner();
-		taskers = new ArrayList<ITask>();
-		apiTasker = new ITask() {
-			
-			@Override
-			public void onTaskComplete(Request request, Response response) {
-				Mediator.getInstance().manage(response.getJson());
-			}
-		};
 	}
 	
 	
@@ -47,35 +26,17 @@ public class API { // Mabe move the ITask responsibility to another object
 	}
 
 	public void registerUser(){
-		Request request = new Request();
-
-		JSONObject userDetails = sender.toJson();
-
-		request.setMethod(REGISTER);
-		request.setParams(userDetails);
-
-		//server.post(request, apiTasker, false);
-		networkHandler.postFutureJson(request.toJson());
+		networkHandler.postFutureJson(prepareJson(REGISTER,sender.toJson()));
 	}
 
 	public void sync(Message message){
-		Request request = new Request();
-		
 		try{
 
 			JSONObject params = new JSONObject();
 			params.put(EMAIL, sender.getEmail());//TODO: change back
 			params.put(MESSAGE, message.toJson());
-
-			request.setMethod(SYNC);
-			request.setParams(params);
 			
-			//DEBUG
-			Utils.Log(TAG, "Methos: " + SYNC + ", Params: " + message.toString());
-			//DEBUG
-			
-			//server.post(request, apiTasker, true);
-			networkHandler.postJson(request.toJson());
+			networkHandler.postJson(prepareJson(SYNC,params));
 
 		}catch(JSONException e){
 			e.printStackTrace();
@@ -84,74 +45,53 @@ public class API { // Mabe move the ITask responsibility to another object
 	}
 
 	public void messageRecieved(long messageId) {
-		Request request = new Request();
 		try {
 
 			JSONObject params = new JSONObject();
 			params.put(EMAIL, sender.getEmail());
 			params.put(MESSAGE_ID, messageId);
-
-			request.setMethod(MESSAGE_RECIEVED);
-			request.setParams(params);
-
-			//server.post(request, apiTasker, true);
-			networkHandler.postJson(request.toJson());
+			
+			networkHandler.postJson(prepareJson(MESSAGE_RECIEVED,params));
 		} catch(JSONException e){
 			e.printStackTrace();
 		}	
 	}
 
 	public void getMessage(long messageId) {
-		Request request = new Request();
-		JSONObject resp = null;
 		try {
 
 			JSONObject params = new JSONObject();
 			params.put(EMAIL, sender.getEmail());
 			params.put(MESSAGE_ID, messageId);
 
-			request.setMethod(GET_MESSAGE);
-			request.setParams(params);
-
-			//resp = server.post(request, apiTasker, false);
-			networkHandler.postJson(request.toJson());
+			networkHandler.postJson(prepareJson(GET_MESSAGE,params));
 		} catch(JSONException e){
 			e.printStackTrace();
 		}	
-		
-		//return resp;
 	}
 
 	public void invite(String email) {
-		Request request = new Request();
-
 		try{
 
 			JSONObject params = new JSONObject();
 			params.put(EMAIL, sender.getEmail());
 			params.put(FRIEND_EMAIL, email);
 
-			request.setMethod(INVITE);
-			request.setParams(params);
-
-			//server.post(request, apiTasker, true);
-			networkHandler.postJson(request.toJson());
+			networkHandler.postJson(prepareJson(INVITE,params));
 		}catch(JSONException e){
 			e.printStackTrace();
 		}	
 	}
 	
-	
-	public void registerTasker(ITask tasker){
-		if(tasker != null)
-			if(taskers.add(tasker)){}
-				//Utils.Log(TAG, "registerTasker", tasker.getClass().getName() + " is register successfully");
+	private JSONObject prepareJson(String method, JSONObject params){
+		JSONObject json = new JSONObject();
+		try {
+			json.put(METHOD, method);
+			json.put(PARAMS, params);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return json;
 	}
-
-	public void unRegisterTasker(ITask tasker){
-		if(tasker != null)
-			if(taskers.remove(tasker)){}
-				//Utils.Log(TAG, "unRegisterTasker", tasker.getClass().getName() + " unregister successfully");
-	}
-
 }

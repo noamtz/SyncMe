@@ -43,6 +43,8 @@ public class Constants {
 	
 	//Shop List Overview
 	public static final String TITLE = "Title";
+	public static final String TOTAL_ITEMS = "TotalItems";
+	public static final String CREATED_AT = "CreatedAt";
 	
 	//Shop List Item
 	public static final String GLOBAL_LIST_ID = "GlobalListId";
