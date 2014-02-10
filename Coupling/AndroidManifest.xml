@@ -41,7 +41,7 @@
         </activity>
         <activity
             android:name="coupling.app.ui.ShopList"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
         </activity>
         <activity
             android:name="coupling.app.Main"

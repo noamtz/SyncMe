@@ -8,9 +8,11 @@ import java.util.Locale;
 
 import com.nit.coupling.R;
 
+import coupling.app.Utils;
 import coupling.app.BL.BLCalendarEvents;
 import coupling.app.BL.BLFactory;
 import coupling.app.com.IBLConnector;
+import coupling.app.data.Constants;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
@@ -54,6 +56,8 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 	View rootView;
 	Activity activity;
 	ListView eventList;
+	
+	String selectedDate;
 
 
 	@Override
@@ -127,9 +131,9 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 				desc = new ArrayList<String>();
 				date = new ArrayList<String>();
 				((CalendarAdapter) parent.getAdapter()).setSelected(v);
-				String selectedGridDate = CalendarAdapter.dayString
+				selectedDate = CalendarAdapter.dayString
 						.get(position);
-				String[] separatedTime = selectedGridDate.split("-");
+				String[] separatedTime = selectedDate.split("-");
 				String gridvalueString = separatedTime[2].replaceFirst("^0*",
 						"");// taking last part of date. ie; 2 from 2012-12-02.
 				int gridvalue = Integer.parseInt(gridvalueString);
@@ -173,6 +177,10 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 
 		});
 
+		
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+		selectedDate = df.format(GregorianCalendar.getInstance().getTime());
+		Utils.Log("Calendar", selectedDate);
 
 		setHasOptionsMenu(true);
 		return rootView;
@@ -257,6 +265,10 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 		switch (item.getItemId()) {
 		case R.id.add_event_action:
 			Intent inviteIntent = new Intent(getActivity(), CalendarEventActivity.class);
+			
+			inviteIntent.putExtra(Constants.SELECTED_DATE, selectedDate);
+			inviteIntent.putExtra(Constants.EVENT_ID, (long)Constants.EVENT_CREATE);
+			
 			startActivity(inviteIntent);
 			return true;
 		default:

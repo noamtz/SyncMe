@@ -63,6 +63,7 @@ public class Constants {
 	public static final String EVENT_YEAR = "year";
 	public static final String EVENT_MONTH = "month";
 	public static final String EVENT_DAY = "day";
+	public static final String SELECTED_DATE = "selected_day";
 
 	//Notifications
 	public static final int NOTIFICATION_ID = 1;

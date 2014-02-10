@@ -13,6 +13,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -46,27 +47,38 @@ public class CalendarEventActivity extends Activity implements OnClickListener{
 	
 		setContentView(R.layout.event_layout);
 		
-		initGUI();
-		
 		blCalendarEvents = BLFactory.getInstance().getCalendarEvents();
-		
-		SharedPreferences settings = getSharedPreferences(Constants.CALENDER_PREFS, 0);
-		long eventId = settings.getLong(Constants.EVENT_ID, Constants.EVENT_CREATE);
-		
 		Calendar calendar = Calendar.getInstance();
 		
-		if (eventId == Constants.EVENT_CREATE) {
+		Intent intent = getIntent();
+		String selectedDate = intent.getStringExtra(Constants.SELECTED_DATE);
+		long eventId = intent.getLongExtra(Constants.EVENT_ID, Constants.EVENT_CREATE);
+		
+		if (selectedDate != null) {
+			String[] separatedTime = selectedDate.split("-");
+			fromYear = toYear = Integer.parseInt(separatedTime[0]);
+			fromMonth = toMonth =  Integer.parseInt(separatedTime[1]) - 1;
+			fromDay = toDay =  Integer.parseInt(separatedTime[2]);
+			
+		} else {
 			fromYear = toYear = calendar.get(Calendar.YEAR);
 			fromMonth = toMonth = calendar.get(Calendar.MONTH);
 			fromDay = toDay = calendar.get(Calendar.DAY_OF_MONTH);
 			
+		}
+
+
+		
+		if (eventId == Constants.EVENT_CREATE) {
 			fromHour = toHour = calendar.get(Calendar.HOUR_OF_DAY);
 			fromMinute = toMinute = calendar.get(Calendar.MINUTE);
-		} else {
+			
+		} else{ //update 
 		
 
 		}
 		
+		initGUI();
 		setAllViewFildes();
 		
 	}

@@ -7,6 +7,7 @@ import com.nit.coupling.R;
 
 import coupling.app.GroceryList;
 import coupling.app.Ids;
+import coupling.app.Main;
 import coupling.app.Utils;
 import coupling.app.BL.BLFactory;
 import coupling.app.BL.BLGroceryList;
@@ -15,6 +16,7 @@ import coupling.app.com.IBLConnector;
 import coupling.app.models.ShopListItem;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -70,6 +72,7 @@ public class ShopList extends Activity implements IBLConnector{
 
 		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
+		
 		//Get list information from shopListOverview section
 		listId = Utils.parseToLong(getIntent().getExtras().get(LOCAL_LIST_ID));
 		String listTitle = getIntent().getExtras().getString("Title");
@@ -253,7 +256,8 @@ public class ShopList extends Activity implements IBLConnector{
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			NavUtils.navigateUpFromSameTask(this);
+			Intent intent = new Intent(this, Main.class);
+			NavUtils.navigateUpTo(this, intent);
 			return true;
 		}
 		return false;	

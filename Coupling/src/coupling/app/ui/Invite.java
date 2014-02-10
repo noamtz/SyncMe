@@ -63,10 +63,6 @@ public class Invite extends Activity implements OnClickListener{
 		if (v.getId() == inviteBT.getId()){
 			String friendEmail = frientAC.getText().toString();
 			if (friendEmail.length() > 0){
-				//TODO:API.invite();
-
-
-				Log.w("NUMBER", "1");
 
 				ContentResolver cr = getContentResolver();
 				Cursor c2 = cr.query(ContactsContract.Contacts.CONTENT_URI, null, 
@@ -78,7 +74,6 @@ public class Invite extends Activity implements OnClickListener{
 					Cursor c3 = cr.query(Phone.CONTENT_URI, null, Phone.CONTACT_ID + " = " + Contactid, null, null);
 					while (c3.moveToNext() && flag) {
 						String pNumber = c3.getString(c3.getColumnIndex(Phone.NUMBER));
-						//Log.w("NUMBER - NUMBER", pNumber);
 						int type = c3.getInt(c3.getColumnIndex(Phone.TYPE));
 						switch(type) {
 						case Phone.TYPE_HOME:
@@ -93,30 +88,36 @@ public class Invite extends Activity implements OnClickListener{
 							break;
 						default:
 							phoneNumber = pNumber;
-							//Log.w("NUMBER - NUMBER", phoneNumber);
-							//Log.w("NUMBER - TYPE", type + "");
+							
 							break;
 						}
 					}
 				}
 
-				//If not from auto complete
-				if(phoneNumber.isEmpty()){
-					phoneNumber = friendEmail;
+				if (Utils.isStringANumber(phoneNumber)){
+					//If not from auto complete
+					if(phoneNumber.isEmpty()){
+						phoneNumber = friendEmail;
+					}
+					
+					//Reformat text to contain just numbers
+					phoneNumber = phoneNumber.replaceAll("[^0-9]+", "");
+
+					//if 972 if start of number
+					if (phoneNumber.indexOf("972") == 0){
+						phoneNumber = 0 + phoneNumber.substring(3);
+					} 	
+					
+					//Send api request
+					api.invite(phoneNumber);
+
+					finish();
+				} else {
+					Utils.showToast("Contact with no phone number");
 				}
-				
-				
-				//Reformat text to contain just numbers
-				phoneNumber = phoneNumber.replaceAll("[^0-9]+", "");
-				
-				Utils.showToast(phoneNumber);
-				//Send api request
-				api.invite(phoneNumber);
-				
-				finish();
 
 			} else {
-				Utils.showToast("Please Enter Friends Email");
+				Utils.showToast("Please Enter Friends Number");
 			}
 		} else if (v.getId() == cancel.getId()){
 			finish();

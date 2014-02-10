@@ -175,6 +175,15 @@ public class Utils {
 		return res;
 	}
 	
+	public static boolean isStringANumber(String num){
+		try{
+		Integer.parseInt(num);
+		return true;
+		} catch(NumberFormatException e){
+			return false;
+		}
+	}
+	
 	//public static ArrayList<CalenderEvent> events = new ArrayList<CalenderEvent>();
 	//public static ArrayList<String> nameOfEvent = new ArrayList<String>();
 	//public static ArrayList<String> startDates = new ArrayList<String>();

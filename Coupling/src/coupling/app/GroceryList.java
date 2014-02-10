@@ -25,7 +25,6 @@ public class GroceryList {
 		blGroceryList = BLFactory.getInstance().getGroceryList();
 
 	}
-	
 	public static GroceryList getInstance(){
 		if(gl == null)
 			gl = new GroceryList();
@@ -36,8 +35,8 @@ public class GroceryList {
 		Cursor c = blGroceryList.getSource();
 		if (c.moveToFirst()) {
 	        do {
-	        	//Utils.Log("GroceryList", "C-tor", c.getString(1));
-	        	groceryList.add(c.getString(c.getColumnIndex("ItemName")));
+	        	if (!groceryList.contains(c.getString(c.getColumnIndex("ItemName"))))
+	        		groceryList.add(c.getString(c.getColumnIndex("ItemName")));
 	        } while (c.moveToNext());
 		}
         c.close();
@@ -61,7 +60,6 @@ public class GroceryList {
 	}
 	
 	public void  initGroceryListItems(){
-		Log.w("ILAN DEBUG", "INIT");
 		XMLParser xml = new XMLParser();
 		
 		try {
