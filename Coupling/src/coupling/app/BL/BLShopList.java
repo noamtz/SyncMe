@@ -150,7 +150,7 @@ public class BLShopList extends AppFeature{
 	public void recieveData(JSONObject data, ActionType actionType) {
 		try{
 			//Insert listId to data for notification
-			data.put(SHOPLIST_ID, listId);
+			data.put(LOCAL_LIST_ID, listId);
 			
 			ShopListItem item = new ShopListItem(listId);
 			if(data.has(UID) && !data.get(UID).equals(null))

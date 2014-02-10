@@ -65,7 +65,7 @@ public class AdapterShopList extends CursorAdapter {
 
 			btnRemoveItem.setEnabled(false);
 		} 
-		else{
+		else {
 			//Paint in yellow if the item is not mine
 			if(!item.isMine()){
 				tvStatue.setVisibility(View.VISIBLE);

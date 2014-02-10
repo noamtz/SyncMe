@@ -80,8 +80,8 @@ public class FragmentShopList extends Fragment implements IBLConnector{
 				Intent i = new Intent(getActivity(), ShopList.class);
 				Bundle bundle = new Bundle();
 				
-				bundle.putString("Title", cursor.getString(cursor.getColumnIndexOrThrow("Title")));
-				bundle.putLong(Constants.SHOPLIST_ID, id);
+				bundle.putString(Constants.TITLE, cursor.getString(cursor.getColumnIndexOrThrow("Title")));
+				bundle.putLong(Constants.LOCAL_LIST_ID, id);
 
 				i.putExtras(bundle);
 				startActivity(i);

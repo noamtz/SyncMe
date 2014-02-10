@@ -66,4 +66,6 @@ public class Constants {
 
 	//Notifications
 	public static final int NOTIFICATION_ID = 1;
+	public static final String NOTIF_TITLE = "Coupling";
+	
 }

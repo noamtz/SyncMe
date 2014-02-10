@@ -7,6 +7,7 @@ import coupling.app.Utils;
 import coupling.app.data.Enums.ActionType;
 import coupling.app.data.Enums.CategoryType;
 import coupling.app.ui.FragmentShopList;
+import coupling.app.ui.ShopList;
 
 public abstract class AppFeature {
 
@@ -19,7 +20,7 @@ public abstract class AppFeature {
 			break;
 
 		case SHOPLIST:
-			Utils.sendNotification("New Shop List Item Recieved", FragmentShopList.class, data);
+			Utils.sendNotification("New Shop List Item Recieved", ShopList.class, data);
 			break;
 		case CALENDER:
 			Utils.LogError("AppFeature", "not implemented CALENDER case");
@@ -30,6 +31,5 @@ public abstract class AppFeature {
 	}
 	
 	public abstract boolean updateId(Ids ids);
-	
-	
+		
 }

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.nit.coupling.R;
@@ -131,13 +132,24 @@ public class Utils {
 		NotificationManager mNotificationManager = (NotificationManager)
 				App.getAppCtx().getSystemService(Context.NOTIFICATION_SERVICE);
 
+		Intent notifIntent = new Intent(App.getAppCtx(), target);
+		if(data.has(Constants.LOCAL_LIST_ID))
+			try {
+				notifIntent.putExtra(Constants.LOCAL_LIST_ID, data.getString(Constants.LOCAL_LIST_ID));
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		//For putExtra to work
+		notifIntent.setAction("Couling");
+		
 		PendingIntent contentIntent = PendingIntent.getActivity(App.getAppCtx(), 0,
-				new Intent(App.getAppCtx(), target), 0);
+				notifIntent, 0);
+		
 		
 		NotificationCompat.Builder mBuilder =
 				new NotificationCompat.Builder(App.getAppCtx())
 		.setSmallIcon(R.drawable.ic_launcher)
-		.setContentTitle("SyncMe")
+		.setContentTitle(Constants.NOTIF_TITLE)
 		.setStyle(new NotificationCompat.BigTextStyle()
 		.bigText(msg))
 		.setContentText(msg);
