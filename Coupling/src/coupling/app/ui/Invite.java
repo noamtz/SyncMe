@@ -88,31 +88,35 @@ public class Invite extends Activity implements OnClickListener{
 							break;
 						default:
 							phoneNumber = pNumber;
-							
+
 							break;
 						}
 					}
 				}
 
-				if (Utils.isStringANumber(phoneNumber)){
-					//If not from auto complete
-					if(phoneNumber.isEmpty()){
-						phoneNumber = friendEmail;
-					}
-					
-					//Reformat text to contain just numbers
-					phoneNumber = phoneNumber.replaceAll("[^0-9]+", "");
+				Utils.Log("DEBUG", phoneNumber);
 
-					//if 972 if start of number
-					if (phoneNumber.indexOf("972") == 0){
-						phoneNumber = 0 + phoneNumber.substring(3);
-					} 	
-					
+				//If not from auto complete
+				if(phoneNumber.isEmpty()){
+					phoneNumber = friendEmail;
+				}
+
+				//Reformat text to contain just numbers
+				phoneNumber = phoneNumber.replaceAll("[^0-9]+", "");
+
+				//if 972 if start of number
+				if (phoneNumber.indexOf("972") == 0){
+					phoneNumber = 0 + phoneNumber.substring(3);
+				} 	
+				if (Utils.isStringANumber(phoneNumber)){
+					Utils.Log("DEBUG", "true");
+
 					//Send api request
 					api.invite(phoneNumber);
 
 					finish();
 				} else {
+					Utils.Log("DEBUG", "false");
 					Utils.showToast("Contact with no phone number");
 				}
 

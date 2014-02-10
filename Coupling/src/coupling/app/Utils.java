@@ -177,8 +177,8 @@ public class Utils {
 	
 	public static boolean isStringANumber(String num){
 		try{
-		Integer.parseInt(num);
-		return true;
+			Integer.parseInt(num);
+			return true;
 		} catch(NumberFormatException e){
 			return false;
 		}
