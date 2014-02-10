@@ -71,7 +71,7 @@ public class ShopList extends Activity implements IBLConnector{
 		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		//Get list information from shopListOverview section
-		listId = getIntent().getExtras().getLong(LOCAL_LIST_ID);
+		listId = Utils.parseToLong(getIntent().getExtras().get(LOCAL_LIST_ID));
 		String listTitle = getIntent().getExtras().getString("Title");
 		setTitle(listTitle);
 		

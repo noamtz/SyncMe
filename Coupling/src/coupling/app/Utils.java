@@ -17,6 +17,7 @@ import com.nit.coupling.R;
 
 import coupling.app.data.Constants;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -131,11 +132,13 @@ public class Utils {
 	public static void sendNotification(String msg , Class<?> target, JSONObject data) {
 		NotificationManager mNotificationManager = (NotificationManager)
 				App.getAppCtx().getSystemService(Context.NOTIFICATION_SERVICE);
-
+		
 		Intent notifIntent = new Intent(App.getAppCtx(), target);
 		if(data.has(Constants.LOCAL_LIST_ID))
 			try {
-				notifIntent.putExtra(Constants.LOCAL_LIST_ID, data.getString(Constants.LOCAL_LIST_ID));
+				Bundle bundle = new Bundle();
+				bundle.putLong(Constants.LOCAL_LIST_ID, data.getLong(Constants.LOCAL_LIST_ID));
+				notifIntent.putExtras(bundle);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -152,12 +155,25 @@ public class Utils {
 		.setContentTitle(Constants.NOTIF_TITLE)
 		.setStyle(new NotificationCompat.BigTextStyle()
 		.bigText(msg))
+		.setAutoCancel(true)
 		.setContentText(msg);
-
+		
+		
 		mBuilder.setContentIntent(contentIntent);
 		mNotificationManager.notify(Constants.NOTIFICATION_ID, mBuilder.build());
 	}
 
+	
+	public static Long parseToLong(Object num){
+		Long res = null;
+		if(num != null)
+			if(num instanceof String)
+				try { res = Long.parseLong((String)num); }
+				catch(NumberFormatException e){}
+			else if(num instanceof Long)
+				res = (Long) num;
+		return res;
+	}
 	
 	//public static ArrayList<CalenderEvent> events = new ArrayList<CalenderEvent>();
 	//public static ArrayList<String> nameOfEvent = new ArrayList<String>();

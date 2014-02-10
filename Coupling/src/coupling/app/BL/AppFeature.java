@@ -3,6 +3,7 @@ package coupling.app.BL;
 import org.json.JSONObject;
 
 import coupling.app.Ids;
+import coupling.app.Main;
 import coupling.app.Utils;
 import coupling.app.data.Enums.ActionType;
 import coupling.app.data.Enums.CategoryType;
@@ -16,7 +17,7 @@ public abstract class AppFeature {
 	public void recieveData(JSONObject data, ActionType actionType){
 		switch (categoryType) {
 		case SHOPLIST_OVERVIEW:
-			Utils.sendNotification("New Shop List Recieved", FragmentShopList.class,data);
+			Utils.sendNotification("New Shop List Recieved", Main.class,data);
 			break;
 
 		case SHOPLIST:

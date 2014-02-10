@@ -46,13 +46,16 @@ public class Mediator {
 		try {
 
 			if(data.getInt("Action") == ActionType.CREATE.value()){
-				
-				Long localListId = data.getLong(LOCAL_LIST_ID);
-				Long DBId = data.getLong(LOCALID);
+				Long localListId = null;
+				Long DBId = null;
+				if(data.has(LOCAL_LIST_ID))
+					localListId = data.getLong(LOCAL_LIST_ID);
+				if(data.has(LOCALID))
+					DBId = data.getLong(LOCALID);
 				
 				AppFeature feature = getAppFeature(data.getInt("Type"), localListId);
 				
-				if(localListId != null && feature != null){
+				if(DBId != null && feature != null){
 					feature.updateId(new Ids(DBId, data.getLong("MessageId")));
 				}
 			}
