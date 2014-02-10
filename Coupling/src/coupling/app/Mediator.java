@@ -1,6 +1,6 @@
 package coupling.app;
 
-import static coupling.app.data.Constants.LOCALID;
+import static coupling.app.data.Constants.*;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,6 +13,7 @@ import coupling.app.data.Enums.ActionType;
 import coupling.app.data.Enums.CategoryType;
 public class Mediator {
 
+	private static final String TAG = "Mediator";
 	private static Mediator mediator;
 
 
@@ -31,7 +32,7 @@ public class Mediator {
 				if(json.has("message")){
 					deliverMessage(json);
 				} else if(json.has("Details")){
-					updateLocalEntry(json.getJSONObject("Details"));
+					updateGlobalId(json.getJSONObject("Details"));
 				} else if(json.has("error")){
 					Utils.showToast(json.getString("error"));
 				} 
@@ -41,14 +42,18 @@ public class Mediator {
 		}
 	}
 
-	public void updateLocalEntry(JSONObject data){
+	public void updateGlobalId(JSONObject data){
 		try {
 
 			if(data.getInt("Action") == ActionType.CREATE.value()){
-				Long dbId = data.getLong(LOCALID);
-				AppFeature feature = getAppFeature(data.getInt("Type"), dbId);
-				if(dbId != null && feature != null){
-					feature.updateId(new Ids(dbId, data.getLong("MessageId")));
+				
+				Long localListId = data.getLong(LOCAL_LIST_ID);
+				Long DBId = data.getLong(LOCALID);
+				
+				AppFeature feature = getAppFeature(data.getInt("Type"), localListId);
+				
+				if(localListId != null && feature != null){
+					feature.updateId(new Ids(DBId, data.getLong("MessageId")));
 				}
 			}
 
@@ -57,34 +62,36 @@ public class Mediator {
 		}
 	}
 
-	public AppFeature getAppFeature(int category, Long LocalId){
-		if(category == CategoryType.SHOPLIST.value()){
-			Utils.Log("Mediator", "getAppFeature", "listid : " + LocalId);
-			return BLFactory.getInstance().getShopList(LocalId);
+	public AppFeature getAppFeature(int categoryCode, Long localListId){
+		CategoryType category = Enums.toCategoryType(categoryCode);
+		switch (category) {
+		case SHOPLIST: return BLFactory.getInstance().getShopList(localListId);
+		case SHOPLIST_OVERVIEW: return BLFactory.getInstance().getShopListOverview();
+		case CALENDER:
+			Utils.LogError(TAG, "getAppFeature" ,"Not implemented CategoryType: Calender ");
+			break;
+		case NOT_DEFINED:
+			Utils.LogError(TAG, "getAppFeature" ,"Category type is not defined");
 		}
-		else if(category == CategoryType.SHOPLIST_OVERVIEW.value())
-			return BLFactory.getInstance().getShopListOverview();
 		return null;
 	}
 
 	public void deliverMessage(JSONObject message){
 		try {
-			String m = message.getString("message");
-			message = new JSONObject(m);
+			message = new JSONObject(message.getString("message"));
 			JSONObject data = new JSONObject(message.getString("data"));
 
 			Long LocalId = null;
 			if(data.has("GlobalListId")){
 				LocalId = DAL.getInstance().getLocalId(CategoryType.SHOPLIST_OVERVIEW, data.getLong("GlobalListId"));
 			}
-
+			
 			AppFeature feature = getAppFeature(message.getInt("type"), LocalId);
-			if(feature != null){
+			if(feature != null) {
 				ActionType action = Enums.toActionType(message.getInt("action"));
 				feature.recieveData(data, action);
 			}
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

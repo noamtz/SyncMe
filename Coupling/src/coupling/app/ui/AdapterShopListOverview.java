@@ -24,13 +24,11 @@ public class AdapterShopListOverview extends CursorAdapter {
 	private static final String TAG = "AdapterShopListOverview";
 
 	private LayoutInflater mLayoutInflater;
-	private Context mContext;
 
 	private BLShopListOverview blShopListOverview;
 
 	public AdapterShopListOverview(Context context, BLShopListOverview blShopListOverview) {
 		super(context, blShopListOverview.getSource(), true);
-		mContext = context;
 		mLayoutInflater = LayoutInflater.from(context);
 		this.blShopListOverview = blShopListOverview;
 	}
@@ -47,15 +45,12 @@ public class AdapterShopListOverview extends CursorAdapter {
 
 
 		if(!listov.isMine()){
-			Utils.Log(TAG, "List: " + listov.getTitle() + ", is mine?=" + listov.isMine());
 			tvNotMine.setVisibility(View.VISIBLE);
 			tvNotMine.setBackgroundColor(Color.YELLOW);
 		} else {
-			Utils.Log(TAG, "List: " + listov.getTitle() + ", is mine?=" + listov.isMine());
 			tvNotMine.setVisibility(View.GONE);
 			tvNotMine.setBackgroundColor(Color.WHITE);
 		}
-
 
 		//Check if item is locked
 		if(listov.isLocked()){

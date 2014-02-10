@@ -94,6 +94,8 @@ public class ShopListItem extends BaseModel{
 			data.put(ITEM_NAME, name);
 		if(quantity != null)
 			data.put(ITEM_QUANTITY, quantity);
+		if(listId != null)
+			data.put(LOCAL_LIST_ID, listId);
 		return data;
 	}
 	

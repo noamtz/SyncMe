@@ -36,10 +36,12 @@ public class BLShopList extends AppFeature{
 	}
 
 	public void setBLConnector(IBLConnector connector){
+		Utils.Log(TAG, "setBLConnector", "ListId: " +listId+ " ,Connector Id: " + connector + " BLShopList Id: " + this);
 		this.connector = connector;
 	}
 	
 	public void unsetBLConnector(){
+		Utils.Log(TAG, "unsetBLConnector", "ListId: " +listId+ " ,Connector Id: " + connector + " BLShopList Id: " + this);
 		this.connector = null;
 	}
 

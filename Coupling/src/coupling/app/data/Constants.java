@@ -47,6 +47,7 @@ public class Constants {
 	public static final String CREATED_AT = "CreatedAt";
 	
 	//Shop List Item
+	public static final String LOCAL_LIST_ID = "LocalListId";
 	public static final String GLOBAL_LIST_ID = "GlobalListId";
 	public static final String ITEM_NAME = "ItemName";
 	public static final String ITEM_QUANTITY = "ItemQuantity";

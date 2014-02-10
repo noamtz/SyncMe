@@ -99,6 +99,7 @@ public class NetworkRequestQueue {
 	}
 
 	public void postJson(JSONObject json){
+		Utils.Log(TAG, "postJson", json.toString());
 		JsonObjectRequest req = new JsonObjectRequest(SERVER_URL, json, responseHandler(), errorHandler());
 		addToRequestQueue(req);
 	}

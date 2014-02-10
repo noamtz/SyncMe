@@ -57,27 +57,34 @@ public class AdapterShopList extends CursorAdapter {
 
 		final ImageView redLine = (ImageView) row.findViewById(R.id.red_line_view);
 		TextView tvStatue = (TextView) row.findViewById(R.id.tvItemStatus);
-		
+
+		//Lock UI componenet and paint in red until global Id is updated
 		if(item.isLocked()) {
 			tvStatue.setVisibility(View.VISIBLE);
 			tvStatue.setBackgroundColor(Color.RED);
-		} 
-		else if(!item.isMine()){
-			tvStatue.setVisibility(View.VISIBLE);
-			tvStatue.setBackgroundColor(Color.YELLOW);
-		}
-		else {
-			tvStatue.setVisibility(View.GONE);
-			tvStatue.setBackgroundColor(Color.WHITE);
-		}
 
+			btnRemoveItem.setEnabled(false);
+		} 
+		else{
+			//Paint in yellow if the item is not mine
+			if(!item.isMine()){
+				tvStatue.setVisibility(View.VISIBLE);
+				tvStatue.setBackgroundColor(Color.YELLOW);
+			}
+			else {
+				tvStatue.setVisibility(View.GONE);
+				tvStatue.setBackgroundColor(Color.WHITE);
+			}
+			btnRemoveItem.setEnabled(true);
+		}
+		//Mark with red line to notify that the item is checked 
 		if (item.isDone())
 		{
 			redLine.setVisibility(View.VISIBLE);
 		} else {
 			redLine.setVisibility(View.INVISIBLE);
 		}
-
+		//Remove item from list
 		btnRemoveItem.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -113,7 +120,10 @@ public class AdapterShopList extends CursorAdapter {
 	public View newView(Context context, Cursor cursor, ViewGroup parent) {
 		return mLayoutInflater.inflate(R.layout.shoplist_item, parent, false);
 	}
-
+	
+	/**
+	 * Refresh list data & UI
+	 */
 	public void refresh(){
 		swapCursor(blShoplist.getSource());
 		notifyDataSetChanged();

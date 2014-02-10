@@ -15,7 +15,7 @@ public class Enums {
 	}
 	
 	public enum CategoryType {
-		SHOPLIST_OVERVIEW(1) , SHOPLIST(2), CALENDER(3);
+	    NOT_DEFINED(0), SHOPLIST_OVERVIEW(1), SHOPLIST(2), CALENDER(3);
 
 		private int value;
 		private CategoryType (int value) {
@@ -33,7 +33,7 @@ public class Enums {
 	}
 	
 	public enum ActionType {
-		CREATE(1), UPDATE(2), DELETE(3);
+		 NOT_DEFINED(0), CREATE(1), UPDATE(2), DELETE(3);
 
 		private int value;
 		private ActionType (int value) {
@@ -56,15 +56,15 @@ public class Enums {
 		case 2: return ActionType.UPDATE;
 		case 3: return ActionType.DELETE;
 		}
-		return null;
+		return ActionType.NOT_DEFINED;
 	}
 	
-	public static CategoryType toCategoryType(int action){
-		switch (action) {
+	public static CategoryType toCategoryType(int category){
+		switch (category) {
 		case 1: return CategoryType.SHOPLIST_OVERVIEW;
 		case 2: return CategoryType.SHOPLIST;
 		case 3: return CategoryType.CALENDER;
 		}
-		return null;
+		return CategoryType.NOT_DEFINED;
 	}
 }

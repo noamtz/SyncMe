@@ -32,6 +32,7 @@ public class BLFactory {
 			blShopList = new BLShopList(listId);
 			shopLists.put(listId, blShopList);
 		}
+		Utils.Log("BLFactory", "getShopList", "ListId: " +listId+ " BLShopList Id: " + blShopList);
 		return blShopList;
 	}
 	
