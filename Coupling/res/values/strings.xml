@@ -6,5 +6,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="invite">Invite</string>
     <string name="add_event">Add Event</string>
+    <string name="add_new_shop_list">Add New Shop List</string>
+    <string name="addlist">AddList</string>
 
 </resources>

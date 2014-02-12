@@ -22,14 +22,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:ems="10"
-            android:hint="Add New Shop List" />
+            android:hint="@string/add_new_shop_list" />
 
         <Button
             android:id="@+id/btnAddList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:text="AddList"
+            android:text="@string/addlist"
             android:drawableLeft="@android:drawable/ic_input_add" />
     </LinearLayout>
 
