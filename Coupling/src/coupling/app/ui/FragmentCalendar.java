@@ -58,6 +58,8 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 	ListView eventList;
 	
 	String selectedDate;
+	
+	CalendarEventsListAdapter listAdapter;
 
 
 	@Override
@@ -88,16 +90,8 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 		title.setText(android.text.format.DateFormat.format("MMMM yyyy", month));
 		
 		ListView eventList = (ListView) rootView.findViewById(R.id.events_list);
-		ArrayAdapter<String> list = new ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1);
-		eventList.setAdapter(list);
-		list.add("Event1");
-		list.add("Event2");
-		list.add("Event3");
-		list.add("Event4");
-		list.add("Event5");
-		list.add("Event6");
-		list.add("Event7");
-		
+		listAdapter = new CalendarEventsListAdapter(this.getActivity(), blCalendarEvents);
+		eventList.setAdapter(listAdapter);
 
 		RelativeLayout previous = (RelativeLayout) rootView.findViewById(R.id.previous);
 
@@ -133,6 +127,7 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 				((CalendarAdapter) parent.getAdapter()).setSelected(v);
 				selectedDate = CalendarAdapter.dayString
 						.get(position);
+				Log.w("DEBUG", selectedDate.toString());
 				String[] separatedTime = selectedDate.split("-");
 				String gridvalueString = separatedTime[2].replaceFirst("^0*",
 						"");// taking last part of date. ie; 2 from 2012-12-02.
@@ -146,6 +141,12 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 					refreshCalendar();
 				}
 				((CalendarAdapter) parent.getAdapter()).setSelected(v);
+				
+				  //////////////////////////
+				 //get Event List from DB//
+				
+//				blCalendarEvents.
+				/////////////////////////
 
 				/*
 				for (int i = 0; i < Utils.events.size(); i++) {
@@ -267,7 +268,7 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 			Intent inviteIntent = new Intent(getActivity(), CalendarEventActivity.class);
 			
 			inviteIntent.putExtra(Constants.SELECTED_DATE, selectedDate);
-			inviteIntent.putExtra(Constants.EVENT_ID, (long)Constants.EVENT_CREATE);
+			inviteIntent.putExtra(Constants.EVENT_ID, Constants.EVENT_CREATE);
 			
 			startActivity(inviteIntent);
 			return true;

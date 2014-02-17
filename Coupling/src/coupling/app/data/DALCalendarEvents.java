@@ -8,56 +8,46 @@ import coupling.app.models.CalenderEvent;
 
 public class DALCalendarEvents {
 
+	private static DALCalendarEvents calederEventsDAL;
 	private DBHandler dbHandler;
 
 	public DALCalendarEvents(){
 		dbHandler = new DBHandler(App.getAppCtx());
 	}
 	
+	public static DALCalendarEvents getInstance(){
+		if(calederEventsDAL == null)
+			calederEventsDAL = new DALCalendarEvents();
+		return calederEventsDAL;
+	}
+	
 	public Cursor getSource(){
 		return dbHandler.getReadableDatabase().rawQuery("SELECT * FROM CalendarEvents", null);
 	}
 	
-	public CalenderEvent getEvent(Ids ids){
-		//Cursor c = dbHandler.getReadableDatabase().rawQuery("SELECT * FROM CalendarEvents", null);
-		return null;
-	}
-	
-	public long createEvent(Long UId, CalenderEvent calenderEvent, Boolean isMine){
+	public boolean updateId(Ids ids){
 		ContentValues values = new ContentValues();
-		values.put("Title", calenderEvent.getTitle());
-		values.put("Description", calenderEvent.getDescription());
-		values.put("StartTime", calenderEvent.getstartTime());
-		values.put("EndTime", calenderEvent.getendTime());
-		if(UId != null)
-			values.put("UId", UId);
-		if(isMine != null)
-			values.put("IsMine", isMine);
-		
-		return dbHandler.getWritableDatabase().insertOrThrow("CalendarEvents", null, values);
-	}
-	
-	public boolean updateEvent(Ids ids, CalenderEvent calenderEvent){
-		ContentValues values = new ContentValues();
-		if(calenderEvent != null){
-			values.put("Title", calenderEvent.getTitle());
-			values.put("Description", calenderEvent.getDescription());
-			values.put("StartTime", calenderEvent.getstartTime());
-			values.put("EndTime", calenderEvent.getendTime());
-		}
-
-		if(ids.getGlobalId() != null)
+		if(ids.getGlobalId() != null) {
 			values.put("UId", ids.getGlobalId());
-
-		String where = (ids.getGlobalId() != null) ? "UId = " + ids.getGlobalId() : "_id = " + ids.getDBId();
-
-		return dbHandler.getWritableDatabase().update("CalendarEvents", values, where, null) > 0;
+			values.put(Constants.IS_LOCKED, false);
+		}
+		return dbHandler.getWritableDatabase().update("CalendarEvents", values, "_id = " + ids.getDBId(), null) > 0;
+	}
+	
+	public long createEvent(CalenderEvent event){
+		return dbHandler.getWritableDatabase().insertOrThrow("CalendarEvents", null, event.toDb());
+	}
+	
+	public boolean updateEvent(CalenderEvent event) {
+		String where = (event.getGlobalId() != null) ? "UId = " + event.getGlobalId() : "_id = " + event.getLocalId();
+		return dbHandler.getWritableDatabase().update("CalendarEvents", event.toDb(), where, null) > 0;
 	}
 	
 	public boolean deleteEvent(Ids ids){
 		String where = ids.getGlobalId() != null ? "UId = '" + ids.getGlobalId() + "'" : "_id = " + ids.getDBId();
 		return dbHandler.getWritableDatabase().delete("CalendarEvents", where, null) > 0;
 	}
+	
 	
 	
 }

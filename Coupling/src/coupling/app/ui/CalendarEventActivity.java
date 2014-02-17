@@ -7,6 +7,7 @@ import com.nit.coupling.R;
 import coupling.app.BL.BLCalendarEvents;
 import coupling.app.BL.BLFactory;
 import coupling.app.data.Constants;
+import coupling.app.models.CalenderEvent;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -26,6 +27,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+import static coupling.app.data.Constants.*;
 
 public class CalendarEventActivity extends Activity implements OnClickListener{
 
@@ -161,6 +163,12 @@ public class CalendarEventActivity extends Activity implements OnClickListener{
 			toHourPicker.show();
 		} else if (v.getId() == ok.getId()) {
 			//TODO: add to DB
+			blCalendarEvents.createEvent(	title.getText().toString(),
+											discription.getText().toString(),
+											CalenderEvent.StringToDate(fromDatebt.getText().toString(), DATE_FORMAT),
+											CalenderEvent.StringToDate(fromHourbt.getText().toString(), TIME_FORMAT),
+											CalenderEvent.StringToDate(toDatebt.getText().toString(), DATE_FORMAT),
+											CalenderEvent.StringToDate(toHourbt.getText().toString(), TIME_FORMAT) );
 			finish();
 		} else if (v.getId() == cancel.getId()) {
 			finish();

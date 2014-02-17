@@ -5,12 +5,13 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import static coupling.app.data.Constants.*;
 
 public class DBHandler extends SQLiteOpenHelper {
 	Thread thread;
 	
 	public DBHandler(Context context) {
-		super(context,"coupling.db", null, 17);	
+		super(context,"coupling.db", null, 21);	
 	}
 
 	@Override
@@ -49,10 +50,12 @@ public class DBHandler extends SQLiteOpenHelper {
 				"CREATE TABLE CalendarEvents ( " +
 						"_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
 						"UId INTEGER ," + 
-						"Title VARCHAR(100), " +
-						"Description TEXT, " +
-						"StartTime INTEGER, " +
-						"EndTime INTEGER, " +
+						EVENT_TITLE +" VARCHAR(100), " +
+						EVENT_DESCRIPTION + " TEXT, " +
+						EVENT_START_DATE + " DATETIME, " +
+						EVENT_START_TIME + " DATETIME, " +
+						EVENT_END_DATE + " DATETIME, " +
+						EVENT_END_TIME + " DATETIME, " +
 						"IsMine INTEGER DEFAULT 1, " +
 						"IsLocked INTEGER DEFAULT 1 " +
 						");"

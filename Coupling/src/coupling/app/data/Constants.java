@@ -58,12 +58,22 @@ public class Constants {
 	//Calender Event
 	public static final String CALENDER_PREFS = "calender_prefs";
 	public static final String EVENT_ID= "event_id";
-	public static final int EVENT_CREATE= 0;
-	public static final int EVENT_UPDATE= 1;
+	public static final long EVENT_CREATE= 0;
+	public static final long EVENT_UPDATE= 1;
 	public static final String EVENT_YEAR = "year";
 	public static final String EVENT_MONTH = "month";
 	public static final String EVENT_DAY = "day";
 	public static final String SELECTED_DATE = "selected_day";
+	
+	public static final String EVENT_TITLE = "eventTitle";
+	public static final String EVENT_DESCRIPTION = "eventDescription";
+	public static final String EVENT_START_TIME = "eventStartTime";
+	public static final String EVENT_END_TIME = "eventEndTime";
+	public static final String EVENT_START_DATE = "eventStartDate";
+	public static final String EVENT_END_DATE = "eventEndDate";
+	
+	public static final String DATE_FORMAT = "dd/MM/yyyy";
+	public static final String TIME_FORMAT = "HH:mm";
 
 	//Notifications
 	public static final int NOTIFICATION_ID = 1;
