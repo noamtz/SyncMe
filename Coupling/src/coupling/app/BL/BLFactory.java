@@ -59,5 +59,11 @@ public class BLFactory {
 			blGroceryList = new BLGroceryList();
 		return blGroceryList;
 	}
+	
+	public BLCalendarEvents getCalendarEvents(){
+		if (blCalendarEvents == null)
+			blCalendarEvents = new BLCalendarEvents();
+		return blCalendarEvents;
+	}
 
 }
