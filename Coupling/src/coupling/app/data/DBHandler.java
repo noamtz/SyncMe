@@ -60,6 +60,12 @@ public class DBHandler extends SQLiteOpenHelper {
 						"IsLocked INTEGER DEFAULT 1 " +
 						");"
 				);
+		database.execSQL(
+				"CREATE TABLE NetworkQueue ( " +
+						"_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+						"RequestData VARCHAR(500)" + 
+						");"
+				);
 		insertItemsSQLThread();
 	}
 

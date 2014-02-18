@@ -19,6 +19,7 @@ import com.android.volley.toolbox.Volley;
 import coupling.app.App;
 import coupling.app.Mediator;
 import coupling.app.Utils;
+import coupling.app.data.DAL;
 
 public class NetworkRequestQueue {
 
@@ -82,7 +83,7 @@ public class NetworkRequestQueue {
 	public <T> void addToRequestQueue(com.android.volley.Request<T> req) {
 		// set the default tag if tag is empty
 		req.setTag(TAG);
-
+		
 		getRequestQueue().add(req);
 	}
 
@@ -100,8 +101,12 @@ public class NetworkRequestQueue {
 
 	public void postJson(JSONObject json){
 		Utils.Log(TAG, "postJson", json.toString());
-		JsonObjectRequest req = new JsonObjectRequest(SERVER_URL, json, responseHandler(), errorHandler());
-		addToRequestQueue(req);
+		if(Utils.isNetworkAvailable()){
+			JsonObjectRequest req = new JsonObjectRequest(SERVER_URL, json, responseHandler(), errorHandler());
+			addToRequestQueue(req);
+		} else {
+			DAL.getInstance().addToNetorkQueue(json);
+		}
 	}
 
 	public JSONObject postFutureJson(JSONObject json){

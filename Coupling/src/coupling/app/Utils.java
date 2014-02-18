@@ -6,32 +6,28 @@ import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.nit.coupling.R;
-
-import coupling.app.data.Constants;
-
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.database.Cursor;
-import android.net.Uri;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 import android.widget.Toast;
+
+import com.nit.coupling.R;
+
+import coupling.app.data.Constants;
 
 public class Utils {
 
@@ -172,6 +168,7 @@ public class Utils {
 				catch(NumberFormatException e){}
 			else if(num instanceof Long)
 				res = (Long) num;
+		Log("UTILS", "LISTID: " + res);
 		return res;
 	}
 	
@@ -182,6 +179,13 @@ public class Utils {
 		} catch(NumberFormatException e){
 			return false;
 		}
+	}
+	
+	public static boolean isNetworkAvailable() {
+	    ConnectivityManager connectivityManager 
+	          = (ConnectivityManager) App.getAppCtx().getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+	    return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
 	
 	//public static ArrayList<CalenderEvent> events = new ArrayList<CalenderEvent>();

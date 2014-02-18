@@ -13,6 +13,7 @@ import coupling.app.BL.BLFactory;
 import coupling.app.BL.BLGroceryList;
 import coupling.app.BL.BLShopList;
 import coupling.app.com.IBLConnector;
+import coupling.app.data.Constants;
 import coupling.app.models.ShopListItem;
 
 import android.app.Activity;
@@ -74,6 +75,7 @@ public class ShopList extends Activity implements IBLConnector{
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		//Get list information from shopListOverview section
+		Utils.Log("SHOPLIST", "LISTID: "+getIntent().getExtras().get(LOCAL_LIST_ID));
 		listId = Utils.parseToLong(getIntent().getExtras().get(LOCAL_LIST_ID));
 		String listTitle = getIntent().getExtras().getString("Title");
 		setTitle(listTitle);

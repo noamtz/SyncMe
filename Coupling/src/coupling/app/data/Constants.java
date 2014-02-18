@@ -11,6 +11,7 @@ public class Constants {
 	public static final String MESSAGE_RECIEVED = "messageRecieved";
 	public static final String MESSAGE_ID = "messageId";
 	public static final String GET_MESSAGE = "getMessage";
+	public static final String FRIEND_NAME = "friendName";
 	
 	/* SERVER PARAMS */
 	public static final String FRIEND_EMAIL = "friendEmail";
@@ -78,5 +79,6 @@ public class Constants {
 	//Notifications
 	public static final int NOTIFICATION_ID = 1;
 	public static final String NOTIF_TITLE = "Coupling";
+	
 	
 }

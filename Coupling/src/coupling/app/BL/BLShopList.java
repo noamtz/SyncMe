@@ -20,7 +20,7 @@ public class BLShopList extends AppFeature{
 
 	private static final String TAG = "BLShopList";
 	private DALShopList dataSource;
-	private API api;
+
 	private Long GlobalListId;
 	private Long listId;
 
@@ -148,10 +148,11 @@ public class BLShopList extends AppFeature{
 
 	@Override
 	public void recieveData(JSONObject data, ActionType actionType) {
+		
 		try{
 			//Insert listId to data for notification
 			data.put(LOCAL_LIST_ID, listId);
-			
+			Utils.Log("BLShopList", "listId: " + listId);
 			ShopListItem item = new ShopListItem(listId);
 			if(data.has(UID) && !data.get(UID).equals(null))
 				item.getIds().setGlobalId(data.getLong(UID));

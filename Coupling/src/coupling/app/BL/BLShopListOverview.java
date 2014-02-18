@@ -18,7 +18,6 @@ import static coupling.app.data.Constants.*;
 public class BLShopListOverview extends AppFeature {
 
 	private DALShopListOverview dataSource;
-	private API api;
 
 	private IBLConnector connector;
 

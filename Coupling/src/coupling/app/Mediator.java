@@ -88,7 +88,7 @@ public class Mediator {
 			if(data.has("GlobalListId")){
 				LocalId = DAL.getInstance().getLocalId(CategoryType.SHOPLIST_OVERVIEW, data.getLong("GlobalListId"));
 			}
-			
+			Utils.Log("MEDIATOR", "LOCALID: " + LocalId);
 			AppFeature feature = getAppFeature(message.getInt("type"), LocalId);
 			if(feature != null) {
 				ActionType action = Enums.toActionType(message.getInt("action"));

@@ -3,6 +3,7 @@ package coupling.app.com;
 import org.json.JSONException;
 import org.json.JSONObject;
 import coupling.app.App;
+import coupling.app.Utils;
 import coupling.app.models.User;
 
 import static coupling.app.data.Constants.*;
@@ -26,6 +27,10 @@ public class API {
 	}
 
 	public void registerUser(){
+		if(!Utils.isNetworkAvailable()){
+			Utils.showToast("No internet connection");
+			return;
+		}
 		networkHandler.postFutureJson(prepareJson(REGISTER,sender.toJson()));
 	}
 
@@ -78,10 +83,33 @@ public class API {
 			params.put(FRIEND_EMAIL, email);
 
 			networkHandler.postJson(prepareJson(INVITE,params));
+//			JSONObject json = networkHandler.postFutureJson(prepareJson(INVITE,params));
+//			if(json.has("error"))  
+//				result = json.getString("error");
+			
 		}catch(JSONException e){
 			e.printStackTrace();
 		}	
 	}
+	
+	public String uninvite(String email) {
+		String result = null;
+		try{
+
+			JSONObject params = new JSONObject();
+			params.put(EMAIL, sender.getEmail());
+			params.put(FRIEND_EMAIL, email);
+
+			JSONObject json = networkHandler.postFutureJson(prepareJson(INVITE,params));
+			if(json.has("error"))  
+				result = json.getString("error");
+			
+		}catch(JSONException e){
+			e.printStackTrace();
+		}	
+		return result;
+	}
+	
 	
 	private JSONObject prepareJson(String method, JSONObject params){
 		JSONObject json = new JSONObject();
