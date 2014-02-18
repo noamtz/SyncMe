@@ -70,9 +70,7 @@ public class Mediator {
 		switch (category) {
 		case SHOPLIST: return BLFactory.getInstance().getShopList(localListId);
 		case SHOPLIST_OVERVIEW: return BLFactory.getInstance().getShopListOverview();
-		case CALENDER:
-			Utils.LogError(TAG, "getAppFeature" ,"Not implemented CategoryType: Calender ");
-			break;
+		case CALENDER: return BLFactory.getInstance().getCalendarEvents(localListId);
 		case NOT_DEFINED:
 			Utils.LogError(TAG, "getAppFeature" ,"Category type is not defined");
 		}
