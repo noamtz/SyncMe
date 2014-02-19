@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import coupling.app.com.NetworkRequestQueue;
 import coupling.app.data.Constants;
 import coupling.app.models.User;
 
@@ -23,6 +24,8 @@ public class App extends Application {
 
 		appCtx = getApplicationContext();
 		owner = new User();	
+		Utils.Log("App", "Starting Coupling");
+		NetworkRequestQueue.getInstance().handleDBRequests();
 	}
 
 	public static synchronized Context getAppCtx(){

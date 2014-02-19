@@ -42,6 +42,7 @@ public class Constants {
 	public static final String IS_MINE = "IsMine";
 	public static final String IS_LOCKED = "IsLocked";
 	
+	
 	//Shop List Overview
 	public static final String TITLE = "Title";
 	public static final String TOTAL_ITEMS = "TotalItems";

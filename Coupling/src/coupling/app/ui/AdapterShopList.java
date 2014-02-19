@@ -59,11 +59,12 @@ public class AdapterShopList extends CursorAdapter {
 		TextView tvStatue = (TextView) row.findViewById(R.id.tvItemStatus);
 
 		//Lock UI componenet and paint in red until global Id is updated
+		Utils.Log("AdapterShopList", "item isLocked? " + item.isLocked());
 		if(item.isLocked()) {
 			tvStatue.setVisibility(View.VISIBLE);
 			tvStatue.setBackgroundColor(Color.RED);
 
-			btnRemoveItem.setEnabled(false);
+			//btnRemoveItem.setEnabled(false);
 		} 
 		else {
 			//Paint in yellow if the item is not mine
@@ -75,7 +76,7 @@ public class AdapterShopList extends CursorAdapter {
 				tvStatue.setVisibility(View.GONE);
 				tvStatue.setBackgroundColor(Color.WHITE);
 			}
-			btnRemoveItem.setEnabled(true);
+			//btnRemoveItem.setEnabled(true);
 		}
 		//Mark with red line to notify that the item is checked 
 		if (item.isDone())

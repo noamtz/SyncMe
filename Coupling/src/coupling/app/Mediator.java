@@ -34,8 +34,12 @@ public class Mediator {
 				} else if(json.has("Details")){
 					updateGlobalId(json.getJSONObject("Details"));
 				} else if(json.has("error")){
+					Utils.Log(TAG, "manage",json.toString());
 					Utils.showToast(json.getString("error"));
-				} 
+				} else if(json.has("statusMessage")){
+					Utils.Log(TAG, "manage",json.toString());
+					Utils.showToast(json.getString("statusMessage"));
+				}
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -46,17 +50,21 @@ public class Mediator {
 		try {
 
 			if(data.getInt("Action") == ActionType.CREATE.value()){
-				Long localListId = null;
-				Long DBId = null;
-				if(data.has(LOCAL_LIST_ID))
-					localListId = data.getLong(LOCAL_LIST_ID);
-				if(data.has(LOCALID))
-					DBId = data.getLong(LOCALID);
-				
-				AppFeature feature = getAppFeature(data.getInt("Type"), localListId);
-				
-				if(DBId != null && feature != null){
-					feature.updateId(new Ids(DBId, data.getLong("MessageId")));
+				if(data.getInt("TYPE") == CategoryType.CALENDER.value()){
+					
+				} else {
+					Long localListId = null;
+					Long DBId = null;
+					if(data.has(LOCAL_LIST_ID))
+						localListId = data.getLong(LOCAL_LIST_ID);
+					if(data.has(LOCALID))
+						DBId = data.getLong(LOCALID);
+
+					AppFeature feature = getAppFeature(data.getInt("Type"), localListId);
+
+					if(DBId != null && feature != null) {
+						feature.updateId(new Ids(DBId, data.getLong("MessageId")));
+					}
 				}
 			}
 

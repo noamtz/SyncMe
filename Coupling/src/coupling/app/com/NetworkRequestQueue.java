@@ -1,5 +1,9 @@
 package coupling.app.com;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ExecutionException;
 
 import org.json.JSONException;
@@ -15,11 +19,11 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.Volley;
-
 import coupling.app.App;
 import coupling.app.Mediator;
 import coupling.app.Utils;
-import coupling.app.data.DAL;
+import coupling.app.data.DALNetworkQueue;
+
 
 public class NetworkRequestQueue {
 
@@ -27,8 +31,11 @@ public class NetworkRequestQueue {
 
 	public static String SERVER_URL = "http://coupling.herobo.com/api/syncMeApp.php";
 
+	private static Map<Long, JSONObject> dbQueue;
+	
 	private NetworkRequestQueue(){}
 
+	
 	public static NetworkRequestQueue getInstance(){
 		if(requestQueue == null)
 			requestQueue = new NetworkRequestQueue();
@@ -98,14 +105,37 @@ public class NetworkRequestQueue {
 			mRequestQueue.cancelAll(tag);
 		}
 	}
+	
+	public synchronized Map<Long, JSONObject> getDBQueue(){
+		if(dbQueue == null)
+			dbQueue = new HashMap<Long, JSONObject>();
+		return dbQueue;
+	}
+	
+	public synchronized void handleDBRequests(){
+		DALNetworkQueue.getInstance().fillQueue();
+		Utils.Log("handleDBRequests", "size: " + dbQueue.size());
+		if(dbQueue.size() > 0){
+			ArrayList<Long> removed = new ArrayList<Long>();
+			for (Map.Entry<Long, JSONObject> req : dbQueue.entrySet())
+			{
+			    if(Utils.isNetworkAvailable()){
+			    	postJson(req.getValue());
+			    	removed.add(req.getKey());
+			    }
+			}
+			for(Long i : removed)
+				DALNetworkQueue.getInstance().remove(i);
+		}
+	}
 
-	public void postJson(JSONObject json){
+	public synchronized void postJson(JSONObject json){
 		Utils.Log(TAG, "postJson", json.toString());
 		if(Utils.isNetworkAvailable()){
 			JsonObjectRequest req = new JsonObjectRequest(SERVER_URL, json, responseHandler(), errorHandler());
 			addToRequestQueue(req);
 		} else {
-			DAL.getInstance().addToNetorkQueue(json);
+			DALNetworkQueue.getInstance().add(json);
 		}
 	}
 

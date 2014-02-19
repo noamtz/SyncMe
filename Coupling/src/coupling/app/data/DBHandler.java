@@ -11,7 +11,7 @@ public class DBHandler extends SQLiteOpenHelper {
 	Thread thread;
 	
 	public DBHandler(Context context) {
-		super(context,"coupling.db", null, 21);	
+		super(context,"coupling.db", null, 23);	
 	}
 
 	@Override

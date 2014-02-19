@@ -57,12 +57,12 @@ public class AdapterShopListOverview extends CursorAdapter {
 			tvIsLocked.setVisibility(View.VISIBLE);
 			tvIsLocked.setBackgroundColor(Color.RED);
 
-			removeList.setEnabled(false);
+			//removeList.setEnabled(false);
 		} else {
 			tvIsLocked.setVisibility(View.GONE);
 			tvIsLocked.setBackgroundColor(Color.WHITE);
 
-			removeList.setEnabled(true);
+			//removeList.setEnabled(true);
 		}
 
 

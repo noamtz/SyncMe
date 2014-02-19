@@ -66,9 +66,4 @@ public class DAL {
 		return result;
 	}
 	
-	public boolean addToNetorkQueue(JSONObject json){
-		ContentValues values = new ContentValues();
-		values.put("RequestData", json.toString());
-		return dbHandler.getWritableDatabase().insertOrThrow("NetworkQueue", null, values) != -1;
-	}
 }

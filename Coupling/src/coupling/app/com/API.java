@@ -39,6 +39,7 @@ public class API {
 
 			JSONObject params = new JSONObject();
 			params.put(EMAIL, sender.getEmail());//TODO: change back
+			Utils.Log("API", "Sender id: " + sender.getEmail());
 			params.put(MESSAGE, message.toJson());
 			
 			networkHandler.postJson(prepareJson(SYNC,params));
