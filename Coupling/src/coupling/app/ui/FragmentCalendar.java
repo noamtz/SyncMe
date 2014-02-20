@@ -230,7 +230,13 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 
 	@Override
 	public void Refresh() {
-
+		this.getActivity().runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				listAdapter.refresh(formatedSelectedDate);
+			}
+		});
 	}
 
 	@Override
