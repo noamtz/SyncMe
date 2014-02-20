@@ -274,4 +274,19 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 		}
 	}
 
+	@Override
+	public void onPause() {
+		super.onPause();
+		blCalendarEvents.unsetBLConnector();
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		blCalendarEvents.setBLConnector(this);
+		listAdapter.refresh(formatedSelectedDate);
+	}
+	
+	
+
 }
