@@ -77,10 +77,20 @@ public class Utils {
 		Toast.makeText(App.getAppCtx(), msg, Toast.LENGTH_LONG).show();
 	}
 
+	/**
+	 * The free php server respond with hidden html tags
+	 * so this method removes them
+	 * @param target
+	 * @return
+	 */
 	public static String removeHtml(String target){
 		return target.replaceAll("<(.|\n)*?>", "").trim();
 	}
 
+	/**
+	 * Debug purposes
+	 * @param databaseName
+	 */
 	public static void exportDatabse(String databaseName) {
 		try {
 			File sd = Environment.getExternalStorageDirectory();
@@ -105,7 +115,7 @@ public class Utils {
 		}
 	}
 
-
+	
 	public static long convertSimpleDateToMillis(String simpleDate){
 
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -129,11 +139,18 @@ public class Utils {
 		return formatter.format(calendar.getTime());
 	}
 
+	/**
+	 * Sending Notification when new item is come in
+	 * @param msg
+	 * @param target
+	 * @param data
+	 */
 	public static void sendNotification(String msg , Class<?> target, JSONObject data) {
 		NotificationManager mNotificationManager = (NotificationManager)
 				App.getAppCtx().getSystemService(Context.NOTIFICATION_SERVICE);
 		
 		Intent notifIntent = new Intent(App.getAppCtx(), target);
+		//Move to appropriate shoplist when notification is clicked
 		if(data.has(Constants.LOCAL_LIST_ID))
 			try {
 				Bundle bundle = new Bundle();
@@ -184,59 +201,14 @@ public class Utils {
 			return false;
 		}
 	}
-	
+	/**
+	 * Check if network is available
+	 * @return
+	 */
 	public static boolean isNetworkAvailable() {
 	    ConnectivityManager connectivityManager 
 	          = (ConnectivityManager) App.getAppCtx().getSystemService(Context.CONNECTIVITY_SERVICE);
 	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 	    return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
-	
-	//public static ArrayList<CalenderEvent> events = new ArrayList<CalenderEvent>();
-	//public static ArrayList<String> nameOfEvent = new ArrayList<String>();
-	//public static ArrayList<String> startDates = new ArrayList<String>();
-	//public static ArrayList<String> endDates = new ArrayList<String>();
-	//public static ArrayList<String> descriptions = new ArrayList<String>();
-	/*
-	public static ArrayList<String> readCalendarEvent(Context context) {
-		Cursor cursor = context.getContentResolver()
-				.query(Uri.parse("content://com.android.calendar/events"),
-						new String[] { "calendar_id", "title", "description",
-					"dtstart", "dtend", "eventLocation" }, null,
-					null, null);
-		cursor.moveToFirst();
-		// fetching calendars name
-		String CNames[] = new String[cursor.getCount()];
-
-		// fetching calendars id
-		nameOfEvent.clear();
-		startDates.clear();
-		endDates.clear();
-		descriptions.clear();
-		Log.w("DEBUG","length: " + CNames.length);
-		/*for (int i = 0; i <0; i++) {
-
-			nameOfEvent.add(cursor.getString(1));
-			startDates.add(getDate(Long.parseLong(cursor.getString(3))));
-			//Log.w("DEBUG", i +", " + cursor.getString(4));
-			//endDates.add(getDate(Long.parseLong(cursor.getString(4))));
-			descriptions.add(cursor.getString(2));
-			CNames[i] = cursor.getString(1);
-			cursor.moveToNext();
-
-		}
-		Calendar cal = Calendar.getInstance();
-		nameOfEvent.add("HELP1");//cal
-		startDates.add(convertMillisToSimpleDate(cal.getTimeInMillis() - (60*60*1000*2)));
-		endDates.add(convertMillisToSimpleDate(cal.getTimeInMillis() - (60*60*1000*3)));
-		descriptions.add("IN DEBUG MODE1");
-
-		nameOfEvent.add("HELP2");//cal
-		startDates.add(convertMillisToSimpleDate(cal.getTimeInMillis() - (60*60*1000*5)));
-		endDates.add(convertMillisToSimpleDate(cal.getTimeInMillis() - (60*60*1000*4)));
-		descriptions.add("IN DEBUG MODE2");
-
-		return nameOfEvent;
-	}*/
-
 }

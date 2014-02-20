@@ -12,6 +12,13 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.WindowManager;
 
+/**
+ * This is the Main activity of the application 
+ * it holds pager view with 2 fragments (at the moment)
+ * 
+ * @author Noam Tzumie
+ *
+ */
 public class Main extends FragmentActivity implements ActionBar.TabListener{
 
 	AppSectionsPagerAdapter mAppSectionsPagerAdapter;
@@ -23,8 +30,6 @@ public class Main extends FragmentActivity implements ActionBar.TabListener{
 	
 		setContentView(R.layout.activity_main);
 		
-		Utils.exportDatabse("coupling.db");
-		
 		mAppSectionsPagerAdapter = new AppSectionsPagerAdapter(getSupportFragmentManager());
 		ActionBar actionBar = getActionBar();
 
@@ -34,7 +39,7 @@ public class Main extends FragmentActivity implements ActionBar.TabListener{
 		mViewPager.setAdapter(mAppSectionsPagerAdapter);
 
 		mViewPager.setOnPageChangeListener(onPageSelected(actionBar));
-
+		
 		for (int i = 0; i < mAppSectionsPagerAdapter.getCount(); i++) {
 
 			actionBar.addTab(
@@ -46,6 +51,11 @@ public class Main extends FragmentActivity implements ActionBar.TabListener{
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 	}
 
+	/**
+	 * Handle the navigation between the fragment
+	 * @param actionBar
+	 * @return
+	 */
 	private ViewPager.SimpleOnPageChangeListener onPageSelected(final ActionBar actionBar){
 		return new ViewPager.SimpleOnPageChangeListener() {
 			@Override

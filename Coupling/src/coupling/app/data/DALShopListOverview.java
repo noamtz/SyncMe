@@ -1,8 +1,8 @@
 package coupling.app.data;
 
 import coupling.app.App;
-import coupling.app.Ids;
 import coupling.app.Utils;
+import coupling.app.models.Ids;
 import coupling.app.models.ShopListOverView;
 import android.content.ContentValues;
 import android.database.Cursor;

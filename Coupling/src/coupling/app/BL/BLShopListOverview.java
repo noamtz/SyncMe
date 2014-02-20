@@ -4,7 +4,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.database.Cursor;
-import coupling.app.Ids;
 import coupling.app.Utils;
 import coupling.app.com.API;
 import coupling.app.com.IBLConnector;
@@ -12,6 +11,7 @@ import coupling.app.com.Message;
 import coupling.app.data.DALShopListOverview;
 import coupling.app.data.Enums.ActionType;
 import coupling.app.data.Enums.CategoryType;
+import coupling.app.models.Ids;
 import coupling.app.models.ShopListOverView;
 import static coupling.app.data.Constants.*;
 

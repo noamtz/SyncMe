@@ -134,6 +134,7 @@ public class Register extends Activity{
 
 						gcm = GoogleCloudMessaging.getInstance(Register.this);
 						regid = getRegistrationId();
+						Utils.Log("Register", "registerListener", "after getRegistrationId from local: " + regid);
 						if (regid == "") {
 							registerInBackground();
 						}else{
@@ -196,11 +197,16 @@ public class Register extends Activity{
 						gcm = GoogleCloudMessaging.getInstance(context);
 
 					regid = gcm.register(SENDER_ID);
-					
+					App.getOwner().setRegid(regid);
 					String result = API.getInstance().registerUser();
 					if(result == null){
-						storeRegistrationId(context, regid);
-						msg = "Device registered";
+						if(regid != ""){
+							storeRegistrationId(context, regid);
+						
+							msg = "Device registered";
+						} else {
+							msg = "Try register again with different number";
+						}
 					} else 
 						msg = result;
 					
@@ -236,7 +242,7 @@ public class Register extends Activity{
 	 */
 	private void storeRegistrationId(Context context, String regId) {
 		int appVersion = Utils.getAppVersion(context);
-		Log.i(TAG, "Saving regId on app version " + appVersion);
+		Utils.Log("Register", "storeRegistrationId", regid);
 		SharedPreferences prefs =  getSharedPreferences(Register.class.getSimpleName(),
 				Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = prefs.edit();

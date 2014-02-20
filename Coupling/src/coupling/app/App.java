@@ -10,7 +10,13 @@ import android.util.Log;
 import coupling.app.com.NetworkRequestQueue;
 import coupling.app.data.Constants;
 import coupling.app.models.User;
-
+/**
+ * The Application class holds the User Session of
+ * the application from the shared prefernces
+ * and also starts the offline serive to sync to server
+ * @author Noam Tzumie
+ *
+ */
 public class App extends Application {
 	
 	private static Context appCtx;
@@ -40,6 +46,10 @@ public class App extends Application {
 		return app;
 	}
 
+	/**
+	 * Load the owner user from shared preferences
+	 * @param prefs
+	 */
 	public static void loadOwner(SharedPreferences prefs){
 		Utils.Log("APP","USER REGISTERED?: " + prefs.getBoolean(Constants.IS_REGISTERED, false));
 

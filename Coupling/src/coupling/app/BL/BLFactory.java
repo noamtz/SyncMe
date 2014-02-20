@@ -5,7 +5,11 @@ import java.util.Map;
 
 import coupling.app.Utils;
 
-
+/**
+ * This class is a Factory to abstract the instantiation of BL objects
+ * @author Noam Tzumie
+ *
+ */
 public class BLFactory {
 
 	private static BLFactory blFactory;
@@ -24,7 +28,14 @@ public class BLFactory {
 			blFactory = new BLFactory();
 		return blFactory;
 	}
-	
+	/**
+	 * if the shoplist that represented by
+	 * listid is not instantiated so instantiate new one
+	 * and store it in the map otherwise return 
+	 * the appropriate BL for listid
+	 * @param listId
+	 * @return
+	 */
 	public BLShopList getShopList(Long listId){
 		BLShopList blShopList = shopLists.get(listId);
 		if(blShopList == null && listId != null){

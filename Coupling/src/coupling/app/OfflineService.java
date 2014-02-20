@@ -13,6 +13,12 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
+/**
+ * This service takes all the requests that launch
+ * when network was not available and send them synchronously
+ * @author Noam Tzumie
+ *
+ */
 public class OfflineService extends IntentService{
 
 	private static final String TAG = "OfflineService";
@@ -33,6 +39,7 @@ public class OfflineService extends IntentService{
 		Utils.Log("OfflineService", "size of queue: " + dbQueue.size());
 		
 		if(dbQueue.size() > 0){
+			//hold all the offline requests that successfully sent
 			ArrayList<NetworkOfflineItem> removed = new ArrayList<NetworkOfflineItem>();
 			for (NetworkOfflineItem item : dbQueue)
 			{
@@ -51,13 +58,6 @@ public class OfflineService extends IntentService{
 				blNetworkOffline.remove(i);
 		}
 	}
-	
-	private void printDetailes(JSONObject json){
-//		try {
-//			Log.v(TAG, json.toString());
-//		} catch (JSONException e) {
-//			e.printStackTrace();
-//		}
-	}
+
 
 }

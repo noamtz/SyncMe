@@ -10,7 +10,6 @@ import org.json.JSONObject;
 import android.database.Cursor;
 import android.util.Log;
 
-import coupling.app.Ids;
 import coupling.app.Utils;
 import coupling.app.com.API;
 import coupling.app.com.IBLConnector;
@@ -19,6 +18,7 @@ import coupling.app.data.DALCalendarEvents;
 import coupling.app.data.Enums.ActionType;
 import coupling.app.data.Enums.CategoryType;
 import coupling.app.models.CalenderEvent;
+import coupling.app.models.Ids;
 import coupling.app.models.ShopListItem;
 
 public class BLCalendarEvents extends AppFeature{

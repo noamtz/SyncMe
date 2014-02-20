@@ -4,9 +4,9 @@ package coupling.app.ui;
 
 import com.nit.coupling.R;
 
-import coupling.app.Ids;
 import coupling.app.Utils;
 import coupling.app.BL.BLShopList;
+import coupling.app.models.Ids;
 import coupling.app.models.ShopListItem;
 import android.content.Context;
 import android.database.Cursor;

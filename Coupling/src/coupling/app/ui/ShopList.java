@@ -6,7 +6,6 @@ import com.google.android.gms.internal.bl;
 import com.nit.coupling.R;
 
 import coupling.app.GroceryList;
-import coupling.app.Ids;
 import coupling.app.Main;
 import coupling.app.Utils;
 import coupling.app.BL.BLFactory;
@@ -14,6 +13,7 @@ import coupling.app.BL.BLGroceryList;
 import coupling.app.BL.BLShopList;
 import coupling.app.com.IBLConnector;
 import coupling.app.data.Constants;
+import coupling.app.models.Ids;
 import coupling.app.models.ShopListItem;
 
 import android.app.Activity;

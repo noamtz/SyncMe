@@ -4,9 +4,9 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.util.Log;
 import coupling.app.App;
-import coupling.app.Ids;
 import coupling.app.Utils;
 import coupling.app.models.CalenderEvent;
+import coupling.app.models.Ids;
 import static coupling.app.data.Constants.*;
 
 public class DALCalendarEvents {

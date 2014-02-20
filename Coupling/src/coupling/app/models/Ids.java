@@ -1,4 +1,4 @@
-package coupling.app;
+package coupling.app.models;
 
 import android.database.Cursor;
 import static coupling.app.data.Constants.*;
