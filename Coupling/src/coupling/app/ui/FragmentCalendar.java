@@ -149,7 +149,7 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 				}
 				((CalendarAdapter) parent.getAdapter()).setSelected(v);
 
-				selectedDate = separatedTime[2] + "/" + separatedTime[1] + "/" + separatedTime[0];
+				
 				rLayout.addView(eventList);
 				listAdapter.refresh(separatedTime[2] + "/" + separatedTime[1] + "/" + separatedTime[0]);	
 				eventList.setAdapter(listAdapter);
