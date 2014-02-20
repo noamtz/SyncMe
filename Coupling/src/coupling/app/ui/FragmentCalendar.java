@@ -60,7 +60,7 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 	Activity activity;
 	ListView eventList;
 
-	String selectedDate;
+	String selectedDate, formatedSelectedDate;
 
 	CalendarEventsListAdapter listAdapter;
 
@@ -77,7 +77,6 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 
 		rLayout = (LinearLayout) rootView.findViewById(R.id.text);
 		month = (GregorianCalendar) GregorianCalendar.getInstance();
-		//itemmonth = (GregorianCalendar) month.clone();
 		Calendar calendar = Calendar.getInstance();
 		items = new ArrayList<String>();
 
@@ -95,7 +94,7 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 		eventList = (ListView) rootView.findViewById(R.id.events_list);
 		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
 		String theDate = df.format(GregorianCalendar.getInstance().getTime());
-		Log.w("aaaa", theDate);
+		formatedSelectedDate = theDate;
 
 		listAdapter = new CalendarEventsListAdapter(this.getActivity(), blCalendarEvents, theDate);
 		eventList.setAdapter(listAdapter);
@@ -149,9 +148,9 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 				}
 				((CalendarAdapter) parent.getAdapter()).setSelected(v);
 
-				
+				formatedSelectedDate = separatedTime[2] + "/" + separatedTime[1] + "/" + separatedTime[0];
 				rLayout.addView(eventList);
-				listAdapter.refresh(separatedTime[2] + "/" + separatedTime[1] + "/" + separatedTime[0]);	
+				listAdapter.refresh(formatedSelectedDate);	
 				eventList.setAdapter(listAdapter);
 			}
 
