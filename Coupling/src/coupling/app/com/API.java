@@ -31,7 +31,7 @@ public class API {
 		if(!Utils.isNetworkAvailable()){
 			result = "No internet connection";
 		} else {
-			JSONObject json = networkHandler.postFutureJson(prepareJson(REGISTER,sender.toJson()));
+			JSONObject json = networkHandler.postFutureJson(prepareJson(REGISTER,App.getOwner().toJson()));
 			if(json.has("error"))
 				try {
 					result = json.getString("error");

@@ -11,6 +11,13 @@ import coupling.app.data.DAL;
 import coupling.app.data.Enums;
 import coupling.app.data.Enums.ActionType;
 import coupling.app.data.Enums.CategoryType;
+import coupling.app.models.Ids;
+/**
+ * This module function as a "cross roads" every network http response
+ * is flow throw here for redirect to appropriate BL
+ * @author Noam Tzumie
+ *
+ */
 public class Mediator {
 
 	private static final String TAG = "Mediator";
@@ -30,6 +37,12 @@ public class Mediator {
 		manage(json,false);
 	}
 	
+	/**
+	 * Getting the incoming json and determine 
+	 * the appropriate action
+	 * @param json
+	 * @param background
+	 */
 	public synchronized void manage(JSONObject json , boolean background){
 		try {
 			if(json != null){
@@ -82,7 +95,12 @@ public class Mediator {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * Get the approariage AppFeature by categoryCode
+	 * @param categoryCode
+	 * @param localListId
+	 * @return
+	 */
 	public synchronized AppFeature getAppFeature(int categoryCode, Long localListId){
 		CategoryType category = Enums.toCategoryType(categoryCode);
 		switch (category) {

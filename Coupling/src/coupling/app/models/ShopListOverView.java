@@ -5,7 +5,6 @@ import java.util.Map;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import coupling.app.Ids;
 import coupling.app.Utils;
 import static coupling.app.data.Constants.*;
 

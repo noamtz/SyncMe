@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.content.ContentValues;
-import coupling.app.Ids;
 
 public abstract class BaseModel {
 

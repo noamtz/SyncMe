@@ -2,7 +2,6 @@ package coupling.app.models;
 
 import java.util.Map;
 
-import coupling.app.Ids;
 import static coupling.app.data.Constants.*;
 import android.content.ContentValues;
 import android.database.Cursor;

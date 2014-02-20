@@ -4,6 +4,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+/**
+ * This BroadcastReceiver checks if there is network connection
+ * if there is it starts the offline service
+ * @author Noam Tzumie
+ *
+ */
 public class OfflineReceiver extends BroadcastReceiver {
 	 
     @Override

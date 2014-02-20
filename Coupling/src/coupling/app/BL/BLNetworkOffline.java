@@ -17,6 +17,12 @@ import coupling.app.data.Enums.ActionType;
 import coupling.app.data.Enums.CategoryType;
 import coupling.app.models.NetworkOfflineItem;
 
+/**
+ * This BL take care for all the logic of synchronize the offline data
+ * 
+ * @author Noam Tzumie
+ *
+ */
 public class BLNetworkOffline {
 
 	private static ArrayList<NetworkOfflineItem> dbQueue;
@@ -34,6 +40,10 @@ public class BLNetworkOffline {
 		return blNetworkOffline;
 	}
 
+	/**
+	 * Get queue with all offline requests
+	 * @return
+	 */
 	public ArrayList<NetworkOfflineItem> getQueue(){
 		ArrayList<NetworkOfflineItem> dalQueue = dalNetworkQueue.getQueue();
 		for(NetworkOfflineItem item : dalQueue){
@@ -43,7 +53,14 @@ public class BLNetworkOffline {
 		}
 		return dbQueue;
 	}
-
+	/**
+	 * Horrible method :) (becuase constructed at last second)
+	 * essentially this method receive NetworkOfflineItem and change the json request
+	 * to be valid by acquiring the global id or change the action from update to create
+	 * or retrieving global list id for shoplist items that there "father" is created offline
+	 * this logic is correspond to the server logic
+	 * @param item
+	 */
 	public void handleNetworkItem(NetworkOfflineItem item){
 		try {
 			JSONObject message = item.getJson().getJSONObject("params").getJSONObject("message");
@@ -75,7 +92,7 @@ public class BLNetworkOffline {
 			e.printStackTrace();
 		}
 	}
-
+	
 	public Long retrieveGlobalId(Long localId, CategoryType cat){
 		Long res = new Long(0);
 		switch (cat) {
@@ -92,7 +109,10 @@ public class BLNetworkOffline {
 		if(res == 0) Log.e("BLNetworkOffline", "retrieveGlobalListId: failed to retrieve for: " +localListId );
 		return res;
 	}
-
+	/**
+	 * Remove the offline request that successfully sent
+	 * @param item
+	 */
 	public void remove(NetworkOfflineItem item){
 		if(dalNetworkQueue.remove(item.getId()))
 			dbQueue.remove(item);

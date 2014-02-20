@@ -2,9 +2,9 @@ package coupling.app.ui;
 
 import com.nit.coupling.R;
 
-import coupling.app.Ids;
 import coupling.app.Utils;
 import coupling.app.BL.BLShopListOverview;
+import coupling.app.models.Ids;
 import coupling.app.models.ShopListOverView;
 
 import android.content.Context;

@@ -103,7 +103,11 @@ public class NetworkRequestQueue {
 		}
 	}
 
-
+	/**
+	 * Send network request asynchronously
+	 * @param json
+	 * @return
+	 */
 	public synchronized void postJson(JSONObject json){
 		Utils.Log(TAG, "postJson", json.toString());
 		if(Utils.isNetworkAvailable()) { 
@@ -117,7 +121,11 @@ public class NetworkRequestQueue {
 			BLNetworkOffline.getInstance().add(json);
 		}
 	}
-
+	/**
+	 * Send network request synchronously
+	 * @param json
+	 * @return
+	 */
 	public synchronized JSONObject postFutureJson(JSONObject json){
 		RequestFuture<JSONObject> future = RequestFuture.newFuture();
 		JsonObjectRequest request = new JsonObjectRequest(Method.POST, SERVER_URL, json, future, future);
@@ -133,7 +141,11 @@ public class NetworkRequestQueue {
 		return response;
 
 	}
-
+	/**
+	 * Response listener that deliver the response to
+	 * the mediator
+	 * @return
+	 */
 	private Response.Listener<JSONObject> responseHandler(){
 
 		return  new Response.Listener<JSONObject>() {
@@ -144,7 +156,11 @@ public class NetworkRequestQueue {
 			}
 		};
 	}
-
+	/**
+	 * Error listener that Show toast
+	 * if the request has failed
+	 * @return
+	 */
 	private Response.ErrorListener errorHandler(final JSONObject json){
 		return  new Response.ErrorListener() {
 			public void onErrorResponse(VolleyError error) {
