@@ -222,7 +222,6 @@ public class ShopList extends Activity implements IBLConnector{
 				
 				blShopList.updateItem(selectedItem);
 			}
-			adapter.refresh();
 		}
 
 		listItems.setSelection(listItems.getCount() - 1);
@@ -233,6 +232,7 @@ public class ShopList extends Activity implements IBLConnector{
 		
 		itemQuantity = DEFUALT_ITEM_QUANTITY;
 		tvItemQuantity.setText(Integer.toString(itemQuantity));
+		adapter.refresh();
 	}
 
 	/**

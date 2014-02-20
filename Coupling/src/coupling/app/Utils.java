@@ -31,6 +31,8 @@ import coupling.app.data.Constants;
 
 public class Utils {
 
+	private static final boolean DEBUG = true;
+	
 	public static int getAppVersion(Context context) {
 		try {
 			PackageInfo packageInfo = context.getPackageManager()
@@ -54,10 +56,12 @@ public class Utils {
 	}
 
 	public static void Log(String className , String msg){
+		if(DEBUG)
 		android.util.Log.i(className, msg);
 	}
 
 	public static void Log(String className , String methodName , String msg){
+		if(DEBUG)
 		android.util.Log.v(className, "<"+methodName+">" + ": " + msg);
 	}
 

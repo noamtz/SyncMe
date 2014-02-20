@@ -80,13 +80,13 @@ public class BLShopList extends AppFeature{
 	}
 	
 	public boolean updateItem(ShopListItem item, boolean remote){
-		boolean isUpdated = dataSource.updateItem(item);
-		if(remote && isUpdated){
+		ShopListItem updatedItem = dataSource.updateItem(item);
+		if(remote && updatedItem!=null){
 			Message message = new Message();
 
 			GlobalListId = (GlobalListId == null) ? dataSource.getGlobalListId() : GlobalListId;
 
-			message.setData(item.toNetwork());
+			message.setData(updatedItem.toNetwork());
 			message.getData().put(GLOBAL_LIST_ID, GlobalListId);
 
 			message.setCategoryType(categoryType);
@@ -94,10 +94,10 @@ public class BLShopList extends AppFeature{
 			api.sync(message);
 		}
 		//LOGS
-		if(!isUpdated)
+		if(updatedItem==null)
 			Utils.LogError(TAG,"updateItem" , "Failed to update: " + item);
 		//LOGS
-		return isUpdated;
+		return updatedItem!=null;
 	}
 
 	public boolean deleteItem(Ids ids){
@@ -105,14 +105,15 @@ public class BLShopList extends AppFeature{
 	}
 
 	public boolean deleteItem(Ids ids, boolean remote){
-		boolean isDeleted = dataSource.deleteItem(ids);
-		if(remote && isDeleted){
+		ShopListItem deletedItem = dataSource.deleteItem(ids);
+		if(remote && deletedItem!=null){
 			Message message = new Message();
-
+			
 			GlobalListId = (GlobalListId == null) ? dataSource.getGlobalListId() : GlobalListId;
 
 			message.getData().put(GLOBAL_LIST_ID, GlobalListId);
 			message.getData().put(UID, ids.getGlobalId());
+			message.getData().put(LOCALID, deletedItem.getLocalId());
 
 			message.setCategoryType(categoryType);
 			message.setActionType(ActionType.DELETE);
@@ -120,10 +121,10 @@ public class BLShopList extends AppFeature{
 			api.sync(message);
 		}
 		//LOGS
-		if(!isDeleted)
+		if(deletedItem==null)
 			Utils.LogError(TAG,"deleteItem" , "Failed to delete: " + ids);
 		//LOGS
-		return isDeleted;
+		return deletedItem!=null;
 	}
 
 	public boolean updateId(Ids ids){
@@ -131,7 +132,6 @@ public class BLShopList extends AppFeature{
 			connector.Refresh();
 			return true;
 		} else {
-			Utils.showToast("Not connected to ShopList");
 			return false;
 		}
 	}
@@ -147,7 +147,7 @@ public class BLShopList extends AppFeature{
 
 
 	@Override
-	public void recieveData(JSONObject data, ActionType actionType) {
+	public synchronized void recieveData(JSONObject data, ActionType actionType) {
 		
 		try{
 			//Insert listId to data for notification
@@ -171,11 +171,19 @@ public class BLShopList extends AppFeature{
 				createItem(item, false);
 				break;
 
-			case UPDATE:	
-				updateItem(item, false);
+			case UPDATE:
+				if(dataSource.isItemExist(item.getGlobalId())){
+					updateItem(item, false);
+				}
+				else{
+					item.setIsMine(false);
+					createItem(item, false);
+				}
 				break;
 			case DELETE:
-				deleteItem(item.getIds(), false);
+				if(dataSource.isItemExist(item.getGlobalId())){
+					deleteItem(item.getIds(), false);
+				}
 				break;
 			}
 			if(connector == null)

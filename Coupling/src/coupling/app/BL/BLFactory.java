@@ -11,14 +11,12 @@ public class BLFactory {
 	private static BLFactory blFactory;
 	
 	private Map<Long, BLShopList> shopLists;
-	private Map<Long, BLCalendarEvents> calendarEvents;
 	private BLShopListOverview blShopListOverview;
 	private BLGroceryList blGroceryList;
 	private BLCalendarEvents blCalendarEvents;
 	
 	private BLFactory(){
 		shopLists = new HashMap<Long, BLShopList>();
-		calendarEvents = new HashMap<Long, BLCalendarEvents>();
 	}
 	
 	public static BLFactory getInstance(){
@@ -36,16 +34,6 @@ public class BLFactory {
 		}
 		Utils.Log("BLFactory", "getShopList", "ListId: " +listId+ " BLShopList Id: " + blShopList);
 		return blShopList;
-	}
-	
-	public BLCalendarEvents getCalendarEvents(Long eventId){
-		BLCalendarEvents blCalendarEvents = calendarEvents.get(eventId);
-		if (blCalendarEvents == null && eventId != null){
-			//Utils.Log("BLFACTORY", "blCalendarEvents", "Creating new calendarEvents listID: " + date);
-			blCalendarEvents = new BLCalendarEvents();
-			calendarEvents.put(eventId, blCalendarEvents);
-		}
-		return blCalendarEvents;
 	}
 	
 	public BLShopListOverview getShopListOverview(){

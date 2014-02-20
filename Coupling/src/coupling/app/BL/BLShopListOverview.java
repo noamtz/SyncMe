@@ -66,6 +66,7 @@ public class BLShopListOverview extends AppFeature {
 			Message message = new Message();
 
 			message.getData().put(UID, ids.getGlobalId());
+			message.getData().put(LOCALID, ids.getDBId());
 
 			message.setCategoryType(categoryType);
 			message.setActionType(ActionType.DELETE);
@@ -76,7 +77,7 @@ public class BLShopListOverview extends AppFeature {
 	}
 
 	@Override
-	public void recieveData(JSONObject data, ActionType actionType) {
+	public synchronized void recieveData(JSONObject data, ActionType actionType) {
 
 		try{	
 			ShopListOverView list = new ShopListOverView();
@@ -96,7 +97,9 @@ public class BLShopListOverview extends AppFeature {
 				createList(list, false);
 				break;
 			case DELETE:
-				deleteItem(list.getIds(), false);
+				if(dataSource.isItemExist(list.getIds().getGlobalId())){
+					deleteItem(list.getIds(), false);
+				}
 				break;
 			case UPDATE:
 				Utils.LogError("BLShopListOverview", "not implemented UPDATE case");

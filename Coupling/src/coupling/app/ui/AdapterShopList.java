@@ -48,7 +48,7 @@ public class AdapterShopList extends CursorAdapter {
 		final TextView itemName = (TextView) row.findViewById(R.id.item_name);
 		itemName.setText(item.getName());
 
-		TextView itemQuantity = (TextView) row.findViewById(R.id.item_count);
+		final TextView itemQuantity = (TextView) row.findViewById(R.id.item_count);
 		itemQuantity.setText(Integer.toString(item.getQuantity()));
 
 		CheckBox check = (CheckBox) row.findViewById(R.id.item_check);
@@ -59,7 +59,6 @@ public class AdapterShopList extends CursorAdapter {
 		TextView tvStatue = (TextView) row.findViewById(R.id.tvItemStatus);
 
 		//Lock UI componenet and paint in red until global Id is updated
-		Utils.Log("AdapterShopList", "item isLocked? " + item.isLocked());
 		if(item.isLocked()) {
 			tvStatue.setVisibility(View.VISIBLE);
 			tvStatue.setBackgroundColor(Color.RED);

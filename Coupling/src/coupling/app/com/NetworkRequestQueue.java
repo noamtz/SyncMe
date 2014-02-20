@@ -1,16 +1,12 @@
 package coupling.app.com;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.concurrent.ExecutionException;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.text.TextUtils;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request.Method;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -19,10 +15,11 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.Volley;
+
 import coupling.app.App;
 import coupling.app.Mediator;
 import coupling.app.Utils;
-import coupling.app.data.DALNetworkQueue;
+import coupling.app.BL.BLNetworkOffline;
 
 
 public class NetworkRequestQueue {
@@ -31,11 +28,11 @@ public class NetworkRequestQueue {
 
 	public static String SERVER_URL = "http://coupling.herobo.com/api/syncMeApp.php";
 
-	private static Map<Long, JSONObject> dbQueue;
 	
+
 	private NetworkRequestQueue(){}
 
-	
+
 	public static NetworkRequestQueue getInstance(){
 		if(requestQueue == null)
 			requestQueue = new NetworkRequestQueue();
@@ -90,7 +87,7 @@ public class NetworkRequestQueue {
 	public <T> void addToRequestQueue(com.android.volley.Request<T> req) {
 		// set the default tag if tag is empty
 		req.setTag(TAG);
-		
+
 		getRequestQueue().add(req);
 	}
 
@@ -105,41 +102,23 @@ public class NetworkRequestQueue {
 			mRequestQueue.cancelAll(tag);
 		}
 	}
-	
-	public synchronized Map<Long, JSONObject> getDBQueue(){
-		if(dbQueue == null)
-			dbQueue = new HashMap<Long, JSONObject>();
-		return dbQueue;
-	}
-	
-	public synchronized void handleDBRequests(){
-		DALNetworkQueue.getInstance().fillQueue();
-		Utils.Log("handleDBRequests", "size: " + dbQueue.size());
-		if(dbQueue.size() > 0){
-			ArrayList<Long> removed = new ArrayList<Long>();
-			for (Map.Entry<Long, JSONObject> req : dbQueue.entrySet())
-			{
-			    if(Utils.isNetworkAvailable()){
-			    	postJson(req.getValue());
-			    	removed.add(req.getKey());
-			    }
-			}
-			for(Long i : removed)
-				DALNetworkQueue.getInstance().remove(i);
-		}
-	}
+
 
 	public synchronized void postJson(JSONObject json){
 		Utils.Log(TAG, "postJson", json.toString());
-		if(Utils.isNetworkAvailable()){
-			JsonObjectRequest req = new JsonObjectRequest(SERVER_URL, json, responseHandler(), errorHandler());
+		if(Utils.isNetworkAvailable()) { 
+			JsonObjectRequest req = new JsonObjectRequest(SERVER_URL, json, responseHandler(), errorHandler(json));
+			req.setRetryPolicy(new DefaultRetryPolicy(
+	                DefaultRetryPolicy.DEFAULT_TIMEOUT_MS, //timeout
+	                3, //retries
+	                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 			addToRequestQueue(req);
 		} else {
-			DALNetworkQueue.getInstance().add(json);
+			BLNetworkOffline.getInstance().add(json);
 		}
 	}
 
-	public JSONObject postFutureJson(JSONObject json){
+	public synchronized JSONObject postFutureJson(JSONObject json){
 		RequestFuture<JSONObject> future = RequestFuture.newFuture();
 		JsonObjectRequest request = new JsonObjectRequest(Method.POST, SERVER_URL, json, future, future);
 		addToRequestQueue(request);
@@ -166,10 +145,10 @@ public class NetworkRequestQueue {
 		};
 	}
 
-	private Response.ErrorListener errorHandler(){
+	private Response.ErrorListener errorHandler(final JSONObject json){
 		return  new Response.ErrorListener() {
 			public void onErrorResponse(VolleyError error) {
-				VolleyLog.e("Error: ", error.getMessage());
+				VolleyLog.e("Error: ", json.toString());
 				Utils.showToast("volley network:onErrorResponse= " + error.getMessage());
 			}
 		};

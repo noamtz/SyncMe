@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import coupling.app.App;
 import coupling.app.Ids;
+import coupling.app.Utils;
 import coupling.app.models.CalenderEvent;
 
 public class DALCalendarEvents {
@@ -49,5 +50,11 @@ public class DALCalendarEvents {
 	}
 	
 	
-	
+	public boolean isItemExist(long globalId){
+		Cursor c= dbHandler.getReadableDatabase().rawQuery("SELECT * FROM CalendarEvents WHERE UId = " + globalId, null);
+		boolean res = c.getCount() > 0;
+		if(!res)
+			Utils.LogError("DALCalendarEvents","isItemExist", "Item not exist with UId: " + globalId);
+		return res;
+	}
 }

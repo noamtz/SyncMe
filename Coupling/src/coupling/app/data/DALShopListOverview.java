@@ -60,6 +60,14 @@ public class DALShopListOverview {
 		return res;
 	}
 	
+	public boolean isItemExist(long globalId){
+		Cursor c= dbHandler.getReadableDatabase().rawQuery("SELECT * FROM ShopListOverview WHERE UId = " + globalId, null);
+		boolean res = c.getCount() > 0;
+		if(!res)
+			Utils.LogError("DALShopListOverview","isItemExist", "Item not exist with UId: " + globalId);
+		return res;
+	}
+	
 	public boolean deleteList(Ids ids){
 		String where = ids.getGlobalId() != null ? "UId = '" + ids.getGlobalId() + "'" : "_id = " + ids.getDBId();
 		SQLiteDatabase db = dbHandler.getWritableDatabase();

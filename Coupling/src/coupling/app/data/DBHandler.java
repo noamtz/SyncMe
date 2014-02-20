@@ -11,7 +11,7 @@ public class DBHandler extends SQLiteOpenHelper {
 	Thread thread;
 	
 	public DBHandler(Context context) {
-		super(context,"coupling.db", null, 23);	
+		super(context,"coupling.db", null, 24);	
 	}
 
 	@Override
@@ -63,7 +63,9 @@ public class DBHandler extends SQLiteOpenHelper {
 		database.execSQL(
 				"CREATE TABLE NetworkQueue ( " +
 						"_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-						"RequestData VARCHAR(500)" + 
+						"RequestData VARCHAR(500)," +
+						"Type INTEGER," +
+						"DbId INTEGER" +
 						");"
 				);
 		insertItemsSQLThread();
@@ -78,6 +80,7 @@ public class DBHandler extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS ShopListOverview");
 		db.execSQL("DROP TABLE IF EXISTS GroceryList");
 		db.execSQL("DROP TABLE IF EXISTS CalendarEvents");
+		db.execSQL("DROP TABLE IF EXISTS NetworkQueue");
 		onCreate(db);
 	}
 

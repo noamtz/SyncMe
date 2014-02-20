@@ -3,7 +3,9 @@ package coupling.app;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import coupling.app.com.NetworkRequestQueue;
 import coupling.app.data.Constants;
@@ -24,8 +26,10 @@ public class App extends Application {
 
 		appCtx = getApplicationContext();
 		owner = new User();	
-		Utils.Log("App", "Starting Coupling");
-		NetworkRequestQueue.getInstance().handleDBRequests();
+		Log.v("App", "Starting Coupling");
+		
+		Intent myIntent=new Intent(appCtx,OfflineService.class);        
+		appCtx.startService(myIntent);
 	}
 
 	public static synchronized Context getAppCtx(){

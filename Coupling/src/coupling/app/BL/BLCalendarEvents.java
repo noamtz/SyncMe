@@ -88,6 +88,7 @@ public class BLCalendarEvents extends AppFeature{
 			Message message = new Message();
 
 			message.getData().put(UID, ids.getGlobalId());
+			message.getData().put(LOCALID, ids.getDBId());
 
 			message.setCategoryType(categoryType);
 			message.setActionType(ActionType.DELETE);
@@ -99,7 +100,7 @@ public class BLCalendarEvents extends AppFeature{
 	}
 	
 	@Override
-	public void recieveData(JSONObject data, ActionType actionType) {
+	public synchronized void recieveData(JSONObject data, ActionType actionType) {
 		try{
 			CalenderEvent event = new CalenderEvent();
 			if(data.has(UID) && !data.get(UID).equals(null))
@@ -125,7 +126,9 @@ public class BLCalendarEvents extends AppFeature{
 				updateEvent(event, false);
 				break;
 			case DELETE:
-				deleteEvent(event.getIds(), false);
+				if(dataSource.isItemExist(event.getIds().getGlobalId())){
+					deleteEvent(event.getIds(), false);
+				}
 				break;
 			}
 			if(connector == null)
@@ -141,13 +144,17 @@ public class BLCalendarEvents extends AppFeature{
 
 	@Override
 	public boolean updateId(Ids ids) {
-		if(dataSource.updateId(ids) && connector != null){
-			connector.Refresh();
-			return true;
+		if(dataSource.updateId(ids)){
+			if(connector != null){
+				connector.Refresh();
+				return true;
+			}else {
+				//Utils.showToast("Not connected to Calendar");
+			}
 		} else {
-			Utils.showToast("Not connected to Calendar");
-			return false;
+			//Utils.showToast("Failed to update GlobalId for event");
 		}
+		return false;
 	}
 
 	public void setBLConnector(IBLConnector connector){
