@@ -7,6 +7,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import static coupling.app.data.Constants.*;
 
+/**
+ * Handling the low level database management
+ * @author Noam Tzumie
+ *
+ */
 public class DBHandler extends SQLiteOpenHelper {
 	Thread thread;
 	
@@ -83,7 +88,9 @@ public class DBHandler extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS NetworkQueue");
 		onCreate(db);
 	}
-
+	/**
+	 * When DB is constructed insert our custom ShopListItems
+	 */
 	private void insertItemsSQLThread(){
 
 		thread = new Thread(){

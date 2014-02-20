@@ -25,6 +25,18 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+/**
+ * Containg all the ShopList lists
+ * Give the ability for doing the following operations:
+ * 1.creating new list.
+ * 2.removing list.
+ * there is also some notations:
+ * 1.red rectangle - the item is not arriving to the server 
+ * 						 and waiting for globalId
+ * 2.yellow rectangle - received list from my partner (not my list)
+ * @author Noam Tzumie
+ *
+ */
 public class FragmentShopList extends Fragment implements IBLConnector{
 
 	private AdapterShopListOverview adapter;
@@ -93,10 +105,10 @@ public class FragmentShopList extends Fragment implements IBLConnector{
 	}
 
 
-
 	@Override
 	public void onPause() {
 		super.onPause();
+		//unset the bl connector to avoid null pointer exception
 		blShopListOverview.unsetBLConnector();
 	}
 
@@ -105,6 +117,7 @@ public class FragmentShopList extends Fragment implements IBLConnector{
 	@Override
 	public void onResume() {
 		super.onResume();
+		//set the connector for listening to incoming items
 		blShopListOverview.setBLConnector(this);
 		adapter.refreshList();
 	}
@@ -117,6 +130,7 @@ public class FragmentShopList extends Fragment implements IBLConnector{
 			
 			@Override
 			public void run() {
+				//refresh list could come from outside ui thread
 				adapter.refreshList();
 			}
 		});

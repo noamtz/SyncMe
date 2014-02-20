@@ -13,6 +13,11 @@ import coupling.app.data.Enums.CategoryType;
 import coupling.app.models.NetworkOfflineItem;
 import static coupling.app.data.Constants.*;
 
+/**
+ * This class managing the offline queue database access
+ * @author Noam Tzumie
+ *
+ */
 public class DALNetworkQueue {
 
 	private static DALNetworkQueue networkQueueDAL;
@@ -30,7 +35,13 @@ public class DALNetworkQueue {
 			networkQueueDAL = new DALNetworkQueue();
 		return networkQueueDAL;
 	}
-
+	/**
+	 * Add new offline request to the db
+	 * @param json
+	 * @param type
+	 * @param dbId
+	 * @return
+	 */
 	public boolean add(JSONObject json, CategoryType type, Long dbId){
 		ContentValues values = new ContentValues();
 		values.put("RequestData", json.toString());
@@ -40,7 +51,12 @@ public class DALNetworkQueue {
 		Utils.Log("DALNetworkQueue","add", " networkId: " + networkId + " for itemId: " + dbId);
 		return networkId != -1;
 	}
-
+	/**
+	 * Check if offline request is alreay in the table queue
+	 * @param type
+	 * @param dbId
+	 * @return
+	 */
 	public long isAppItemExist(CategoryType type, Long dbId){
 		Cursor c = dbHandler.getReadableDatabase().rawQuery("SELECT * FROM NetworkQueue WHERE Type = " + type.value() + " AND dbId = " + dbId, null);
 		if(c.getCount() > 0){
@@ -49,13 +65,20 @@ public class DALNetworkQueue {
 		}
 		return -1;
 	}
-
+	/**
+	 * Remove offline request from db
+	 * @param id
+	 * @return
+	 */
 	public boolean remove(long id){
 		boolean res =  dbHandler.getWritableDatabase().delete(TABLE_NAME, "_id="+id, null) > 0;
 		Utils.Log("DALNetworkQueue","remove", " isSuccess: " + res + " for networkId: " + id);
 		return res;
 	}
-
+	/**
+	 * Getting all the offline requests from the db
+	 * @return
+	 */
 	public ArrayList<NetworkOfflineItem> getQueue(){
 		Cursor c = dbHandler.getReadableDatabase().rawQuery("SELECT * FROM " + TABLE_NAME, null);
 		Utils.Log("DALNetworkQueue","getAll", " cursor count: " + c.getCount());

@@ -13,6 +13,8 @@ import coupling.app.ui.ShopList;
 
 /**
  * This class abstract the BL layer
+ * BLs are interacting with the database module
+ * and the network module
  * @author Noam Tzumie
  *
  */

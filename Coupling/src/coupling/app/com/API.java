@@ -8,6 +8,12 @@ import coupling.app.models.User;
 
 import static coupling.app.data.Constants.*;
 
+/**
+ * This module are responsible for wrap up all the application 
+ * entitys and send them to the appropriate api call to the server
+ * @author Noam Tzumie
+ *
+ */
 public class API {
 
 	private User sender;

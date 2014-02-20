@@ -16,6 +16,11 @@ import coupling.app.models.Ids;
 import coupling.app.models.ShopListItem;
 import static coupling.app.data.Constants.*;
 
+/**
+ * This class take care for interacting with specific shopList
+ * @author Noam Tzumie
+ *
+ */
 public class BLShopList extends AppFeature{
 
 	private static final String TAG = "BLShopList";
@@ -26,7 +31,11 @@ public class BLShopList extends AppFeature{
 
 	IBLConnector connector;
 
-	
+	/**
+	 * Init the global fields 
+	 * 
+	 * @param _listId
+	 */
 	public BLShopList(long _listId){
 		api = API.getInstance();
 		dataSource = new DALShopList(_listId);
@@ -49,7 +58,12 @@ public class BLShopList extends AppFeature{
 	public boolean createItem(String name, int quantity){
 		return createItem(new ShopListItem(listId, name, quantity) ,  true);
 	}
-
+	/**
+	 * Create new shopList item
+	 * @param item - the created item
+	 * @param remote - determine if to send to the network
+	 * @return
+	 */
 	public boolean createItem(ShopListItem item, boolean remote){
 		item.getIds().setDBId(dataSource.createItem(item));
 		boolean isCreated = (item.getIds().getDBId() != -1);
@@ -78,7 +92,12 @@ public class BLShopList extends AppFeature{
 	public boolean updateItem(ShopListItem item){
 		return updateItem(item, true);
 	}
-	
+	/**
+	 * Update shopListItem 
+	 * @param item
+	 * @param remote
+	 * @return
+	 */
 	public boolean updateItem(ShopListItem item, boolean remote){
 		ShopListItem updatedItem = dataSource.updateItem(item);
 		if(remote && updatedItem!=null){
@@ -145,7 +164,12 @@ public class BLShopList extends AppFeature{
 	}
 
 
-
+	/**
+	 * This method recieve the newly arrived shoplist 
+	 * and make the suitable action for this item (create,update,delete)
+	 * and also try to refresh the shoplist listView by sending a signal to
+	 * the activity
+	 */
 	@Override
 	public synchronized void recieveData(JSONObject data, ActionType actionType) {
 		

@@ -15,6 +15,11 @@ import coupling.app.models.Ids;
 import coupling.app.models.ShopListOverView;
 import static coupling.app.data.Constants.*;
 
+/**
+ * This class take care for manageing lists (for more methods details look at BLShopList)
+ * @author Noam Tzumie
+ *
+ */
 public class BLShopListOverview extends AppFeature {
 
 	private DALShopListOverview dataSource;

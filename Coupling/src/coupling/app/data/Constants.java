@@ -1,5 +1,10 @@
 package coupling.app.data;
 
+/**
+ * Holds application constants
+ * @author Noam Tzumie
+ *
+ */
 public class Constants {
 
 	/* API */

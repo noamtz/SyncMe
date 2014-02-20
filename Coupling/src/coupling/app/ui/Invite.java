@@ -26,6 +26,13 @@ import android.widget.FilterQueryProvider;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+/**
+ * This class take care of the invite friend UI
+ * it also have a rich auto selected friend from the contacts
+ * of the phone
+ * @author Noam Tzumie
+ *
+ */
 public class Invite extends Activity implements OnClickListener{
 
 	AutoCompleteTextView frientAC;

@@ -7,6 +7,12 @@ import org.json.JSONObject;
 import coupling.app.data.Enums.ActionType;
 import coupling.app.data.Enums.CategoryType;
 
+/**
+ * This class is like an inner envelope 
+ * in the process to get the server
+ * @author Noam Tzumie
+ *
+ */
 public class Message {
 
 	private static final String DATA = "data";

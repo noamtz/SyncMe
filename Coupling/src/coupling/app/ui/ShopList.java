@@ -41,6 +41,20 @@ import android.widget.TextView.OnEditorActionListener;
 
 import static coupling.app.data.Constants.*;
 
+/**
+ * Activity for ShopList items opens for specific list
+ * Give the ability for doing the following operations:
+ * 1.creating new item
+ * 2.updating new item with new name and quantity
+ * 3.auto select item from our groceryList (predefined in DB )
+ * 4. remove item
+ * there is also some notations:
+ * 1.red rectangle - the item is not arriving to the server 
+ * 						 and waiting for globalId
+ * 2.yellow rectangle - received list from my partner (not my list)
+ * @author Noam Tzumie
+ *
+ */
 public class ShopList extends Activity implements IBLConnector{
 
 	private static final String TAG = "ShopList";

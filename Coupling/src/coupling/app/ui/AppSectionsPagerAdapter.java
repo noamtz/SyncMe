@@ -4,7 +4,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 
-
+/**
+ * Instantiating the ShopList and Calendar fragments
+ * This is an adapter to the pager view
+ * @author Noam Tzumie
+ *
+ */
 public class AppSectionsPagerAdapter extends FragmentPagerAdapter {
 
 	public AppSectionsPagerAdapter(FragmentManager fm) {

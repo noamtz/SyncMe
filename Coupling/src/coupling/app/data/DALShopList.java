@@ -8,6 +8,11 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.util.Log;
 
+/**
+ * Handling all ShopList items data access crud operations
+ * @author Noam Tzumie
+ *
+ */
 public class DALShopList {
 
 	private DBHandler dbHandler;

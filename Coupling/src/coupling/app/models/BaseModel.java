@@ -10,6 +10,11 @@ import java.util.Map;
 
 import android.content.ContentValues;
 
+/**
+ * Abstract the common application models fields
+ * @author Noam Tzumie
+ *
+ */
 public abstract class BaseModel {
 
 	protected Ids ids;
@@ -51,7 +56,11 @@ public abstract class BaseModel {
 	public BaseModel(){
 		ids = new Ids();
 	}
-	
+	/**
+	 * compact way for preparing the object
+	 * for db insertion
+	 * @return
+	 */
 	public ContentValues toDb(){
 		ContentValues values = new ContentValues();
 		if(ids.getGlobalId() != null)
@@ -62,7 +71,11 @@ public abstract class BaseModel {
 			values.put(IS_LOCKED, isLocked);
 		return values;
 	}
-	
+	/**
+	 * compact way for preparing the object
+	 * for network
+	 * @return
+	 */
 	public Map<String,Object> toNetwork(){
 		Map<String,Object> data = new HashMap<String, Object>();
 

@@ -28,6 +28,17 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
+/**
+ * This class responsible for all the registration process
+ * 1.register to GCM service and get the registration ID and store it in the shared prefereces
+ * 2.register to our server and deliver a Phone Number (right now you can deliver any number)
+ * 	First name and last name and also the registration Id the the user acuire from the GCM service
+ * the server is able to send push notifiction message only if it has the registration id from
+ * the GCM service
+ * 
+ * @author Noam Tzumie
+ *
+ */
 public class Register extends Activity{
 
 	static final String TAG = Register.class.getName();
@@ -259,21 +270,8 @@ public class Register extends Activity{
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu items for use in the action bar
-		//MenuInflater inflater = getMenuInflater();
-		//inflater.inflate(R.menu.shop_list_menu, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
-	/*
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			//NavUtils.navigateUpFromSameTask(this);
-			return true;
-		}
-		return false;	
-	}
-	 */
 
 }

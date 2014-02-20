@@ -1,5 +1,10 @@
 package coupling.app.data;
 
+/**
+ * Contains application enums
+ * @author Noam Tzumie
+ *
+ */
 public class Enums {
 
 	public enum HttpType{

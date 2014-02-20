@@ -13,6 +13,13 @@ import coupling.app.data.Enums.CategoryType;
 import coupling.app.ui.Invite;
 import coupling.app.ui.Register;
 
+/**
+ * This is Expandble class. this class design to abstract 
+ * all the DALs classes but due to time constraints we did'nt do it
+ *  
+ * @author Noam Tzumie
+ *
+ */
 public class DAL {
 
 	private static DAL dal;
@@ -27,7 +34,12 @@ public class DAL {
 			dal = new DAL();
 		return dal;
 	}
-
+	/**
+	 * Getting the local db id of application entity by globalId
+	 * @param type
+	 * @param GlobalId
+	 * @return
+	 */
 	public Long getLocalId(CategoryType type , Long GlobalId){
 		Cursor c = dbHandler.getWritableDatabase().rawQuery("SELECT * FROM " + getTableName(type) + " WHERE UId = " + GlobalId, null);
 		if(c.getCount() > 0){
@@ -43,27 +55,6 @@ public class DAL {
 		if(type == CategoryType.SHOPLIST_OVERVIEW)
 			return "ShopListOverview";
 		return null;
-	}
-
-	public boolean storeFriend(JSONObject friend){
-		boolean result = true;
-		try {
-			if(friend.has("error")){
-				Utils.showToast(friend.getString("error"));
-				result = false;
-			} else {
-				SharedPreferences prefs = App.getAppCtx().getSharedPreferences(Invite.class.getSimpleName(),
-						Context.MODE_PRIVATE);
-				SharedPreferences.Editor editor = prefs.edit();
-				editor.putString(Constants.FRIEND_NAME, friend.getString("friendName"));
-
-				editor.commit();
-			}
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return result;
 	}
 	
 }

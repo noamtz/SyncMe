@@ -19,6 +19,11 @@ import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
+/**
+ * Cursor Adapter between lists to the listview 
+ * @author Noam Tzumie
+ *
+ */
 public class AdapterShopListOverview extends CursorAdapter {
 
 	private static final String TAG = "AdapterShopListOverview";
@@ -54,10 +59,10 @@ public class AdapterShopListOverview extends CursorAdapter {
 
 		//Check if item is locked
 		if(listov.isLocked()){
+			//Paint in red until the global Id is required
 			tvIsLocked.setVisibility(View.VISIBLE);
 			tvIsLocked.setBackgroundColor(Color.RED);
 
-			//removeList.setEnabled(false);
 		} else {
 			tvIsLocked.setVisibility(View.GONE);
 			tvIsLocked.setBackgroundColor(Color.WHITE);
@@ -86,7 +91,10 @@ public class AdapterShopListOverview extends CursorAdapter {
 		View v = mLayoutInflater.inflate(R.layout.shoplist_row, parent, false);
 		return v;
 	}
-
+	/**
+	 * switch the cursor to the new cursor (requery the db)
+	 * and notifyDataSetChanged
+	 */
 	public void refreshList(){
 		swapCursor(blShopListOverview.getSource());
 		notifyDataSetChanged();

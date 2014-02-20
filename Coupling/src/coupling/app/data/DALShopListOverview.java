@@ -8,6 +8,11 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+/**
+ * Handling all lists data access crud operations
+ * @author Noam Tzumie
+ *
+ */
 public class DALShopListOverview {
 
 	private static DALShopListOverview shopListOverviewDAL;

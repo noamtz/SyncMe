@@ -23,6 +23,11 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * Cursor Adapter between ShopList list items to the listview 
+ * @author Noam Tzumie
+ *
+ */
 public class AdapterShopList extends CursorAdapter {
 
 	private LayoutInflater mLayoutInflater;
@@ -58,7 +63,7 @@ public class AdapterShopList extends CursorAdapter {
 		final ImageView redLine = (ImageView) row.findViewById(R.id.red_line_view);
 		TextView tvStatue = (TextView) row.findViewById(R.id.tvItemStatus);
 
-		//Lock UI componenet and paint in red until global Id is updated
+		//Paint in red until global Id is updated
 		if(item.isLocked()) {
 			tvStatue.setVisibility(View.VISIBLE);
 			tvStatue.setBackgroundColor(Color.RED);
@@ -75,7 +80,6 @@ public class AdapterShopList extends CursorAdapter {
 				tvStatue.setVisibility(View.GONE);
 				tvStatue.setBackgroundColor(Color.WHITE);
 			}
-			//btnRemoveItem.setEnabled(true);
 		}
 		//Mark with red line to notify that the item is checked 
 		if (item.isDone())
@@ -122,7 +126,9 @@ public class AdapterShopList extends CursorAdapter {
 	}
 	
 	/**
-	 * Refresh list data & UI
+	 * switch the cursor to the new cursor (requery the db)
+	 * and notifyDataSetChanged
+	 * 
 	 */
 	public void refresh(){
 		swapCursor(blShoplist.getSource());

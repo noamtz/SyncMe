@@ -19,7 +19,7 @@ import coupling.app.models.NetworkOfflineItem;
 
 /**
  * This BL take care for all the logic of synchronize the offline data
- * 
+ *  (becuase constructed at last second this class is not written in a good manner)
  * @author Noam Tzumie
  *
  */
@@ -118,6 +118,12 @@ public class BLNetworkOffline {
 			dbQueue.remove(item);
 	}
 
+	/**
+	 * Add new offline json request to the db
+	 *  if there is a request with the same category and 
+	 *  dbId remove it because it absolete and push the new one
+	 * @param json
+	 */
 	public void add(JSONObject json){
 		JSONObject message;
 		try {
@@ -125,13 +131,17 @@ public class BLNetworkOffline {
 			CategoryType cat = Enums.toCategoryType(message.getInt("type"));
 			ActionType action = Enums.toActionType(message.getInt("action"));
 			Long dbId = message.getJSONObject("data").getLong(LOCALID);
+			
 			Object UId = message.getJSONObject("data").get(UID);
+			
+			//check if the request is existing in the db if so remove the old one 
 			long itemId = -1; 
 			if((itemId = dalNetworkQueue.isAppItemExist(cat, dbId)) != -1){
 				dalNetworkQueue.remove(itemId);
 			}
+			
 			boolean notEnter = (action == ActionType.DELETE) && UId.equals(null);
-			Utils.Log("BLNetworkOffline", "Not enter: " + notEnter + " UID: "+ UId.equals(null)+ " acrion: " + (action == ActionType.DELETE));
+			//If the the action is delete do not push to dbQueue
 			if(!notEnter)
 				dalNetworkQueue.add(json, cat, dbId);
 		} catch (JSONException e) {

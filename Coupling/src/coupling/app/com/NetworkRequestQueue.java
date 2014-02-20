@@ -21,7 +21,14 @@ import coupling.app.Mediator;
 import coupling.app.Utils;
 import coupling.app.BL.BLNetworkOffline;
 
-
+/**
+ * This class uses the volley PlugIn for 
+ * efficient fast network Http communication
+ * this class uses the singleton pattern for maintaining a global
+ * network queue
+ * @author Noam Tzumie
+ *
+ */
 public class NetworkRequestQueue {
 
 	private static NetworkRequestQueue requestQueue;
