@@ -33,19 +33,23 @@ public class BLCalendarEvents extends AppFeature{
 		categoryType = CategoryType.CALENDER;
 	}
 	
+	//get all info of all the events
 	public Cursor getSource(){
 		return dataSource.getSource();
 	}
 	
+	//add new event
 	public boolean createEvent(String title, String description, String startDate, String startTime, String endDate, String endTime){
 		return createEvent(new CalenderEvent(title, description, startDate, startTime, endDate, endTime), true);
 	}
 	
+	//add new event
 	public boolean createEvent(CalenderEvent calendarEvent, boolean remote){
 		long localId = dataSource.createEvent(calendarEvent);
 		
 		boolean isCreated = (localId != -1); 
 
+		//sync with friend
 		if(remote && isCreated){
 			Message message = new Message();
 
@@ -61,12 +65,16 @@ public class BLCalendarEvents extends AppFeature{
 		return isCreated;
 	}
 	
+	//update a event
 	public boolean updateEvent(Ids ids, CalenderEvent calendarEvent){
 		return updateEvent(calendarEvent, true);
 	}
 	
+	//update a event
 	public boolean updateEvent(CalenderEvent calendarEvent, boolean remote){
 		boolean isUpdated = dataSource.updateEvent(calendarEvent);
+		
+		//sync with friend
 		if(remote && isUpdated){
 			Message message = new Message();
 			
@@ -80,12 +88,16 @@ public class BLCalendarEvents extends AppFeature{
 		return isUpdated;
 	}
 	
+	//delete a event
 	public boolean deleteEvent(Ids ids){
 		return deleteEvent(ids, true);
 	}
 	
+	//delete a event
 	public boolean deleteEvent(Ids ids, boolean remote){
 		boolean isDeleted = dataSource.deleteEvent(ids);
+		
+		//sync with friend
 		if(remote && isDeleted){
 			Message message = new Message();
 
@@ -101,6 +113,7 @@ public class BLCalendarEvents extends AppFeature{
 		return isDeleted;
 	}
 	
+	//receive the event from friend
 	@Override
 	public synchronized void recieveData(JSONObject data, ActionType actionType) {
 		try{
@@ -144,6 +157,7 @@ public class BLCalendarEvents extends AppFeature{
 		
 	}
 
+	//update event id
 	@Override
 	public boolean updateId(Ids ids) {
 		if(dataSource.updateId(ids)){
@@ -167,6 +181,7 @@ public class BLCalendarEvents extends AppFeature{
 		this.connector = null;
 	}
 	
+	//get all events of specific date
 	public Cursor getDayEvents(String date){
 		return dataSource.getDayEvents(date);
 	}

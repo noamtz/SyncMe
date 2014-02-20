@@ -65,12 +65,14 @@ public class Invite extends Activity implements OnClickListener{
 			if (friendEmail.length() > 0){
 
 				ContentResolver cr = getContentResolver();
+				//get Contact List
 				Cursor c2 = cr.query(ContactsContract.Contacts.CONTENT_URI, null, 
 						"DISPLAY_NAME = '" + frientAC.getText().toString() + "'" ,
 						null, null);
 				if (c2.moveToFirst()) {
 					String Contactid = c2.getString(c2.getColumnIndex(ContactsContract.Contacts._ID));
-
+					
+					//get contacts number by name
 					Cursor c3 = cr.query(Phone.CONTENT_URI, null, Phone.CONTACT_ID + " = " + Contactid, null, null);
 					while (c3.moveToNext() && flag) {
 						String pNumber = c3.getString(c3.getColumnIndex(Phone.NUMBER));
@@ -94,8 +96,6 @@ public class Invite extends Activity implements OnClickListener{
 					}
 				}
 
-				Utils.Log("DEBUG", phoneNumber);
-
 				//If not from auto complete
 				if(phoneNumber.isEmpty()){
 					phoneNumber = friendEmail;
@@ -116,7 +116,6 @@ public class Invite extends Activity implements OnClickListener{
 
 					finish();
 				} else {
-					Utils.Log("DEBUG", "false");
 					Utils.showToast("Contact with no phone number");
 				}
 
