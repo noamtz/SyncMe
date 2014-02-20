@@ -31,6 +31,7 @@ public class GroceryList {
 		return gl;
 	}
 	
+	//loads all grocery list items from DB
 	public void loadItems(){
 		Cursor c = blGroceryList.getSource();
 		if (c.moveToFirst()) {
@@ -42,6 +43,7 @@ public class GroceryList {
         c.close();
 	}
 	
+	//add new item
 	public void addItem(String item, ArrayAdapter<String> adapter) {
 		if (!groceryList.contains(item)) {
 			addItem(item);
@@ -53,12 +55,14 @@ public class GroceryList {
 		blGroceryList.addItem(item);
 	}
 	
+	//get the list
 	public LinkedList<String> getGroceryList(){
 		if (groceryList == null)
 			groceryList = new LinkedList<String>();
 		return groceryList;
 	}
 	
+	//add to DB the init grocery list from the xml file
 	public void  initGroceryListItems(){
 		XMLParser xml = new XMLParser();
 		
