@@ -2,6 +2,7 @@ package coupling.app.ui;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
@@ -74,8 +75,8 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 
 		rLayout = (LinearLayout) rootView.findViewById(R.id.text);
 		month = (GregorianCalendar) GregorianCalendar.getInstance();
-		itemmonth = (GregorianCalendar) month.clone();
-
+		//itemmonth = (GregorianCalendar) month.clone();
+		Calendar calendar = Calendar.getInstance();
 		items = new ArrayList<String>();
 
 		adapter = new CalendarAdapter(activity, month);
@@ -90,7 +91,10 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 		title.setText(android.text.format.DateFormat.format("MMMM yyyy", month));
 		
 		ListView eventList = (ListView) rootView.findViewById(R.id.events_list);
-		listAdapter = new CalendarEventsListAdapter(this.getActivity(), blCalendarEvents, "19/02/2014");//TODO:get current date
+		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+		String theDate = df.format(GregorianCalendar.getInstance().getTime());
+		Log.w("aaaa", theDate);
+		listAdapter = new CalendarEventsListAdapter(this.getActivity(), blCalendarEvents, theDate);
 		eventList.setAdapter(listAdapter);
 
 		RelativeLayout previous = (RelativeLayout) rootView.findViewById(R.id.previous);
@@ -168,7 +172,7 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 		});
 
 		
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+		df = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 		selectedDate = df.format(GregorianCalendar.getInstance().getTime());
 		Utils.Log("Calendar", selectedDate);
 

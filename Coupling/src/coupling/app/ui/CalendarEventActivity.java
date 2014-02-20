@@ -163,15 +163,7 @@ public class CalendarEventActivity extends Activity implements OnClickListener{
 		} else if (v.getId() == toHourbt.getId()) {
 			toHourPicker.show();
 		} else if (v.getId() == ok.getId()) {
-			//TODO: add to DB
-			/*
-			blCalendarEvents.createEvent(	title.getText().toString(),
-											discription.getText().toString(),
-											CalenderEvent.StringToDate(fromDatebt.getText().toString(), DATE_FORMAT),
-											CalenderEvent.StringToDate(fromHourbt.getText().toString(), TIME_FORMAT),
-											CalenderEvent.StringToDate(toDatebt.getText().toString(), DATE_FORMAT),
-											CalenderEvent.StringToDate(toHourbt.getText().toString(), TIME_FORMAT) );
-											*/
+
 			blCalendarEvents.createEvent(	title.getText().toString(),
 											discription.getText().toString(),
 											fromDatebt.getText().toString(),

@@ -8,7 +8,6 @@ import coupling.app.Ids;
 import static coupling.app.data.Constants.*;
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.util.Log;
 
 public class CalenderEvent extends BaseModel{
 	
@@ -100,7 +99,6 @@ public class CalenderEvent extends BaseModel{
 			values.put(EVENT_START_DATE, startDate);
 		if(endDate != null)
 			values.put(EVENT_END_DATE, endDate);
-		Log.w("ttt", values.toString());
 		return values;
 	}
 
