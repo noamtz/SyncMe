@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.database.Cursor;
+import android.util.Log;
 
 import coupling.app.Ids;
 import coupling.app.Utils;
@@ -36,12 +37,13 @@ public class BLCalendarEvents extends AppFeature{
 		return dataSource.getSource();
 	}
 	
-	public boolean createEvent(String title, String description, Date startDate, Date startTime, Date endDate, Date endTime){
+	public boolean createEvent(String title, String description, String startDate, String startTime, String endDate, String endTime){
 		return createEvent(new CalenderEvent(title, description, startDate, startTime, endDate, endTime), true);
 	}
 	
 	public boolean createEvent(CalenderEvent calendarEvent, boolean remote){
 		long localId = dataSource.createEvent(calendarEvent);
+		
 		boolean isCreated = (localId != -1); 
 
 		if(remote && isCreated){
@@ -163,5 +165,9 @@ public class BLCalendarEvents extends AppFeature{
 	
 	public void unsetBLConnector(){
 		this.connector = null;
+	}
+	
+	public Cursor getDayEvents(String date){
+		return dataSource.getDayEvents(date);
 	}
 }

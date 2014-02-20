@@ -4,6 +4,7 @@ import java.util.Calendar;
 
 import com.nit.coupling.R;
 
+import coupling.app.Utils;
 import coupling.app.BL.BLCalendarEvents;
 import coupling.app.BL.BLFactory;
 import coupling.app.data.Constants;
@@ -48,7 +49,7 @@ public class CalendarEventActivity extends Activity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 	
 		setContentView(R.layout.event_layout);
-		
+
 		blCalendarEvents = BLFactory.getInstance().getCalendarEvents();
 		Calendar calendar = Calendar.getInstance();
 		
@@ -163,12 +164,20 @@ public class CalendarEventActivity extends Activity implements OnClickListener{
 			toHourPicker.show();
 		} else if (v.getId() == ok.getId()) {
 			//TODO: add to DB
+			/*
 			blCalendarEvents.createEvent(	title.getText().toString(),
 											discription.getText().toString(),
 											CalenderEvent.StringToDate(fromDatebt.getText().toString(), DATE_FORMAT),
 											CalenderEvent.StringToDate(fromHourbt.getText().toString(), TIME_FORMAT),
 											CalenderEvent.StringToDate(toDatebt.getText().toString(), DATE_FORMAT),
 											CalenderEvent.StringToDate(toHourbt.getText().toString(), TIME_FORMAT) );
+											*/
+			blCalendarEvents.createEvent(	title.getText().toString(),
+											discription.getText().toString(),
+											fromDatebt.getText().toString(),
+											fromHourbt.getText().toString(),
+											toDatebt.getText().toString(),
+											toHourbt.getText().toString());
 			finish();
 		} else if (v.getId() == cancel.getId()) {
 			finish();

@@ -11,7 +11,7 @@ public class DBHandler extends SQLiteOpenHelper {
 	Thread thread;
 	
 	public DBHandler(Context context) {
-		super(context,"coupling.db", null, 24);	
+		super(context,"coupling.db", null, 30);	
 	}
 
 	@Override
@@ -51,11 +51,11 @@ public class DBHandler extends SQLiteOpenHelper {
 						"_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
 						"UId INTEGER ," + 
 						EVENT_TITLE +" VARCHAR(100), " +
-						EVENT_DESCRIPTION + " TEXT, " +
-						EVENT_START_DATE + " DATETIME, " +
-						EVENT_START_TIME + " DATETIME, " +
-						EVENT_END_DATE + " DATETIME, " +
-						EVENT_END_TIME + " DATETIME, " +
+						EVENT_DESCRIPTION + " VARCHAR(100), " +
+						EVENT_START_DATE + " VARCHAR(50), " +
+						EVENT_START_TIME + " VARCHAR(50), " +
+						EVENT_END_DATE + " VARCHAR(50), " +
+						EVENT_END_TIME + " VARCHAR(50), " +
 						"IsMine INTEGER DEFAULT 1, " +
 						"IsLocked INTEGER DEFAULT 1 " +
 						");"

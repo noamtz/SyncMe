@@ -90,7 +90,7 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 		title.setText(android.text.format.DateFormat.format("MMMM yyyy", month));
 		
 		ListView eventList = (ListView) rootView.findViewById(R.id.events_list);
-		listAdapter = new CalendarEventsListAdapter(this.getActivity(), blCalendarEvents);
+		listAdapter = new CalendarEventsListAdapter(this.getActivity(), blCalendarEvents, "19/02/2014");//TODO:get current date
 		eventList.setAdapter(listAdapter);
 
 		RelativeLayout previous = (RelativeLayout) rootView.findViewById(R.id.previous);
@@ -142,20 +142,9 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 				}
 				((CalendarAdapter) parent.getAdapter()).setSelected(v);
 				
-				  //////////////////////////
 				 //get Event List from DB//
-				
-//				blCalendarEvents.
-				/////////////////////////
-
-				/*
-				for (int i = 0; i < Utils.events.size(); i++) {
-					if (Utils.events.get(i).getstartTime().equals(selectedGridDate)) {
-						desc.add(Utils.events.get(i).getTitle());
-					}
-				}
-				*/
-				
+				Utils.Log("--DEBUG--", separatedTime[2] + "/" + separatedTime[1] + "/" + separatedTime[0]);
+				listAdapter.refresh(separatedTime[2] + "/" + separatedTime[1] + "/" + separatedTime[0]);				
 
 				if (desc.size() > 0) {
 					for (int i = 0; i < desc.size(); i++) {

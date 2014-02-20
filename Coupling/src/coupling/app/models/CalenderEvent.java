@@ -1,44 +1,42 @@
 package coupling.app.models;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+
 import java.util.Map;
 
 import coupling.app.Ids;
-import coupling.app.Utils;
 
 import static coupling.app.data.Constants.*;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.util.Log;
 
 public class CalenderEvent extends BaseModel{
 	
 	private String title;
 	private String description;
-	private Date startDate;
-	private Date startTime;
-	private Date endDate;
-	private Date  endTime;
+	private String startDate;
+	private String startTime;
+	private String endDate;
+	private String  endTime;	
+
 	
 	public CalenderEvent(){}
 	
 	public CalenderEvent(Cursor c)
 	{
 		ids = new Ids(c);
+
 		title =  c.getString(c.getColumnIndexOrThrow(EVENT_TITLE));
 		description = c.getString(c.getColumnIndexOrThrow(EVENT_DESCRIPTION));
 		isMine = c.getInt(c.getColumnIndexOrThrow(IS_MINE)) == 1;	
 		isLocked = c.getInt(c.getColumnIndexOrThrow(IS_LOCKED)) == 1;	
-		
-		startDate = StringToDate(c.getString(c.getColumnIndexOrThrow(EVENT_START_DATE)), DATE_FORMAT);
-		startTime = StringToDate(c.getString(c.getColumnIndexOrThrow(EVENT_START_DATE)), TIME_FORMAT);
-		endDate = StringToDate(c.getString(c.getColumnIndexOrThrow(EVENT_START_DATE)), DATE_FORMAT);
-		endDate = StringToDate(c.getString(c.getColumnIndexOrThrow(EVENT_START_DATE)), TIME_FORMAT);
+		startDate = c.getString(c.getColumnIndexOrThrow(EVENT_START_DATE));
+		startTime = c.getString(c.getColumnIndexOrThrow(EVENT_START_TIME));
+		endDate = c.getString(c.getColumnIndexOrThrow(EVENT_END_DATE));
+		endTime = c.getString(c.getColumnIndexOrThrow(EVENT_END_TIME));
 	}
 	
-	public CalenderEvent(String title, String description, Date startDate, Date startTime, Date endDate, Date endTime) {
+	public CalenderEvent(String title, String description, String startDate, String startTime, String endDate, String endTime) {
 		this.title = title;
 		this.description = description;
 		this.startDate = startDate;
@@ -47,7 +45,7 @@ public class CalenderEvent extends BaseModel{
 		this.endTime = endTime;
 	}
 	
-	public Date getEndTime() {
+	public String getEndTime() {
 		return endTime;
 	}
 
@@ -63,48 +61,27 @@ public class CalenderEvent extends BaseModel{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Date  getStartTime() {
+	public String  getStartTime() {
 		return startTime;
 	}
-	public void setStartTime(Date startTime) {
-		this.startTime = startTime;
-	}
-	public Date  geEndTime() {
+
+	public String  geEndTime() {
 		return endTime;
 	}
-	public void setEndTime(Date endTime) {
+	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
 	
-	public void setEndTime(String endTime) {
-		this.endTime = StringToDate(endTime, TIME_FORMAT);
-	}
-	
 	public void setStartTime(String startTime) {
-		this.startTime = StringToDate(startTime, TIME_FORMAT);
-	}
-	public Date getStartDate() {
-		return startDate;
+		this.startTime = startTime;
 	}
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-	
 	public void setStartDate(String startDate) {
-		this.startDate = StringToDate(startDate, DATE_FORMAT);
+		this.startDate = startDate;
 	}
 	
 	public void setEndDate(String endDate) {
-		this.endDate = StringToDate(endDate, DATE_FORMAT);;
+		this.endDate = endDate;
 	}
 
 
@@ -116,13 +93,14 @@ public class CalenderEvent extends BaseModel{
 		if(description != null)
 			values.put(EVENT_DESCRIPTION, description);
 		if(startTime != null)
-			values.put(EVENT_START_TIME, DateToString(startTime, TIME_FORMAT));
-		if(description != null)
-			values.put(EVENT_END_TIME, DateToString(endTime, TIME_FORMAT));
+			values.put(EVENT_START_TIME, startTime);
+		if( endTime != null)
+			values.put(EVENT_END_TIME, endTime);
 		if(startDate != null)
-			values.put(EVENT_START_DATE, DateToString(startTime, DATE_FORMAT));
+			values.put(EVENT_START_DATE, startDate);
 		if(endDate != null)
-			values.put(EVENT_END_DATE, DateToString(endTime, DATE_FORMAT));
+			values.put(EVENT_END_DATE, endDate);
+		Log.w("ttt", values.toString());
 		return values;
 	}
 
@@ -135,32 +113,14 @@ public class CalenderEvent extends BaseModel{
 		if(description != null)
 			data.put(EVENT_DESCRIPTION, description);
 		if(startTime != null)
-			data.put(EVENT_START_TIME, DateToString(startTime, TIME_FORMAT));
-		if(description != null)
-			data.put(EVENT_END_TIME, DateToString(endTime, TIME_FORMAT));
+			data.put(EVENT_START_TIME, startTime);
+		if(endTime != null)
+			data.put(EVENT_END_TIME, endTime);
 		if(startDate != null)
-			data.put(EVENT_START_DATE, DateToString(startTime, DATE_FORMAT));
+			data.put(EVENT_START_DATE, startDate);
 		if(endDate != null)
-			data.put(EVENT_END_DATE, DateToString(endTime, DATE_FORMAT));
+			data.put(EVENT_END_DATE, endDate);
 		return data;
-	}
-	
-	//"dd/MM/yyyy HH:mm"
-	private String DateToString(Date date, String format){
-		SimpleDateFormat simple = new SimpleDateFormat(format, Locale.getDefault());
-		return simple.format(date);
-	}
-	
-	public static Date StringToDate(String dateString, String format){
-		java.text.DateFormat df = new SimpleDateFormat(format, Locale.getDefault());
-		try {
-			return  df.parse(dateString);
-		} catch (ParseException e) {
-			return null;
-		}
-	}
-	
-	
-	
+	}	
 	
 }
