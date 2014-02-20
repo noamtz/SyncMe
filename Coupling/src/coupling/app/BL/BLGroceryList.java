@@ -3,6 +3,11 @@ package coupling.app.BL;
 import android.database.Cursor;
 import coupling.app.data.DALGroceryList;
 
+/**
+ *  * This class take care for interacting with groceryList items
+ * @author ibental
+ *
+ */
 public class BLGroceryList {
 	private DALGroceryList dataSource;
 	

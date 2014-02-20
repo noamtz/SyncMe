@@ -17,6 +17,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * Adapting between the calendar view and fragment view
+ * @author ibental
+ *
+ */
 public class CalendarAdapter extends BaseAdapter{
 
 	private Context mContext;

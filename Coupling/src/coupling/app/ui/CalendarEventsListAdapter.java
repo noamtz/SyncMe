@@ -14,6 +14,11 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
+/**
+ * Cursor adaptor between calendar events and list view
+ * @author ibental
+ *
+ */
 public class CalendarEventsListAdapter extends CursorAdapter {
 
 	private LayoutInflater mLayoutInflater;

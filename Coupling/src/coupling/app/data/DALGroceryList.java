@@ -4,6 +4,11 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import coupling.app.App;
 
+/**
+ * Handling all groceryList items DB query's
+ * @author ibental
+ *
+ */
 public class DALGroceryList {
 	private DBHandler dbHandler;
 	

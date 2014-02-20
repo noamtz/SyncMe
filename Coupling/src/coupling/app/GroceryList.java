@@ -14,6 +14,15 @@ import android.database.Cursor;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
+/**
+ * Activity for the grocery list for adding items with Autocomplete.
+ * Give the ability for doing the following operations:
+ * 1. add new item
+ * 2. init grocery list to Db from XML file
+ * 3. get Grocery List
+ * @author ibental
+ *
+ */
 public class GroceryList {
 	private BLGroceryList blGroceryList;
 	private LinkedList<String> groceryList;

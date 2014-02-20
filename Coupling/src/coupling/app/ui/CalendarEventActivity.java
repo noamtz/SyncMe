@@ -30,6 +30,11 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import static coupling.app.data.Constants.*;
 
+/**
+ * Activity for adding/updating a calendar event
+ * @author ibental
+ *
+ */
 public class CalendarEventActivity extends Activity implements OnClickListener{
 
 	EditText title, discription;

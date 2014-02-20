@@ -16,10 +16,7 @@ import coupling.app.com.IBLConnector;
 import coupling.app.data.Constants;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.FeatureInfo;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -39,6 +36,12 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import static coupling.app.data.Constants.*;
 
+/**
+ * Containing the calendar view.
+ * Handling the view of the events
+ * @author ibental
+ *
+ */
 public class FragmentCalendar extends Fragment implements IBLConnector{
 
 	public GregorianCalendar month, itemmonth;// calendar instances.

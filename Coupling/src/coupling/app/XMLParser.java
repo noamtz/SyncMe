@@ -14,7 +14,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
-
+/**
+ * XML Parser for grocery List items
+ * @author ibental
+ *
+ */
 public class XMLParser {
 
 	public XMLParser() {

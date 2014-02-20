@@ -9,6 +9,11 @@ import coupling.app.models.CalenderEvent;
 import coupling.app.models.Ids;
 import static coupling.app.data.Constants.*;
 
+/**
+ * handling all calendar events DB query's 
+ * @author ibental
+ *
+ */
 public class DALCalendarEvents {
 
 	private static DALCalendarEvents calederEventsDAL;

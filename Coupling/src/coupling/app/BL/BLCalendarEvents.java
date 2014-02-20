@@ -21,6 +21,11 @@ import coupling.app.models.CalenderEvent;
 import coupling.app.models.Ids;
 import coupling.app.models.ShopListItem;
 
+/**
+ *  * This class take care for interacting with calendar events
+ * @author ibental
+ *
+ */
 public class BLCalendarEvents extends AppFeature{
 	
 	IBLConnector connector;

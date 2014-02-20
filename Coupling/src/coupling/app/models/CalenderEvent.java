@@ -8,6 +8,11 @@ import static coupling.app.data.Constants.*;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+/**
+ * calendar view Object
+ * @author ibental
+ *
+ */
 public class CalenderEvent extends BaseModel{
 	
 	private String title;
