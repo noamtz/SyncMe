@@ -196,12 +196,16 @@ public class Register extends Activity{
 						gcm = GoogleCloudMessaging.getInstance(context);
 
 					regid = gcm.register(SENDER_ID);
-					storeRegistrationId(context, regid);
-					API.getInstance().registerUser();
-
-					msg = "Device registered";
+					
+					String result = API.getInstance().registerUser();
+					if(result == null){
+						storeRegistrationId(context, regid);
+						msg = "Device registered";
+					} else 
+						msg = result;
+					
 				} catch (IOException ex) {
-					msg = "Error :" + ex.getMessage();
+					msg = "GCM register err :" + ex.getMessage() + " Try again";
 				}
 				return msg;
 			}

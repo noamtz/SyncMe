@@ -14,24 +14,32 @@ public class API {
 	private static NetworkRequestQueue networkHandler = NetworkRequestQueue.getInstance();
 
 	private static API api;
-	
-	private API(){
+
+	private API() {
 		this.sender = App.getOwner();
 	}
-	
-	
+
+
 	public static API getInstance(){
 		if(api == null)
 			api = new API();
 		return api;
 	}
 
-	public void registerUser(){
+	public String registerUser(){
+		String result = null;
 		if(!Utils.isNetworkAvailable()){
-			Utils.showToast("No internet connection");
-			return;
+			result = "No internet connection";
+		} else {
+			JSONObject json = networkHandler.postFutureJson(prepareJson(REGISTER,sender.toJson()));
+			if(json.has("error"))
+				try {
+					result = json.getString("error");
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
 		}
-		networkHandler.postFutureJson(prepareJson(REGISTER,sender.toJson()));
+		return result;
 	}
 
 	public void sync(Message message){
@@ -41,7 +49,7 @@ public class API {
 			params.put(EMAIL, sender.getEmail());//TODO: change back
 			Utils.Log("API", "Sender id: " + sender.getEmail());
 			params.put(MESSAGE, message.toJson());
-			
+
 			networkHandler.postJson(prepareJson(SYNC,params));
 
 		}catch(JSONException e){
@@ -56,7 +64,7 @@ public class API {
 			JSONObject params = new JSONObject();
 			params.put(EMAIL, sender.getEmail());
 			params.put(MESSAGE_ID, messageId);
-			
+
 			networkHandler.postJson(prepareJson(MESSAGE_RECIEVED,params));
 		} catch(JSONException e){
 			e.printStackTrace();
@@ -84,15 +92,12 @@ public class API {
 			params.put(FRIEND_EMAIL, email);
 
 			networkHandler.postJson(prepareJson(INVITE,params));
-//			JSONObject json = networkHandler.postFutureJson(prepareJson(INVITE,params));
-//			if(json.has("error"))  
-//				result = json.getString("error");
-			
+
 		}catch(JSONException e){
 			e.printStackTrace();
 		}	
 	}
-	
+
 	public String uninvite(String email) {
 		String result = null;
 		try{
@@ -104,14 +109,14 @@ public class API {
 			JSONObject json = networkHandler.postFutureJson(prepareJson(INVITE,params));
 			if(json.has("error"))  
 				result = json.getString("error");
-			
+
 		}catch(JSONException e){
 			e.printStackTrace();
 		}	
 		return result;
 	}
-	
-	
+
+
 	private JSONObject prepareJson(String method, JSONObject params){
 		JSONObject json = new JSONObject();
 		try {

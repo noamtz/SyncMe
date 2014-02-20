@@ -2,6 +2,7 @@ package coupling.app.ui;
 
 import com.nit.coupling.R;
 
+import coupling.app.Utils;
 import coupling.app.BL.BLCalendarEvents;
 import coupling.app.models.CalenderEvent;
 import android.content.Context;
@@ -45,6 +46,7 @@ public class CalendarEventsListAdapter extends CursorAdapter {
 	
 	public void refresh(String date){
 		Cursor c = blCalendarEvents.getDayEvents(date);
+		Utils.Log("CalendarEventsListAdapter", "refresh","Size cursor: " + c.getCount());
 		swapCursor(c);
 		notifyDataSetChanged();
 	}

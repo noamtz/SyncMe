@@ -16,6 +16,7 @@ import coupling.app.com.IBLConnector;
 import coupling.app.data.Constants;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.FeatureInfo;
 import android.support.v4.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -90,10 +91,11 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 		TextView title = (TextView) rootView.findViewById(R.id.title);
 		title.setText(android.text.format.DateFormat.format("MMMM yyyy", month));
 		
-		ListView eventList = (ListView) rootView.findViewById(R.id.events_list);
+		eventList = (ListView) rootView.findViewById(R.id.events_list);
 		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
 		String theDate = df.format(GregorianCalendar.getInstance().getTime());
 		Log.w("aaaa", theDate);
+		
 		listAdapter = new CalendarEventsListAdapter(this.getActivity(), blCalendarEvents, theDate);
 		eventList.setAdapter(listAdapter);
 
@@ -148,8 +150,8 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 				
 				 //get Event List from DB//
 				Utils.Log("--DEBUG--", separatedTime[2] + "/" + separatedTime[1] + "/" + separatedTime[0]);
-				listAdapter.refresh(separatedTime[2] + "/" + separatedTime[1] + "/" + separatedTime[0]);				
-
+				
+				
 				if (desc.size() > 0) {
 					for (int i = 0; i < desc.size(); i++) {
 						TextView rowTextView = new TextView(activity);
@@ -166,7 +168,9 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 				}
 
 				desc = null;
-
+				rLayout.addView(eventList);
+				listAdapter.refresh(separatedTime[2] + "/" + separatedTime[1] + "/" + separatedTime[0]);	
+				eventList.setAdapter(listAdapter);
 			}
 
 		});
@@ -262,12 +266,17 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 			
 			inviteIntent.putExtra(Constants.SELECTED_DATE, selectedDate);
 			inviteIntent.putExtra(Constants.EVENT_ID, Constants.EVENT_CREATE);
-			
-			startActivity(inviteIntent);
+			startActivityForResult(inviteIntent, 1);
+			//startActivity(inviteIntent);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		//listAdapter.refresh(date);
 	}
 
 }
