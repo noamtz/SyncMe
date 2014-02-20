@@ -165,6 +165,7 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 		return rootView;
 	}
 
+	//set the next month in the calendar view
 	protected void setNextMonth() {
 		if (month.get(GregorianCalendar.MONTH) == month
 				.getActualMaximum(GregorianCalendar.MONTH)) {
@@ -176,7 +177,7 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 		}
 
 	}
-
+	//set the previous month in the calendar view
 	protected void setPreviousMonth() {
 		if (month.get(GregorianCalendar.MONTH) == month
 				.getActualMinimum(GregorianCalendar.MONTH)) {
@@ -190,7 +191,7 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 	}
 
 
-
+	//refresh the calendar view
 	public void refreshCalendar() {
 		TextView title = (TextView) rootView.findViewById(R.id.title);
 
@@ -255,6 +256,7 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 		}
 	}
 
+	//get the date of new event that was added
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 

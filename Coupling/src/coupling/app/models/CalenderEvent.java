@@ -84,6 +84,7 @@ public class CalenderEvent extends BaseModel{
 	}
 
 
+	//data added to local DB
 	@Override
 	public ContentValues toDb() {
 		ContentValues values = super.toDb();
@@ -102,7 +103,7 @@ public class CalenderEvent extends BaseModel{
 		return values;
 	}
 
-
+	//data send to network
 	@Override
 	public Map<String, Object> toNetwork() {
 		Map<String,Object> data = super.toNetwork();

@@ -11,10 +11,12 @@ public class DALGroceryList {
 		dbHandler = new DBHandler(App.getAppCtx());
 	}
 	
+	//get all grovery list info from DB
 	public Cursor getSource(){
 		return dbHandler.getReadableDatabase().rawQuery("SELECT DISTINCT ItemName FROM GroceryList", null);
 	}
 	
+	//add item to DB
 	public long addItem(String item){
 		ContentValues values = new ContentValues();
 		values.put("ItemName", item);
