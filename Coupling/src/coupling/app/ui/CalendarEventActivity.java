@@ -42,6 +42,8 @@ public class CalendarEventActivity extends Activity implements OnClickListener{
 	int fromHour, fromMinute, toHour, toMinute;
 	String titleTXT = "", discreptionTXT = "";
 	
+	String date = "";
+	
 	BLCalendarEvents blCalendarEvents;
 	
 	@Override
@@ -170,6 +172,7 @@ public class CalendarEventActivity extends Activity implements OnClickListener{
 											fromHourbt.getText().toString(),
 											toDatebt.getText().toString(),
 											toHourbt.getText().toString());
+			date = fromDatebt.getText().toString();
 			finish();
 		} else if (v.getId() == cancel.getId()) {
 			finish();
@@ -194,5 +197,15 @@ public class CalendarEventActivity extends Activity implements OnClickListener{
 		title.setText(titleTXT);
 		discription.setText(discreptionTXT);
 	}
-
+	
+	public void finish() {
+		  // Prepare data intent 
+		  Intent data = new Intent();
+		  data.putExtra(EVENT_DATE_RESULT, date);
+		  if (date.length() > 0)
+			  setResult(RESULT_OK, data);
+		  else 
+			  setResult(RESULT_CANCELED, data);
+		  super.finish();
+		} 
 }

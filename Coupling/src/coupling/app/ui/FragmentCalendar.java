@@ -18,6 +18,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.FeatureInfo;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -38,6 +39,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
+import static coupling.app.data.Constants.*;
 
 public class FragmentCalendar extends Fragment implements IBLConnector{
 
@@ -51,16 +53,15 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 	ArrayList<String> event;
 	LinearLayout rLayout;
 	ArrayList<String> date;
-	ArrayList<String> desc;
-	
-	
+
+
 	BLCalendarEvents blCalendarEvents;
 	View rootView;
 	Activity activity;
 	ListView eventList;
-	
+
 	String selectedDate;
-	
+
 	CalendarEventsListAdapter listAdapter;
 
 
@@ -71,7 +72,7 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 		blCalendarEvents = BLFactory.getInstance().getCalendarEvents();
 
 		activity = this.getActivity();
-		
+
 		Locale.setDefault(Locale.US);
 
 		rLayout = (LinearLayout) rootView.findViewById(R.id.text);
@@ -90,12 +91,12 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 
 		TextView title = (TextView) rootView.findViewById(R.id.title);
 		title.setText(android.text.format.DateFormat.format("MMMM yyyy", month));
-		
+
 		eventList = (ListView) rootView.findViewById(R.id.events_list);
 		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
 		String theDate = df.format(GregorianCalendar.getInstance().getTime());
 		Log.w("aaaa", theDate);
-		
+
 		listAdapter = new CalendarEventsListAdapter(this.getActivity(), blCalendarEvents, theDate);
 		eventList.setAdapter(listAdapter);
 
@@ -128,7 +129,7 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 				if (((LinearLayout) rLayout).getChildCount() > 0) {
 					((LinearLayout) rLayout).removeAllViews();
 				}
-				desc = new ArrayList<String>();
+				
 				date = new ArrayList<String>();
 				((CalendarAdapter) parent.getAdapter()).setSelected(v);
 				selectedDate = CalendarAdapter.dayString
@@ -147,27 +148,8 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 					refreshCalendar();
 				}
 				((CalendarAdapter) parent.getAdapter()).setSelected(v);
+
 				
-				 //get Event List from DB//
-				Utils.Log("--DEBUG--", separatedTime[2] + "/" + separatedTime[1] + "/" + separatedTime[0]);
-				
-				
-				if (desc.size() > 0) {
-					for (int i = 0; i < desc.size(); i++) {
-						TextView rowTextView = new TextView(activity);
-
-						// set some properties of rowTextView or something
-						rowTextView.setText("Event:" + desc.get(i));
-						rowTextView.setTextColor(Color.BLACK);
-
-						// add the textview to the linearlayout
-						rLayout.addView(rowTextView);
-
-					}
-
-				}
-
-				desc = null;
 				rLayout.addView(eventList);
 				listAdapter.refresh(separatedTime[2] + "/" + separatedTime[1] + "/" + separatedTime[0]);	
 				eventList.setAdapter(listAdapter);
@@ -175,7 +157,7 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 
 		});
 
-		
+
 		df = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 		selectedDate = df.format(GregorianCalendar.getInstance().getTime());
 		Utils.Log("Calendar", selectedDate);
@@ -183,7 +165,7 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 		setHasOptionsMenu(true);
 		return rootView;
 	}
-	
+
 	protected void setNextMonth() {
 		if (month.get(GregorianCalendar.MONTH) == month
 				.getActualMaximum(GregorianCalendar.MONTH)) {
@@ -243,14 +225,14 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 			adapter.notifyDataSetChanged();
 		}
 	};
-	*/
-	
+	 */
+
 
 	@Override
 	public void Refresh() {
 
 	}
-	
+
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		// TODO Auto-generated method stub
@@ -263,20 +245,26 @@ public class FragmentCalendar extends Fragment implements IBLConnector{
 		switch (item.getItemId()) {
 		case R.id.add_event_action:
 			Intent inviteIntent = new Intent(getActivity(), CalendarEventActivity.class);
-			
+
 			inviteIntent.putExtra(Constants.SELECTED_DATE, selectedDate);
 			inviteIntent.putExtra(Constants.EVENT_ID, Constants.EVENT_CREATE);
-			startActivityForResult(inviteIntent, 1);
+			startActivityForResult(inviteIntent, EVENT_REQUEST_CODE);
 			//startActivity(inviteIntent);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		//listAdapter.refresh(date);
+
+		getActivity();
+		if (resultCode == Activity.RESULT_OK && requestCode == EVENT_REQUEST_CODE) {
+			if (data.hasExtra(EVENT_DATE_RESULT)) {
+				listAdapter.refresh(data.getStringExtra(EVENT_DATE_RESULT););
+			}
+		}
 	}
 
 }

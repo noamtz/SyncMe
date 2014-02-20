@@ -74,6 +74,9 @@ public class Constants {
 	public static final String EVENT_START_DATE = "eventStartDate";
 	public static final String EVENT_END_DATE = "eventEndDate";
 	
+	public static final String EVENT_DATE_RESULT = "eventDateResult";
+	public static final int EVENT_REQUEST_CODE = 1;
+	
 	public static final String DATE_FORMAT = "dd/MM/yyyy";
 	public static final String TIME_FORMAT = "HH:mm";
 
