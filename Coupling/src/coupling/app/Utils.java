@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.nit.coupling.R;
 
+import coupling.app.BL.BLFactory;
 import coupling.app.data.Constants;
 
 public class Utils {
@@ -154,13 +155,16 @@ public class Utils {
 		if(data.has(Constants.LOCAL_LIST_ID))
 			try {
 				Bundle bundle = new Bundle();
-				bundle.putLong(Constants.LOCAL_LIST_ID, data.getLong(Constants.LOCAL_LIST_ID));
+				Long localId = data.getLong(Constants.LOCAL_LIST_ID);
+				String title = BLFactory.getInstance().getShopListOverview().retrieve(localId);
+				bundle.putString(Constants.TITLE, title);
+				bundle.putLong(Constants.LOCAL_LIST_ID, localId);
 				notifIntent.putExtras(bundle);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 		//For putExtra to work
-		notifIntent.setAction("Couling");
+		notifIntent.setAction("Coupling");
 		
 		PendingIntent contentIntent = PendingIntent.getActivity(App.getAppCtx(), 0,
 				notifIntent, 0);

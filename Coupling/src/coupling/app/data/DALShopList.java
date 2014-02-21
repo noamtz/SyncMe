@@ -27,7 +27,7 @@ public class DALShopList {
 	public Cursor getSource(){
 		return dbHandler.getReadableDatabase().rawQuery("SELECT * FROM ShopList WHERE ShopListId = " + listId, null);
 	}
-	
+
 	public boolean updateId(Ids ids){
 		ContentValues values = new ContentValues();
 		if(ids.getGlobalId() != null) {
@@ -43,29 +43,37 @@ public class DALShopList {
 	}
 
 	public ShopListItem updateItem(ShopListItem item) {
-		 String where = (item.getGlobalId() != null) ? "UId = " + item.getGlobalId() : "_id = " + item.getLocalId();
-		 long id = dbHandler.getWritableDatabase().update("ShopList",item.toDb(), where, null);
-		 if(id > 0)
-			 return getItem(item.getLocalId());
-		 return null;
+		String where = (item.getGlobalId() != null) ? "UId = " + item.getGlobalId() : "_id = " + item.getLocalId();
+		boolean isUpdated = dbHandler.getWritableDatabase().update("ShopList",item.toDb(), where, null) > 0;
+		if(isUpdated){
+			Utils.Log("DALShopList- update", item + "");
+			boolean isGlobal = item.getGlobalId() != null;
+			Long id =  isGlobal ? item.getGlobalId() : item.getLocalId();
+			return getItem(id,isGlobal);
+		}
+		return null;
 	}
 
 	public ShopListItem deleteItem(Ids ids){
-		ShopListItem item = getItem(ids.getDBId());
+		boolean isGlobal = ids.getGlobalId() != null;
+		Long id =  isGlobal ? ids.getGlobalId() : ids.getDBId();
+		ShopListItem item =	  getItem(id,isGlobal);
 		String where = ids.getGlobalId() != null ? "UId = '" + item.getGlobalId() + "'" : "_id = " + item.getLocalId();
 		boolean res = dbHandler.getWritableDatabase().delete("ShopList", where, null) > 0;
 		return item;
 	}
 
-	public ShopListItem getItem(long id){
-		Cursor c= dbHandler.getReadableDatabase().rawQuery("SELECT * FROM ShopList WHERE _id = " + id, null);
+	public ShopListItem getItem(long id , boolean isGlobal){
+		String idCol  = isGlobal ? "UId" : "_id";
+		Cursor c= dbHandler.getReadableDatabase().rawQuery("SELECT * FROM ShopList WHERE "+ idCol+" = " + id, null);
+		Utils.Log("DALShopList- getItem", "Num in cursor: " + c.getCount());
 		if(c.getCount()>0){
 			c.moveToFirst();
 			return new ShopListItem(c);
 		}
 		return null;
 	}
-	
+
 	public boolean isItemExist(long globalId){
 		Cursor c= dbHandler.getReadableDatabase().rawQuery("SELECT * FROM ShopList WHERE UId = " + globalId, null);
 		boolean res = c.getCount() > 0;
@@ -73,7 +81,7 @@ public class DALShopList {
 			Utils.LogError("DALShopList","isItemExist", "Item not exist with UId: " + globalId);
 		return res;
 	}
-	
+
 	public Long getGlobalListId(){
 		Cursor c = dbHandler.getWritableDatabase().rawQuery("SELECT * FROM ShopListOverview WHERE _id = " + listId, null);
 		if(c.getCount() > 0){

@@ -196,15 +196,16 @@ public class BLShopList extends AppFeature{
 				break;
 
 			case UPDATE:
+				item.setIsMine(false);
 				if(dataSource.isItemExist(item.getGlobalId())){
 					updateItem(item, false);
 				}
 				else{
-					item.setIsMine(false);
 					createItem(item, false);
 				}
 				break;
 			case DELETE:
+				item.setIsMine(false);
 				if(dataSource.isItemExist(item.getGlobalId())){
 					deleteItem(item.getIds(), false);
 				}

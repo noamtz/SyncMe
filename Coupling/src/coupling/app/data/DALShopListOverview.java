@@ -33,6 +33,14 @@ public class DALShopListOverview {
 		return dbHandler.getReadableDatabase().rawQuery("SELECT * FROM ShopListOverview", null);
 	}
 	
+	public String retrieve(Long localId){
+		Cursor c = dbHandler.getReadableDatabase().rawQuery("SELECT * FROM ShopListOverview WHERE _id = " + localId, null);
+		if(c.getCount()>0){
+			c.moveToFirst();
+			return c.getString(c.getColumnIndex("Title"));
+		}
+		return null;
+	}
 	
 	public boolean updateId(Ids ids){
 		ContentValues values = new ContentValues();

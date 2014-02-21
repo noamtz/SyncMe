@@ -35,6 +35,10 @@ public class BLShopListOverview extends AppFeature {
 	public Cursor getSource(){
 		return dataSource.getSource();
 	}
+	
+	public String retrieve(Long id){
+		return dataSource.retrieve(id);
+	}
 
 	public boolean createList(String title){
 		ShopListOverView list = new ShopListOverView();
